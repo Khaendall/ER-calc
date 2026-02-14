@@ -3,15 +3,58 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ER pepe calc</title>
+<title>Etheria Enemy Speed Tool</title>
 
 <style>
-body{background:#1e293b;font-family:Arial;display:flex;justify-content:center;color:#111}
-.grid{display:grid;grid-template-columns:260px 120px 120px 120px 220px 160px;background:#000;gap:2px;margin-top:20px}
-.cell{background:#e5e7eb;height:42px;display:flex;align-items:center;justify-content:center}
-.head{background:#cbd5e1;font-weight:bold}
-input,select{width:100%;height:100%;border:none;text-align:center;font-size:14px}
-.result{background:#f1f5f9;font-weight:bold}
+body{
+ background:#253047;
+ font-family:Arial;
+ display:flex;
+ justify-content:center;
+ padding:30px;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:300px 120px 120px 120px 240px 170px;
+ background:#000;
+ gap:2px;
+ padding:2px;
+}
+
+.cell{
+ background:#d1d5db;
+ height:46px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:15px;
+ color:#111;
+}
+
+.head{
+ background:#aeb7c2;
+ font-weight:bold;
+}
+
+.result{
+ background:#eef2f7;
+ font-weight:bold;
+}
+
+input,select{
+ width:100%;
+ height:100%;
+ border:none;
+ text-align:center;
+ font-size:15px;
+ background:white;
+}
+
+.or{
+ background:#cbd5e1;
+ font-weight:bold;
+}
 </style>
 
 </head>
@@ -32,46 +75,54 @@ input,select{width:100%;height:100%;border:none;text-align:center;font-size:14px
 <div class="cell result" id="prowSPD"></div>
 <div class="cell"><input id="shell"></div>
 <div class="cell"><input id="set"></div>
-<div class="cell"><input class="roll"></div>
+<div class="cell">mask</div>
 
 <div class="cell result" id="totalSPD"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
-<div class="cell"><input class="roll"></div>
+<div class="cell">transistor</div>
 
 <div class="cell head">Enemy Speed</div>
 <div class="cell head">my speed</div>
 <div class="cell head">my turn meter</div>
 <div class="cell head">his turn meter</div>
 <div class="cell head">Enemy Speed Manual</div>
-<div class="cell"><input class="roll"></div>
+<div class="cell">wristwheel</div>
 
 <div class="cell result" id="enemySPD"></div>
 <div class="cell"><input id="myspd"></div>
 <div class="cell"><input id="mytm"></div>
 <div class="cell"><input id="histm"></div>
 <div class="cell"><input id="enemymanual"></div>
-<div class="cell"><input class="roll"></div>
+<div class="cell">core I</div>
 
 <div class="cell head">Enemy module sum speed</div>
 <div class="cell result" id="enemyModule"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
-<div class="cell"><input class="roll"></div>
+<div class="cell">core II</div>
 
 <div class="cell"></div>
-<div class="cell"></div>
-<div class="cell"></div>
-<div class="cell"></div>
-<div class="cell"></div>
 <div class="cell"><input class="roll"></div>
+<div class="cell"><input class="roll"></div>
+<div class="cell"><input class="roll"></div>
+<div class="cell"><input class="roll"></div>
+<div class="cell">core III</div>
+
+<div class="cell"></div>
+<div class="cell result" id="rollSum"></div>
+<div class="cell or">OR</div>
+<div class="cell"><input id="manual"></div>
+<div class="cell"></div>
+<div class="cell"></div>
 
 </div>
 
 <script>
+
 const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
 
 let DB={};
@@ -93,7 +144,7 @@ fetch(CSV_LINK)
    sel.appendChild(opt);
  });
 
- calc(); 
+ calc();
 });
 
 document.querySelectorAll("input,select")
@@ -112,32 +163,57 @@ const E2=num("set");
 baseSPD.innerText=B2;
 prowSPD.innerText=C2;
 
-// SUM ROLLS (mask→coreIII)
+// ===== SUM(G2:G7)
 const rolls=[...document.querySelectorAll(".roll")]
 .map(e=>Number(e.value)||0);
 
 const G8=rolls.reduce((a,b)=>a+b,0);
+rollSum.innerText=G8;
 
-// TOTAL SPEED (A4)
-const total=(G8>0)
-? B2*(1+E2/100)+C2+D2+40+G8
-: B2*(1+E2/100)+C2+D2+40;
+const G10=num("manual");
+
+// ===== TOTAL SPEED (A4 EXACT)
+let total;
+if(G8!==0)
+ total=B2*(1+E2/100)+C2+D2+40+G8;
+else
+ total=B2*(1+E2/100)+C2+D2+40+G10;
 
 totalSPD.innerText=Math.round(total);
 
-// ENEMY SPEED (A7)
-const B7=num("myspd");
-const C7=num("mytm");
-const D7=num("histm");
+// ===== ENEMY SPEED (A13 EXACT EXCEL)
+const B13=num("myspd");
+const C13=document.getElementById("mytm").value;
+const D13=document.getElementById("histm").value;
 
-let A7=0;
-if(C7>0) A7=B7/(C7/100);
-else A7=B7*(D7/100);
+let A13="";
 
-enemySPD.innerText=Math.round(A7);
+if(C13!=="")
+ A13=B13/(Number(C13)/100);
+else if(D13!=="")
+ A13=B13*(Number(D13)/100);
 
-// ENEMY MODULE SPEED (A9)
+enemySPD.innerText=A13?Math.round(A13):"";
+
+// ===== ENEMY MODULE SUM (A9 EXACT)
 const E7=num("enemymanual");
 
-const A9=(A7>0)
-? A7-(B2*(1+E
+let A9="";
+
+if(A13!=="")
+ A9=A13-(B2*(1+E2/100))-C2-D2-40;
+else if(E7!==0)
+ A9=E7-(B2*(1+E2/100))-C2-D2-40;
+
+enemyModule.innerText=A9?Math.round(A9):"";
+
+}
+
+function num(id){
+ return Number(document.getElementById(id).value)||0;
+}
+
+</script>
+
+</body>
+</html>
