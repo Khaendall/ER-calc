@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ER pepega calc</title>
+<title>Etheria Enemy Speed Tool</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,21 +11,47 @@
 
 <div class="app">
 
-<!-- ===== TOTAL SPEED ===== -->
+<!-- ================= ENEMY DETECTION (TOP) ================= -->
 
-<div class="totalBox">
-  <div class="totalLabel">Total Speed</div>
-  <div class="totalValue" id="totalSPD"></div>
+<div class="panel enemyPanel">
+  <h3>Enemy Detection</h3>
+
+  <div class="enemyGrid">
+    <label>Own Speed</label>
+    <input id="myspd">
+
+```
+<label>Own Turn Meter (if slower than enemy)</label>
+<input id="mytm">
+
+<label>Enemy Turn Meter (if faster than enemy)</label>
+<input id="histm">
+
+<label>Enemy Speed Manual</label>
+<input id="enemymanual">
+```
+
+  </div>
+
+  <div class="resultRow">
+    <div>Enemy Speed</div>
+    <div class="result" id="enemySPD"></div>
+  </div>
+
+  <div class="resultRow">
+    <div>Enemy Module Speed</div>
+    <div class="result" id="enemyModule"></div>
+  </div>
 </div>
 
-<div class="topRow">
+<!-- ================= CHARACTER + MODULES ================= -->
 
-  <!-- ===== MY CHARACTER ===== -->
+<div class="topRow">
 
   <div class="panel">
     <h3>Character</h3>
 
-
+```
 <label>Hero</label>
 <select id="hero"></select>
 
@@ -40,16 +66,14 @@
 
 <label>Module Set SPD Bonus</label>
 <input id="set">
-
+```
 
   </div>
-
-  <!-- ===== MODULE SPEED INPUT ===== -->
 
   <div class="panel">
     <h3>Modules Speed</h3>
 
-
+```
 <label>Mask</label>
 <input id="mask" class="slot">
 
@@ -75,53 +99,24 @@
 
 <label>Manual Value</label>
 <input id="manual">
-
+```
 
   </div>
 
 </div>
 
-<!-- ===== ENEMY DETECTION ===== -->
+<!-- ================= TOTAL SPEED (BOTTOM) ================= -->
 
-<div class="panel enemyPanel">
-  <h3>Enemy Detection</h3>
-
-  <div class="enemyGrid">
-
-
-<label>Own Speed</label>
-<input id="myspd">
-
-<label>Own Turn Metter (if slower than enemy)</label>
-<input id="mytm">
-
-<label>Enemy Turn Meter (if faster than enemy)</label>
-<input id="histm">
-
-<label>Enemy Speed Manual (just to calculate RAW module speed for fun)</label>
-<input id="enemymanual">
-
-
-  </div>
-
-  <div class="resultRow">
-    <div>Enemy speed</div>
-    <div class="result" id="enemySPD"></div>
-  </div>
-
-  <div class="resultRow">
-    <div>Enemy module speed value</div>
-    <div class="result" id="enemyModule"></div>
-  </div>
-
-</div>
-
+<div class="totalBox">
+  <div class="totalLabel">Total Speed</div>
+  <div class="totalValue" id="totalSPD"></div>
 </div>
 
 <button class="clearBtn" onclick="clearAll()">Clear All</button>
+
+</div>
 
 <script src="script.js"></script>
 
 </body>
 </html>
-
