@@ -43,8 +43,6 @@
 
 <div class="topRow">
 
-<!-- ===== CHARACTER SPEED CALC ===== -->
-
 <div class="panel">
 <h3>Character Speed Calc</h3>
 
@@ -54,11 +52,14 @@
 <option value="manual">Manual</option>
 </select>
 
-<label>Pick Hero</label> <select id="hero"></select>
+<div id="heroBlock">
+<label>Pick Hero</label>
+<select id="hero"></select>
+</div>
 
-<label>Base Speed</label> <input class="result" id="baseSPD">
+<label>Base Speed</label> <input class="result statField" id="baseSPD">
 
-<label>Prowess Speed</label> <input class="result" id="prowSPD">
+<label>Prowess Speed</label> <input class="result statField" id="prowSPD">
 
 <label>Shell Speed (enter roll)</label> <input id="shell">
 
@@ -70,8 +71,6 @@
 </div>
 
 </div>
-
-<!-- ===== MODULES SPEED ===== -->
 
 <div class="panel">
 <h3>Modules Speed</h3>
