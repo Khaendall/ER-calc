@@ -1,4 +1,3 @@
-/* ================= GLOBAL ================= */
 *,
 *::before,
 *::after{
@@ -22,7 +21,7 @@ gap:20px;
 position:relative;
 }
 
-/* ================= PANELS ================= */
+/* PANELS */
 .panel{
 background:#111;
 border:1px solid #333;
@@ -39,18 +38,13 @@ margin:0 0 8px 0;
 font-size:16px;
 }
 
-.enemyPanel{
-width:100%;
-}
-
-/* ================= ROW LAYOUT ================= */
 .topRow{
 display:flex;
 gap:20px;
 align-items:stretch;
 }
 
-/* ================= INPUTS ================= */
+/* INPUTS */
 label{
 font-size:13px;
 opacity:0.8;
@@ -71,13 +65,31 @@ border-radius:6px;
 text-align:center;
 }
 
-.or{
-text-align:center;
-margin:8px 0;
-opacity:0.7;
+/* ===== PRO STAT GLOW ===== */
+.statField.dbMode{
+background:#243042;
+box-shadow:0 0 0 1px #3b82f6 inset;
 }
 
-/* ================= ENEMY GRID ================= */
+.statField.manualMode{
+background:#1f2937;
+box-shadow:none;
+}
+
+/* HERO FADE */
+#heroBlock{
+transition:opacity 0.25s ease, transform 0.25s ease;
+}
+
+#heroBlock.hidden{
+opacity:0;
+transform:translateY(-6px);
+pointer-events:none;
+height:0;
+overflow:hidden;
+}
+
+/* GRID */
 .enemyGrid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -85,7 +97,6 @@ gap:8px;
 margin-bottom:12px;
 }
 
-/* ================= TOTAL SPEED ================= */
 .totalBox{
 margin-top:12px;
 background:#0f172a;
@@ -106,7 +117,6 @@ font-weight:bold;
 margin-top:6px;
 }
 
-/* ================= RESULT ROW ================= */
 .resultRow{
 display:flex;
 justify-content:space-between;
@@ -114,7 +124,7 @@ align-items:center;
 margin-top:6px;
 }
 
-/* ================= CLEAR BUTTON ================= */
+/* CLEAR BUTTON */
 .clearBtn{
 position:fixed;
 right:30px;
