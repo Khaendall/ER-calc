@@ -1,10 +1,10 @@
 body{
-background:#808080;
+background:#000000;
 font-family:Arial, Helvetica, sans-serif;
 display:flex;
 justify-content:center;
 padding:30px;
-color:#fff;
+color:#e5e7eb;
 }
 
 .app{
@@ -12,32 +12,7 @@ width:900px;
 display:flex;
 flex-direction:column;
 gap:20px;
-}
-
-/* ===== TOTAL SPEED BOX ===== */
-.totalBox{
-background:#111;
-border:1px solid #333;
-padding:20px;
-text-align:center;
-border-radius:12px;
-}
-
-.totalLabel{
-font-size:14px;
-opacity:0.7;
-}
-
-.totalValue{
-font-size:34px;
-font-weight:bold;
-margin-top:6px;
-}
-
-/* ===== ROW ===== */
-.topRow{
-display:flex;
-gap:20px;
+position:relative;
 }
 
 /* ===== PANELS ===== */
@@ -58,7 +33,13 @@ font-size:16px;
 }
 
 .enemyPanel{
-margin-top:10px;
+width:100%;
+}
+
+/* ===== ROW ===== */
+.topRow{
+display:flex;
+gap:20px;
 }
 
 /* ===== INPUTS ===== */
@@ -82,7 +63,6 @@ border-radius:6px;
 text-align:center;
 }
 
-/* ===== OR ===== */
 .or{
 text-align:center;
 margin:8px 0;
@@ -97,6 +77,26 @@ gap:8px;
 margin-bottom:12px;
 }
 
+/* ===== TOTAL SPEED ===== */
+.totalBox{
+background:#111;
+border:1px solid #333;
+padding:20px;
+text-align:center;
+border-radius:12px;
+}
+
+.totalLabel{
+font-size:14px;
+opacity:0.7;
+}
+
+.totalValue{
+font-size:34px;
+font-weight:bold;
+margin-top:6px;
+}
+
 /* ===== RESULT ROW ===== */
 .resultRow{
 display:flex;
@@ -105,11 +105,11 @@ align-items:center;
 margin-top:6px;
 }
 
-/* ===== CLEAR BUTTON ===== */
+/* ===== CLEAR BUTTON (INSIDE APP) ===== */
 .clearBtn{
-position:fixed;
-right:30px;
-bottom:30px;
+position:absolute;
+right:0;
+bottom:-60px;
 height:42px;
 padding:0 18px;
 font-size:15px;
