@@ -14,13 +14,12 @@
 <!-- ================= ENEMY DETECTION (TOP) ================= -->
 
 <div class="panel enemyPanel">
-  <h3>Enemy Detection</h3>
+  <h3>Enemy Speed Detect</h3>
 
   <div class="enemyGrid">
     <label>Own Speed</label>
     <input id="myspd">
 
-```
 <label>Own Turn Meter (if slower than enemy)</label>
 <input id="mytm">
 
@@ -29,7 +28,6 @@
 
 <label>Enemy Speed Manual</label>
 <input id="enemymanual">
-```
 
   </div>
 
@@ -39,7 +37,7 @@
   </div>
 
   <div class="resultRow">
-    <div>Enemy Module Speed</div>
+    <div>Enemy Module Estimated Speed (for fun to feel the gap)</div>
     <div class="result" id="enemyModule"></div>
   </div>
 </div>
@@ -49,10 +47,9 @@
 <div class="topRow">
 
   <div class="panel">
-    <h3>Character</h3>
+    <h3>Character Speed Calc</h3>
 
-```
-<label>Hero</label>
+<label>Pick Hero</label>
 <select id="hero"></select>
 
 <label>Base Speed</label>
@@ -61,19 +58,17 @@
 <label>Prowess Speed</label>
 <div class="result" id="prowSPD"></div>
 
-<label>Shell Speed</label>
+<label>Shell Speed (enter roll)</label>
 <input id="shell">
 
-<label>Module Set SPD Bonus</label>
+<label>Module Set SPD Bonus (summary of % value from module sets, type number without "%")</label>
 <input id="set">
-```
 
   </div>
 
   <div class="panel">
     <h3>Modules Speed</h3>
 
-```
 <label>Mask</label>
 <input id="mask" class="slot">
 
@@ -99,7 +94,6 @@
 
 <label>Manual Value</label>
 <input id="manual">
-```
 
   </div>
 
@@ -120,3 +114,4 @@
 
 </body>
 </html>
+
