@@ -6,77 +6,152 @@
 <title>Etheria Speed Calc</title>
 
 <style>
-body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-content:center}
-.box{background:#1e293b;padding:25px;margin-top:40px;border-radius:14px;width:420px}
-input,select{width:100%;margin:6px 0;padding:8px;border-radius:8px;border:none}
-.result{margin-top:15px;font-size:18px;white-space:pre-line}
-h2{margin-top:20px}
+
+body{
+ background:#0f172a;
+ font-family:Arial;
+ color:white;
+ display:flex;
+ justify-content:center;
+ margin-top:30px;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns: 260px 120px 120px 120px 200px 160px;
+ grid-auto-rows:40px;
+ gap:2px;
+ background:#000;
+ padding:2px;
+}
+
+.cell{
+ background:#e5e7eb;
+ color:#111;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:14px;
+}
+
+.head{
+ background:#cbd5e1;
+ font-weight:bold;
+}
+
+input,select{
+ width:100%;
+ height:100%;
+ border:none;
+ text-align:center;
+ font-size:14px;
+ background:#fff;
+}
+
+.result{
+ background:#f1f5f9;
+ font-weight:bold;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="box">
+<div class="grid">
 
-<h1>Speed Calc</h1>
+<!-- HEADER -->
 
-<select id="hero"></select>
+<div class="cell head">Total Speed</div>
+<div class="cell head">base speed</div>
+<div class="cell head">prowess speed</div>
+<div class="cell head">shell speed</div>
+<div class="cell head">module set spd bonus sum</div>
+<div class="cell head">modules speed roll</div>
 
-<h2>My Stats</h2>
+<!-- ROW 2 -->
 
-<label>Shell Speed (D2)</label> <input id="shell" type="number" value="0">
+<div class="cell"><select id="hero"></select></div>
+<div class="cell result" id="baseSPD"></div>
+<div class="cell result" id="prowSPD"></div>
+<div class="cell"><input id="shell" type="number"></div>
+<div class="cell"><input id="set" type="number"></div>
+<div class="cell">mask</div>
 
-<label>Module Set % (E2)</label> <input id="set" type="number" value="0">
+<!-- ROW 3 -->
 
-<label>Module Rolls (G2:G7)</label> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0">
+<div class="cell result" id="totalSPD"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell">transistor</div>
 
-<label>Manual Value (G10)</label> <input id="manual" type="number" value="0">
+<!-- ENEMY HEADER -->
 
-<h2>Enemy</h2>
+<div class="cell head">Enemy Speed</div>
+<div class="cell head">my speed</div>
+<div class="cell head">my turn meter</div>
+<div class="cell head">his turn meter</div>
+<div class="cell head">Enemy Speed Manual</div>
+<div class="cell">wristwheel</div>
 
-<label>My Speed (B7)</label> <input id="myspd" type="number">
+<!-- ENEMY INPUTS -->
 
-<label>My Turn Meter (C7)</label> <input id="mytm" type="number">
+<div class="cell result" id="enemySPD"></div>
+<div class="cell"><input id="myspd" type="number"></div>
+<div class="cell"><input id="mytm" type="number"></div>
+<div class="cell"><input id="histm" type="number"></div>
+<div class="cell"><input id="enemymanual" type="number"></div>
+<div class="cell">core I</div>
 
-<label>His Turn Meter (D7)</label> <input id="histm" type="number">
+<!-- MODULE RESULT -->
 
-<label>Enemy Speed Manual (E7)</label> <input id="enemymanual" type="number">
+<div class="cell head">Enemy module sum speed</div>
+<div class="cell result" id="enemyModule"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell">core II</div>
 
-<div class="result" id="out"></div>
+<!-- ROLLS -->
+
+<div class="cell"></div>
+<div class="cell"><input class="roll"></div>
+<div class="cell"><input class="roll"></div>
+<div class="cell"><input class="roll"></div>
+<div class="cell"><input class="roll"></div>
+<div class="cell">core III</div>
 
 </div>
 
 <script>
 
-// -----------------------------
-// Wklej swój CSV z DB
-// -----------------------------
-const CSV_LINK = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?output=csv";
+// --------------------
+// WSTAW SWÓJ CSV DB
+// --------------------
+const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
 
-// baza
-let DB = {};
+let DB={};
 
 fetch(CSV_LINK)
 .then(r=>r.text())
 .then(csv=>{
 
- const rows = csv.trim().split("\n");
- const sel = document.getElementById("hero");
+ const rows=csv.trim().split("\n");
+ const sel=document.getElementById("hero");
 
- for(let i=0;i<rows.length;i++){
-   const c = rows[i].split(",");
-   const name = c[0];
-   const base = Number(c[1]);
-   const prowess = Number(c[2]);
-
-   DB[name]={base,prowess};
+ rows.forEach(r=>{
+   const c=r.split(",");
+   const name=c[0];
+   DB[name]={base:Number(c[1]),prow:Number(c[2])};
 
    const opt=document.createElement("option");
    opt.value=name;
    opt.textContent=name;
    sel.appendChild(opt);
- }
+ });
 
  calc();
 });
@@ -86,62 +161,57 @@ document.querySelectorAll("input,select")
 
 function calc(){
 
-const hero = DB[heroSelect()] || {base:0,prowess:0};
+const hero=DB[hero.value]||{base:0,prow:0};
 
-const B2 = hero.base;
-const C2 = hero.prowess;
-const D2 = num("shell");
-const E2 = num("set");
+const B2=hero.base;
+const C2=hero.prow;
+const D2=num(shell);
+const E2=num(set);
 
-const rolls = [...document.querySelectorAll(".roll")].map(e=>Number(e.value)||0);
-const G8 = rolls.reduce((a,b)=>a+b,0);
+document.getElementById("baseSPD").innerText=B2;
+document.getElementById("prowSPD").innerText=C2;
 
-const G10 = num("manual");
+// SUM ROLLS
+const rolls=[...document.querySelectorAll(".roll")]
+.map(e=>Number(e.value)||0);
 
-// ---------- TOTAL SPEED (A4)
-const total =
+const G8=rolls.reduce((a,b)=>a+b,0);
+
+// TOTAL SPEED (A4)
+const total=
  (G8>0)
  ? B2*(1+E2/100)+C2+D2+40+G8
- : B2*(1+E2/100)+C2+D2+40+G10;
+ : B2*(1+E2/100)+C2+D2+40;
 
-// ---------- ENEMY SPEED (A7)
-const B7 = num("myspd");
-const C7 = num("mytm");
-const D7 = num("histm");
+totalSPD.innerText=Math.round(total);
 
-let A7 = 0;
-if(!isNaN(C7) && C7>0)
- A7 = B7/(C7/100);
+// ENEMY SPEED (A7)
+const B7=num(myspd);
+const C7=num(mytm);
+const D7=num(histm);
+
+let A7=0;
+if(C7>0)
+ A7=B7/(C7/100);
 else
- A7 = B7*(D7/100);
+ A7=B7*(D7/100);
 
-// ---------- ENEMY MODULE SPEED (A9)
-const E7 = num("enemymanual");
+enemySPD.innerText=Math.round(A7);
 
-let A9 =
+// ENEMY MODULE (A9)
+const E7=num(enemymanual);
+
+const A9=
  (A7>0)
  ? A7-(B2*(1+E2/100))-C2-D2-40
  : E7-(B2*(1+E2/100))-C2-D2-40;
 
-// OUTPUT
-document.getElementById("out").innerText =
-"Total Speed: "+round(total)+
-"\nEnemy Speed Calc: "+round(A7)+
-"\nEnemy Module Speed Needed: "+round(A9)+
-"\nModule Roll Sum (G8): "+round(G8);
+enemyModule.innerText=Math.round(A9);
 
 }
 
-function heroSelect(){
- return document.getElementById("hero").value;
-}
-
-function num(id){
- return Number(document.getElementById(id).value)||0;
-}
-
-function round(n){
- return Math.round(n*10)/10;
+function num(el){
+ return Number(el.value)||0;
 }
 
 </script>
