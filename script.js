@@ -1,22 +1,72 @@
+const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
+
+let DB={};
 let lastTotal=null;
+
+/* ===== LOAD HERO DATABASE AGAIN ===== */
+
+fetch(CSV_LINK)
+.then(r=>r.text())
+.then(csv=>{
+csv.trim().split("\n").forEach(r=>{
+const c=r.split(",");
+DB[c[0]]={base:+c[1],prow:+c[2]};
+
+const opt=document.createElement("option");
+opt.value=c[0];
+opt.textContent=c[0];
+hero.appendChild(opt);
+});
+calc();
+});
+
+/* ===== INPUT LISTENERS ===== */
 
 document.querySelectorAll("input,select")
 .forEach(e=>e.addEventListener("input",()=>calc()));
 
 function calc(){
 
-/* ===== AUTO LOCK TURN METERS ===== */
-histm.disabled = mytm.value!=="";
-mytm.disabled = histm.value!=="";
-
 /* ===== SET BONUS HINT ===== */
 const setVal = Number(set.value)||0;
-setHint.innerText = setVal?`Base SPD multiplier = x${(1+setVal/100).toFixed(2)}`:"";
+setHint.innerText = setVal
+?`Base SPD multiplier = x${(1+setVal/100).toFixed(2)}`
+:"";
 
-/* ===== CALCULATIONS (Twoja logika bez zmian) ===== */
+/* ===== DATA SOURCE ===== */
 
-const B2=Number(baseSPD.value)||0;
-const C2=Number(prowSPD.value)||0;
+const manualMode=dataSource.value==="manual";
+
+let B2=0,C2=0;
+
+if(!manualMode){
+const heroData=DB[hero.value]||{base:0,prow:0};
+
+B2=heroData.base;
+C2=heroData.prow;
+
+baseSPD.value=B2;
+prowSPD.value=C2;
+
+baseSPD.classList.add("dbMode");
+prowSPD.classList.add("dbMode");
+baseSPD.classList.remove("manualMode");
+prowSPD.classList.remove("manualMode");
+}else{
+B2=Number(baseSPD.value)||0;
+C2=Number(prowSPD.value)||0;
+
+baseSPD.classList.remove("dbMode");
+prowSPD.classList.remove("dbMode");
+baseSPD.classList.add("manualMode");
+prowSPD.classList.add("manualMode");
+}
+
+/* ===== HERO VISIBILITY ===== */
+heroBlock.classList.toggle("hidden",manualMode);
+
+/* ===== MAIN CALC (Twoje wzory) ===== */
+
 const D2=Number(shell.value)||0;
 const E2=setVal;
 
@@ -41,6 +91,8 @@ totalSPD.classList.add("update");
 totalSPD.innerText=newTotal;
 lastTotal=newTotal;
 
+/* ===== ENEMY CALC ===== */
+
 const B7=Number(myspd.value)||0;
 const C7=mytm.value;
 const D7=histm.value;
@@ -64,5 +116,3 @@ function clearAll(){
 document.querySelectorAll("input").forEach(el=>el.value="");
 calc();
 }
-
-calc();
