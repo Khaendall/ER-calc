@@ -1,12 +1,10 @@
 *,
 *::before,
-*::after{
-box-sizing:border-box;
-}
+*::after{box-sizing:border-box;}
 
 body{
-background:#000000;
-font-family:Arial, Helvetica, sans-serif;
+background:#000;
+font-family:Arial,Helvetica,sans-serif;
 display:flex;
 justify-content:center;
 padding:30px;
@@ -18,10 +16,8 @@ width:900px;
 display:flex;
 flex-direction:column;
 gap:20px;
-position:relative;
 }
 
-/* PANELS */
 .panel{
 background:#111;
 border:1px solid #333;
@@ -33,22 +29,9 @@ gap:8px;
 width:100%;
 }
 
-.panel h3{
-margin:0 0 8px 0;
-font-size:16px;
-}
+.topRow{display:flex;gap:20px;}
 
-.topRow{
-display:flex;
-gap:20px;
-align-items:stretch;
-}
-
-/* INPUTS */
-label{
-font-size:13px;
-opacity:0.8;
-}
+label{font-size:13px;opacity:.8;}
 
 input,select{
 background:#1a1a1a;
@@ -60,36 +43,31 @@ border-radius:6px;
 
 .result{
 background:#1f2937;
-padding:6px;
-border-radius:6px;
 text-align:center;
 }
 
-/* ===== PRO STAT GLOW ===== */
 .statField.dbMode{
 background:#243042;
 box-shadow:0 0 0 1px #3b82f6 inset;
 }
 
 .statField.manualMode{
-background:#1f2937;
+background:#1a1a1a;
 box-shadow:none;
 }
 
-/* HERO FADE */
 #heroBlock{
-transition:opacity 0.25s ease, transform 0.25s ease;
+transition:.25s ease;
 }
 
 #heroBlock.hidden{
 opacity:0;
 transform:translateY(-6px);
-pointer-events:none;
 height:0;
 overflow:hidden;
+pointer-events:none;
 }
 
-/* GRID */
 .enemyGrid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -106,25 +84,22 @@ text-align:center;
 border-radius:10px;
 }
 
-.totalLabel{
-font-size:13px;
-opacity:0.7;
-}
-
 .totalValue{
 font-size:32px;
 font-weight:bold;
 margin-top:6px;
 }
 
-.resultRow{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:6px;
+.totalValue.update{
+animation:spdPulse .35s ease;
 }
 
-/* CLEAR BUTTON */
+@keyframes spdPulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.12);color:#60a5fa;}
+100%{transform:scale(1);}
+}
+
 .clearBtn{
 position:fixed;
 right:30px;
@@ -137,9 +112,8 @@ background:#ef4444;
 color:white;
 border:none;
 border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.4);
-z-index:999;
-transition:transform 0.15s ease;
+box-shadow:0 4px 12px rgba(0,0,0,.4);
+transition:.15s;
 }
 
 .clearBtn:hover{
