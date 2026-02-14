@@ -11,8 +11,6 @@
 
 <div class="app">
 
-<!-- ================= ENEMY SPEED DETECT ================= -->
-
 <div class="panel enemyPanel">
 <h3>Enemy Speed Detect</h3>
 
@@ -34,12 +32,10 @@
 </div>
 
 <div class="resultRow">
-<div>Enemy Module Speed (need to pick hero from drop down menu, it auto assumes speed node invest cause i'm lazy - thus why only 2 heros atm)</div>
+<div>Enemy Module Speed</div>
 <div class="result" id="enemyModule"></div>
 </div>
 </div>
-
-<!-- ================= CHARACTER + MODULES ================= -->
 
 <div class="topRow">
 
@@ -48,8 +44,8 @@
 
 <label>Data Source</label> <select id="dataSource">
 
-<option value="db">Database</option>
 <option value="manual">Manual</option>
+<option value="db">Database</option>
 </select>
 
 <div id="heroBlock">
@@ -57,9 +53,9 @@
 <select id="hero"></select>
 </div>
 
-<label>Base Speed</label> <input class="result statField" id="baseSPD">
+<label>Base Speed</label> <input id="baseSPD" class="result statField">
 
-<label>Prowess Speed</label> <input class="result statField" id="prowSPD">
+<label>Prowess Speed</label> <input id="prowSPD" class="result statField">
 
 <label>Shell Speed (enter roll)</label> <input id="shell">
 
@@ -67,9 +63,8 @@
 
 <div class="totalBox">
 <div class="totalLabel">Total Speed</div>
-<div class="totalValue" id="totalSPD"></div>
+<div class="totalValue" id="totalSPD">0</div>
 </div>
-
 </div>
 
 <div class="panel">
