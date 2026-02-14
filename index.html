@@ -3,56 +3,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Etheria Speed Calc</title>
+<title>ER pepe calc</title>
 
 <style>
-
-body{
- background:#0f172a;
- font-family:Arial;
- color:white;
- display:flex;
- justify-content:center;
- margin-top:30px;
-}
-
-.grid{
- display:grid;
- grid-template-columns: 260px 120px 120px 120px 200px 160px;
- grid-auto-rows:40px;
- gap:2px;
- background:#000;
- padding:2px;
-}
-
-.cell{
- background:#e5e7eb;
- color:#111;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:14px;
-}
-
-.head{
- background:#cbd5e1;
- font-weight:bold;
-}
-
-input,select{
- width:100%;
- height:100%;
- border:none;
- text-align:center;
- font-size:14px;
- background:#fff;
-}
-
-.result{
- background:#f1f5f9;
- font-weight:bold;
-}
-
+body{background:#1e293b;font-family:Arial;display:flex;justify-content:center;color:#111}
+.grid{display:grid;grid-template-columns:260px 120px 120px 120px 220px 160px;background:#000;gap:2px;margin-top:20px}
+.cell{background:#e5e7eb;height:42px;display:flex;align-items:center;justify-content:center}
+.head{background:#cbd5e1;font-weight:bold}
+input,select{width:100%;height:100%;border:none;text-align:center;font-size:14px}
+.result{background:#f1f5f9;font-weight:bold}
 </style>
 
 </head>
@@ -61,8 +20,6 @@ input,select{
 
 <div class="grid">
 
-<!-- HEADER -->
-
 <div class="cell head">Total Speed</div>
 <div class="cell head">base speed</div>
 <div class="cell head">prowess speed</div>
@@ -70,67 +27,51 @@ input,select{
 <div class="cell head">module set spd bonus sum</div>
 <div class="cell head">modules speed roll</div>
 
-<!-- ROW 2 -->
-
 <div class="cell"><select id="hero"></select></div>
 <div class="cell result" id="baseSPD"></div>
 <div class="cell result" id="prowSPD"></div>
-<div class="cell"><input id="shell" type="number"></div>
-<div class="cell"><input id="set" type="number"></div>
-<div class="cell">mask</div>
-
-<!-- ROW 3 -->
+<div class="cell"><input id="shell"></div>
+<div class="cell"><input id="set"></div>
+<div class="cell"><input class="roll"></div>
 
 <div class="cell result" id="totalSPD"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
-<div class="cell">transistor</div>
-
-<!-- ENEMY HEADER -->
+<div class="cell"><input class="roll"></div>
 
 <div class="cell head">Enemy Speed</div>
 <div class="cell head">my speed</div>
 <div class="cell head">my turn meter</div>
 <div class="cell head">his turn meter</div>
 <div class="cell head">Enemy Speed Manual</div>
-<div class="cell">wristwheel</div>
-
-<!-- ENEMY INPUTS -->
+<div class="cell"><input class="roll"></div>
 
 <div class="cell result" id="enemySPD"></div>
-<div class="cell"><input id="myspd" type="number"></div>
-<div class="cell"><input id="mytm" type="number"></div>
-<div class="cell"><input id="histm" type="number"></div>
-<div class="cell"><input id="enemymanual" type="number"></div>
-<div class="cell">core I</div>
-
-<!-- MODULE RESULT -->
+<div class="cell"><input id="myspd"></div>
+<div class="cell"><input id="mytm"></div>
+<div class="cell"><input id="histm"></div>
+<div class="cell"><input id="enemymanual"></div>
+<div class="cell"><input class="roll"></div>
 
 <div class="cell head">Enemy module sum speed</div>
 <div class="cell result" id="enemyModule"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
-<div class="cell">core II</div>
-
-<!-- ROLLS -->
+<div class="cell"><input class="roll"></div>
 
 <div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
+<div class="cell"></div>
 <div class="cell"><input class="roll"></div>
-<div class="cell"><input class="roll"></div>
-<div class="cell"><input class="roll"></div>
-<div class="cell"><input class="roll"></div>
-<div class="cell">core III</div>
 
 </div>
 
 <script>
-
-// --------------------
-// WSTAW SWÓJ CSV DB
-// --------------------
 const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
 
 let DB={};
@@ -144,16 +85,15 @@ fetch(CSV_LINK)
 
  rows.forEach(r=>{
    const c=r.split(",");
-   const name=c[0];
-   DB[name]={base:Number(c[1]),prow:Number(c[2])};
+   DB[c[0]]={base:Number(c[1]),prow:Number(c[2])};
 
    const opt=document.createElement("option");
-   opt.value=name;
-   opt.textContent=name;
+   opt.value=c[0];
+   opt.textContent=c[0];
    sel.appendChild(opt);
  });
 
- calc();
+ calc(); 
 });
 
 document.querySelectorAll("input,select")
@@ -161,60 +101,43 @@ document.querySelectorAll("input,select")
 
 function calc(){
 
-const hero=DB[hero.value]||{base:0,prow:0};
+const heroName=document.getElementById("hero").value;
+const hero=DB[heroName]||{base:0,prow:0};
 
 const B2=hero.base;
 const C2=hero.prow;
-const D2=num(shell);
-const E2=num(set);
+const D2=num("shell");
+const E2=num("set");
 
-document.getElementById("baseSPD").innerText=B2;
-document.getElementById("prowSPD").innerText=C2;
+baseSPD.innerText=B2;
+prowSPD.innerText=C2;
 
-// SUM ROLLS
+// SUM ROLLS (mask→coreIII)
 const rolls=[...document.querySelectorAll(".roll")]
 .map(e=>Number(e.value)||0);
 
 const G8=rolls.reduce((a,b)=>a+b,0);
 
 // TOTAL SPEED (A4)
-const total=
- (G8>0)
- ? B2*(1+E2/100)+C2+D2+40+G8
- : B2*(1+E2/100)+C2+D2+40;
+const total=(G8>0)
+? B2*(1+E2/100)+C2+D2+40+G8
+: B2*(1+E2/100)+C2+D2+40;
 
 totalSPD.innerText=Math.round(total);
 
 // ENEMY SPEED (A7)
-const B7=num(myspd);
-const C7=num(mytm);
-const D7=num(histm);
+const B7=num("myspd");
+const C7=num("mytm");
+const D7=num("histm");
 
 let A7=0;
-if(C7>0)
- A7=B7/(C7/100);
-else
- A7=B7*(D7/100);
+if(C7>0) A7=B7/(C7/100);
+else A7=B7*(D7/100);
 
 enemySPD.innerText=Math.round(A7);
 
-// ENEMY MODULE (A9)
-const E7=num(enemymanual);
+// ENEMY MODULE SPEED (A9)
+const E7=num("enemymanual");
 
-const A9=
- (A7>0)
- ? A7-(B2*(1+E2/100))-C2-D2-40
- : E7-(B2*(1+E2/100))-C2-D2-40;
-
-enemyModule.innerText=Math.round(A9);
-
-}
-
-function num(el){
- return Number(el.value)||0;
-}
-
-</script>
-
-</body>
-</html>
+const A9=(A7>0)
+? A7-(B2*(1+E
