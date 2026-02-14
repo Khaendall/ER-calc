@@ -11,7 +11,7 @@
 
 <div class="app">
 
-<!-- ===== ENEMY DETECT ===== -->
+<div class="flowLabel">Enemy Analysis</div>
 
 <div class="panel enemyPanel">
 <h3>Enemy Speed Detect</h3>
@@ -30,29 +30,16 @@
 <div>Enemy Speed</div>
 <div class="result" id="enemySPD"></div>
 </div>
-
 </div>
 
-<!-- ===== LOWER ROW ===== -->
+<div class="flowLabel">Build Setup</div>
 
 <div class="topRow">
-
-<!-- ===== MODULES SPEED (LEFT NOW) ===== -->
 
 <div class="panel">
 <h3>Modules Speed</h3>
 
-<label>Mask</label> <input id="mask" class="slot">
-
-<label>Transistor</label> <input id="transistor" class="slot">
-
-<label>Wristwheel</label> <input id="wristwheel" class="slot">
-
-<label>Core I</label> <input id="core1" class="slot">
-
-<label>Core II</label> <input id="core2" class="slot">
-
-<label>Core III</label> <input id="core3" class="slot">
+<label>Mask</label><input id="mask" class="slot"> <label>Transistor</label><input id="transistor" class="slot"> <label>Wristwheel</label><input id="wristwheel" class="slot"> <label>Core I</label><input id="core1" class="slot"> <label>Core II</label><input id="core2" class="slot"> <label>Core III</label><input id="core3" class="slot">
 
 <label>Sum of Above</label>
 
@@ -63,8 +50,6 @@
 <label>Manual Value</label> <input id="manual">
 
 </div>
-
-<!-- ===== CHARACTER SPEED CALC (RIGHT NOW) ===== -->
 
 <div class="panel">
 <h3>Character Speed Calc</h3>
@@ -88,12 +73,12 @@
 
 <label>Module Set SPD Bonus (summary of % value from module sets, type number without "%")</label> <input id="set">
 
+<div class="miniInfo" id="setHint"></div>
+
 <div class="totalBox">
 <div class="totalLabel">Total Speed</div>
 <div class="totalValue" id="totalSPD">0</div>
 </div>
-
-<!-- ===== MOVED HERE ===== -->
 
 <label>Enemy Speed Manual</label> <input id="enemymanual">
 
