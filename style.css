@@ -111,18 +111,20 @@ margin-top:6px;
 
 /* ===== CLEAR BUTTON (INSIDE APP) ===== */
 .clearBtn{
-position:absolute;
-right:0;
-bottom:-60px;
-height:42px;
-padding:0 18px;
-font-size:15px;
-cursor:pointer;
-background:#ef4444;
-color:white;
-border:none;
-border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.4);
+ position:fixed;
+ right:30px;
+ bottom:30px;
+ height:42px;
+ padding:0 18px;
+ font-size:15px;
+ cursor:pointer;
+ background:#ef4444;
+ color:white;
+ border:none;
+ border-radius:10px;
+ box-shadow:0 4px 12px rgba(0,0,0,0.4);
+ z-index:999;
 }
 
 .clearBtn:hover
+  transform:translateY(-2px);
