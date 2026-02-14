@@ -14,98 +14,89 @@
 <!-- ================= ENEMY SPEED DETECT ================= -->
 
 <div class="panel enemyPanel">
-  <h3>Enemy Speed Detect</h3>
+<h3>Enemy Speed Detect</h3>
 
-  <div class="enemyGrid">
-    <label>Own Speed</label>
-    <input id="myspd">
+<div class="enemyGrid">
+<label>Own Speed</label>
+<input id="myspd">
 
-<label>Own Turn Meter (if slower than enemy)</label>
-<input id="mytm">
+<label>Own Turn Meter (if slower than enemy)</label> <input id="mytm">
 
-<label>Enemy Turn Meter (if faster than enemy)</label>
-<input id="histm">
+<label>Enemy Turn Meter (if faster than enemy)</label> <input id="histm">
 
-<label>Enemy Speed Manual</label>
-<input id="enemymanual">
+<label>Enemy Speed Manual</label> <input id="enemymanual">
 
-  </div>
+</div>
 
-  <div class="resultRow">
-    <div>Enemy Speed</div>
-    <div class="result" id="enemySPD"></div>
-  </div>
+<div class="resultRow">
+<div>Enemy Speed</div>
+<div class="result" id="enemySPD"></div>
+</div>
 
-  <div class="resultRow">
-    <div>Enemy Module Speed (need to pick hero from drop down menu, it auto assumes speed node invest cause i'm lazy - thus why only 2 heros atm)</div>
-    <div class="result" id="enemyModule"></div>
-  </div>
+<div class="resultRow">
+<div>Enemy Module Speed (need to pick hero from drop down menu, it auto assumes speed node invest cause i'm lazy - thus why only 2 heros atm)</div>
+<div class="result" id="enemyModule"></div>
+</div>
 </div>
 
 <!-- ================= CHARACTER + MODULES ================= -->
 
 <div class="topRow">
 
-  <!-- ===== CHARACTER SPEED CALC ===== -->
+<!-- ===== CHARACTER SPEED CALC ===== -->
 
-  <div class="panel">
-    <h3>Character Speed Calc</h3>
+<div class="panel">
+<h3>Character Speed Calc</h3>
 
-<label>Pick Hero</label>
-<select id="hero"></select>
+<label>Data Source</label> <select id="dataSource">
 
-<label>Base Speed</label>
-<div class="result" id="baseSPD"></div>
+<option value="db">Database</option>
+<option value="manual">Manual</option>
+</select>
 
-<label>Prowess Speed</label>
-<div class="result" id="prowSPD"></div>
+<label>Pick Hero</label> <select id="hero"></select>
 
-<label>Shell Speed (enter roll)</label>
-<input id="shell">
+<label>Base Speed</label> <input class="result" id="baseSPD">
 
-<label>Module Set SPD Bonus (summary of % value from module sets, type number without "%")</label>
-<input id="set">
+<label>Prowess Speed</label> <input class="result" id="prowSPD">
 
-<!-- ===== TOTAL SPEED (MOVED HERE) ===== -->
+<label>Shell Speed (enter roll)</label> <input id="shell">
+
+<label>Module Set SPD Bonus (summary of % value from module sets, type number without "%")</label> <input id="set">
+
 <div class="totalBox">
-  <div class="totalLabel">Total Speed</div>
-  <div class="totalValue" id="totalSPD"></div>
+<div class="totalLabel">Total Speed</div>
+<div class="totalValue" id="totalSPD"></div>
 </div>
 
-  </div>
+</div>
 
-  <!-- ===== MODULES SPEED ===== -->
+<!-- ===== MODULES SPEED ===== -->
 
-  <div class="panel">
-    <h3>Modules Speed</h3>
+<div class="panel">
+<h3>Modules Speed</h3>
 
-<label>Mask</label>
-<input id="mask" class="slot">
+<label>Mask</label> <input id="mask" class="slot">
 
-<label>Transistor</label>
-<input id="transistor" class="slot">
+<label>Transistor</label> <input id="transistor" class="slot">
 
-<label>Wristwheel</label>
-<input id="wristwheel" class="slot">
+<label>Wristwheel</label> <input id="wristwheel" class="slot">
 
-<label>Core I</label>
-<input id="core1" class="slot">
+<label>Core I</label> <input id="core1" class="slot">
 
-<label>Core II</label>
-<input id="core2" class="slot">
+<label>Core II</label> <input id="core2" class="slot">
 
-<label>Core III</label>
-<input id="core3" class="slot">
+<label>Core III</label> <input id="core3" class="slot">
 
 <label>Sum of Above</label>
+
 <div class="result" id="slotSum"></div>
 
 <div class="or">OR</div>
 
-<label>Manual Value</label>
-<input id="manual">
+<label>Manual Value</label> <input id="manual">
 
-  </div>
+</div>
 
 </div>
 
@@ -117,4 +108,3 @@
 
 </body>
 </html>
-
