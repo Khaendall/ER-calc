@@ -1,4 +1,4 @@
-const CSV_LINK="TUTAJ_WKLEJ_LINK_CSV";
+const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
 
 let DB={};
 
