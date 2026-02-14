@@ -3,7 +3,7 @@ const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVe
 let DB={};
 let lastTotal=null;
 
-/* ===== LOAD HERO DATABASE AGAIN ===== */
+/* ================= LOAD HERO DATABASE ================= */
 
 fetch(CSV_LINK)
 .then(r=>r.text())
@@ -17,25 +17,35 @@ opt.value=c[0];
 opt.textContent=c[0];
 hero.appendChild(opt);
 });
-calc();
+calc(); // IMPORTANT: ustawia UI po załadowaniu
 });
 
-/* ===== INPUT LISTENERS ===== */
+/* ================= LISTENERS ================= */
+/* FIX: select potrzebuje change + input */
 
 document.querySelectorAll("input,select")
-.forEach(e=>e.addEventListener("input",()=>calc()));
+.forEach(e=>{
+e.addEventListener("input",calc);
+e.addEventListener("change",calc);
+});
 
 function calc(){
 
+/* ===== DATA SOURCE ===== */
+
+const manualMode=dataSource.value==="manual";
+
+/* ===== HERO BLOCK VISIBILITY (smooth collapse) ===== */
+heroBlock.classList.toggle("hidden",manualMode);
+
 /* ===== SET BONUS HINT ===== */
+
 const setVal = Number(set.value)||0;
 setHint.innerText = setVal
 ?`Base SPD multiplier = x${(1+setVal/100).toFixed(2)}`
 :"";
 
-/* ===== DATA SOURCE ===== */
-
-const manualMode=dataSource.value==="manual";
+/* ===== BASE / PROWESS SOURCE ===== */
 
 let B2=0,C2=0;
 
@@ -52,7 +62,9 @@ baseSPD.classList.add("dbMode");
 prowSPD.classList.add("dbMode");
 baseSPD.classList.remove("manualMode");
 prowSPD.classList.remove("manualMode");
+
 }else{
+
 B2=Number(baseSPD.value)||0;
 C2=Number(prowSPD.value)||0;
 
@@ -62,16 +74,14 @@ baseSPD.classList.add("manualMode");
 prowSPD.classList.add("manualMode");
 }
 
-/* ===== HERO VISIBILITY ===== */
-heroBlock.classList.toggle("hidden",manualMode);
-
-/* ===== MAIN CALC (Twoje wzory) ===== */
+/* ===== MAIN CALC ===== */
 
 const D2=Number(shell.value)||0;
 const E2=setVal;
 
 const slotIDs=["mask","transistor","wristwheel","core1","core2","core3"];
 const G8=slotIDs.map(id=>Number(document.getElementById(id).value)||0).reduce((a,b)=>a+b,0);
+
 slotSum.innerText=G8;
 
 const G10=Number(manual.value)||0;
@@ -81,6 +91,8 @@ let A4=(G8>0)
 :B2*(1+E2/100)+C2+D2+40+G10;
 
 const newTotal=Math.round(A4);
+
+/* ===== TOTAL SPEED ANIMATION ===== */
 
 if(lastTotal!==null && lastTotal!==newTotal){
 totalSPD.classList.remove("update");
@@ -98,16 +110,18 @@ const C7=mytm.value;
 const D7=histm.value;
 
 let A7="";
-if(C7!=="")A7=B7/(Number(C7)/100);
-else if(D7!=="")A7=B7*(Number(D7)/100);
+if(C7!=="") A7=B7/(Number(C7)/100);
+else if(D7!=="") A7=B7*(Number(D7)/100);
 
 enemySPD.innerText=A7?Math.round(A7):"";
 
 const E7=Number(enemymanual.value)||0;
 
 let A9="";
-if(A7!=="")A9=A7-(B2*(1+E2/100))-C2-D2-40;
-else if(E7!==0)A9=E7-(B2*(1+E2/100))-C2-D2-40;
+if(A7!=="")
+A9=A7-(B2*(1+E2/100))-C2-D2-40;
+else if(E7!==0)
+A9=E7-(B2*(1+E2/100))-C2-D2-40;
 
 enemyModule.innerText=A9?Math.round(A9):"";
 }
