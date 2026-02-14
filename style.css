@@ -1,5 +1,8 @@
-*{
- box-sizing:border-box;
+/* ================= GLOBAL ================= */
+*,
+*::before,
+*::after{
+box-sizing:border-box;
 }
 
 body{
@@ -19,7 +22,7 @@ gap:20px;
 position:relative;
 }
 
-/* ===== PANELS ===== */
+/* ================= PANELS ================= */
 .panel{
 background:#111;
 border:1px solid #333;
@@ -40,13 +43,14 @@ font-size:16px;
 width:100%;
 }
 
-/* ===== ROW ===== */
+/* ================= ROW LAYOUT ================= */
 .topRow{
 display:flex;
 gap:20px;
+align-items:stretch;
 }
 
-/* ===== INPUTS ===== */
+/* ================= INPUTS ================= */
 label{
 font-size:13px;
 opacity:0.8;
@@ -73,7 +77,7 @@ margin:8px 0;
 opacity:0.7;
 }
 
-/* ===== ENEMY GRID ===== */
+/* ================= ENEMY GRID ================= */
 .enemyGrid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -81,27 +85,28 @@ gap:8px;
 margin-bottom:12px;
 }
 
-/* ===== TOTAL SPEED ===== */
+/* ================= TOTAL SPEED ================= */
 .totalBox{
-background:#111;
-border:1px solid #333;
-padding:20px;
+margin-top:12px;
+background:#0f172a;
+border:1px solid #334155;
+padding:16px;
 text-align:center;
-border-radius:12px;
+border-radius:10px;
 }
 
 .totalLabel{
-font-size:14px;
+font-size:13px;
 opacity:0.7;
 }
 
 .totalValue{
-font-size:34px;
+font-size:32px;
 font-weight:bold;
 margin-top:6px;
 }
 
-/* ===== RESULT ROW ===== */
+/* ================= RESULT ROW ================= */
 .resultRow{
 display:flex;
 justify-content:space-between;
@@ -109,23 +114,25 @@ align-items:center;
 margin-top:6px;
 }
 
-/* ===== CLEAR BUTTON (INSIDE APP) ===== */
+/* ================= CLEAR BUTTON ================= */
 .clearBtn{
- position:fixed;
- right:30px;
- bottom:30px;
- height:42px;
- padding:0 18px;
- font-size:15px;
- cursor:pointer;
- background:#ef4444;
- color:white;
- border:none;
- border-radius:10px;
- box-shadow:0 4px 12px rgba(0,0,0,0.4);
- z-index:999;
+position:fixed;
+right:30px;
+bottom:30px;
+height:42px;
+padding:0 18px;
+font-size:15px;
+cursor:pointer;
+background:#ef4444;
+color:white;
+border:none;
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.4);
+z-index:999;
+transition:transform 0.15s ease;
 }
 
 .clearBtn:hover{
-  transform:translateY(-2px);
+transform:translateY(-2px);
+background:#dc2626;
 }
