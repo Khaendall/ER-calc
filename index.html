@@ -1,94 +1,150 @@
 <!DOCTYPE html>
 
-<html lang="pl">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Etheria Restart Speed Calculator</title>
-<link rel="stylesheet" href="style.css">
+<title>Etheria Speed Calc</title>
+
+<style>
+body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-content:center}
+.box{background:#1e293b;padding:25px;margin-top:40px;border-radius:14px;width:420px}
+input,select{width:100%;margin:6px 0;padding:8px;border-radius:8px;border:none}
+.result{margin-top:15px;font-size:18px;white-space:pre-line}
+h2{margin-top:20px}
+</style>
+
 </head>
 
 <body>
 
 <div class="box">
 
-<h1>E:R pepega calc</h1>
+<h1>Speed Calc</h1>
 
-<label>Choose char</label> <select id="hero">
+<select id="hero"></select>
 
-<option>Ładowanie postaci...</option>
-</select>
+<h2>My Stats</h2>
 
-<label>Enemy speed</label> <input id="enemySpeed" type="number" placeholder="np. 340">
+<label>Shell Speed (D2)</label> <input id="shell" type="number" value="0">
 
-<label>Twój bonus speed z gearu</label> <input id="gearSpeed" type="number" placeholder="np. 120">
+<label>Module Set % (E2)</label> <input id="set" type="number" value="0">
 
-<button onclick="calculate()">Oblicz</button>
+<label>Module Rolls (G2:G7)</label> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0"> <input class="roll" type="number" value="0">
 
-<div id="result"></div>
+<label>Manual Value (G10)</label> <input id="manual" type="number" value="0">
+
+<h2>Enemy</h2>
+
+<label>My Speed (B7)</label> <input id="myspd" type="number">
+
+<label>My Turn Meter (C7)</label> <input id="mytm" type="number">
+
+<label>His Turn Meter (D7)</label> <input id="histm" type="number">
+
+<label>Enemy Speed Manual (E7)</label> <input id="enemymanual" type="number">
+
+<div class="result" id="out"></div>
 
 </div>
 
 <script>
 
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
+// -----------------------------
+// Wklej swój CSV z DB
+// -----------------------------
+const CSV_LINK = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?output=csv";
 
-let heroes = {};
+// baza
+let DB = {};
 
-fetch(sheetURL)
-.then(response => response.text())
-.then(csv => {
+fetch(CSV_LINK)
+.then(r=>r.text())
+.then(csv=>{
 
-    const rows = csv.trim().split("\n");
-    const select = document.getElementById("hero");
+ const rows = csv.trim().split("\n");
+ const sel = document.getElementById("hero");
 
-    select.innerHTML = "";
+ for(let i=0;i<rows.length;i++){
+   const c = rows[i].split(",");
+   const name = c[0];
+   const base = Number(c[1]);
+   const prowess = Number(c[2]);
 
-    for(let i=1;i<rows.length;i++){
+   DB[name]={base,prowess};
 
-        const cols = rows[i].split(",");
+   const opt=document.createElement("option");
+   opt.value=name;
+   opt.textContent=name;
+   sel.appendChild(opt);
+ }
 
-        const name = cols[0];
-        const base = Number(cols[1]);
-        const prowess = Number(cols[2]);
-
-        heroes[name] = {base, prowess};
-
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        select.appendChild(option);
-    }
+ calc();
 });
 
-function calculate(){
+document.querySelectorAll("input,select")
+.forEach(e=>e.addEventListener("input",calc));
 
-    const heroName = document.getElementById("hero").value;
-    const enemy = Number(document.getElementById("enemySpeed").value);
-    const gear = Number(document.getElementById("gearSpeed").value);
+function calc(){
 
-    const hero = heroes[heroName];
+const hero = DB[heroSelect()] || {base:0,prowess:0};
 
-    if(!hero){
-        document.getElementById("result").innerText = "Nie wybrano postaci.";
-        return;
-    }
+const B2 = hero.base;
+const C2 = hero.prowess;
+const D2 = num("shell");
+const E2 = num("set");
 
-    const mySpeed = hero.base + hero.prowess + gear;
+const rolls = [...document.querySelectorAll(".roll")].map(e=>Number(e.value)||0);
+const G8 = rolls.reduce((a,b)=>a+b,0);
 
-    let text = "Twoja prędkość: " + mySpeed + "\n";
+const G10 = num("manual");
 
-    if(mySpeed > enemy)
-        text += "✅ Outspeedujesz przeciwnika";
-    else if(mySpeed === enemy)
-        text += "⚖️ Speed tie";
-    else
-        text += "❌ Przeciwnik szybszy";
+// ---------- TOTAL SPEED (A4)
+const total =
+ (G8>0)
+ ? B2*(1+E2/100)+C2+D2+40+G8
+ : B2*(1+E2/100)+C2+D2+40+G10;
 
-    document.getElementById("result").innerText = text;
+// ---------- ENEMY SPEED (A7)
+const B7 = num("myspd");
+const C7 = num("mytm");
+const D7 = num("histm");
+
+let A7 = 0;
+if(!isNaN(C7) && C7>0)
+ A7 = B7/(C7/100);
+else
+ A7 = B7*(D7/100);
+
+// ---------- ENEMY MODULE SPEED (A9)
+const E7 = num("enemymanual");
+
+let A9 =
+ (A7>0)
+ ? A7-(B2*(1+E2/100))-C2-D2-40
+ : E7-(B2*(1+E2/100))-C2-D2-40;
+
+// OUTPUT
+document.getElementById("out").innerText =
+"Total Speed: "+round(total)+
+"\nEnemy Speed Calc: "+round(A7)+
+"\nEnemy Module Speed Needed: "+round(A9)+
+"\nModule Roll Sum (G8): "+round(G8);
+
+}
+
+function heroSelect(){
+ return document.getElementById("hero").value;
+}
+
+function num(id){
+ return Number(document.getElementById(id).value)||0;
+}
+
+function round(n){
+ return Math.round(n*10)/10;
 }
 
 </script>
 
 </body>
 </html>
-
