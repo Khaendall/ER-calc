@@ -11,7 +11,7 @@
 
 <div class="app">
 
-<!-- ================= ENEMY DETECTION (TOP) ================= -->
+<!-- ================= ENEMY SPEED DETECT ================= -->
 
 <div class="panel enemyPanel">
   <h3>Enemy Speed Detect</h3>
@@ -37,7 +37,7 @@
   </div>
 
   <div class="resultRow">
-    <div>Enemy Module Estimated Speed (for fun to feel the gap)</div>
+    <div>Enemy Module Speed</div>
     <div class="result" id="enemyModule"></div>
   </div>
 </div>
@@ -45,6 +45,8 @@
 <!-- ================= CHARACTER + MODULES ================= -->
 
 <div class="topRow">
+
+  <!-- ===== CHARACTER SPEED CALC ===== -->
 
   <div class="panel">
     <h3>Character Speed Calc</h3>
@@ -64,7 +66,15 @@
 <label>Module Set SPD Bonus (summary of % value from module sets, type number without "%")</label>
 <input id="set">
 
+<!-- ===== TOTAL SPEED (MOVED HERE) ===== -->
+<div class="totalBox">
+  <div class="totalLabel">Total Speed</div>
+  <div class="totalValue" id="totalSPD"></div>
+</div>
+
   </div>
+
+  <!-- ===== MODULES SPEED ===== -->
 
   <div class="panel">
     <h3>Modules Speed</h3>
@@ -99,13 +109,6 @@
 
 </div>
 
-<!-- ================= TOTAL SPEED (BOTTOM) ================= -->
-
-<div class="totalBox">
-  <div class="totalLabel">Total Speed</div>
-  <div class="totalValue" id="totalSPD"></div>
-</div>
-
 <button class="clearBtn" onclick="clearAll()">Clear All</button>
 
 </div>
@@ -114,4 +117,3 @@
 
 </body>
 </html>
-
