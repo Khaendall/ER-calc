@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dane z Google Sheets</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+    <h2>Moja Tabela z Google Sheets (TSV)</h2>
+    <div id="table-container">Ładowanie danych...</div>
+
+    <script>
+        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?output=tsv";
+
+        async function fetchTSV() {
+            try {
+                const response = await fetch(url);
+                const data = await response.text();
+                displayTable(data);
+            } catch (error) {
+                document.getElementById('table-container').innerText = "Błąd ładowania danych.";
+                console.error(error);
+            }
+        }
+
+        function displayTable(tsvData) {
+            const rows = tsvData.split("\n");
+            let html = "<table>";
+            
+            rows.forEach((row, index) => {
+                const columns = row.split("\t"); // Rozdzielanie tabulatorem (TSV)
+                html += "<tr>";
+                columns.forEach(col => {
+                    html += index === 0 ? `<th>${col}</th>` : `<td>${col}</td>`;
+                });
+                html += "</tr>";
+            });
+
+            html += "</table>";
+            document.getElementById('table-container').innerHTML = html;
+        }
+
+        fetchTSV();
+    </script>
+
+</body>
+</html>
