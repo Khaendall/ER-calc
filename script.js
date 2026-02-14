@@ -29,6 +29,13 @@ function calc(){
 
 const manualMode = dataSource.value==="manual";
 
+/* HERO BLOCK ANIMATION */
+if(manualMode){
+heroBlock.classList.add("hidden");
+}else{
+heroBlock.classList.remove("hidden");
+}
+
 let B2=0;
 let C2=0;
 
@@ -44,12 +51,23 @@ prowSPD.value=C2;
 
 baseSPD.disabled=true;
 prowSPD.disabled=true;
+
+baseSPD.classList.add("dbMode");
+prowSPD.classList.add("dbMode");
+baseSPD.classList.remove("manualMode");
+prowSPD.classList.remove("manualMode");
+
 }else{
 B2=Number(baseSPD.value)||0;
 C2=Number(prowSPD.value)||0;
 
 baseSPD.disabled=false;
 prowSPD.disabled=false;
+
+baseSPD.classList.remove("dbMode");
+prowSPD.classList.remove("dbMode");
+baseSPD.classList.add("manualMode");
+prowSPD.classList.add("manualMode");
 }
 
 const D2=num("shell");
@@ -66,7 +84,7 @@ if(G8>0) manual.disabled=true;
 else manual.disabled=false;
 
 if(G10>0) slotIDs.forEach(id=>document.getElementById(id).disabled=true);
-else slotIDs.forEach(id=>document.getElementById(id).disabled=false);
+else slotIDs.forEach(id=>document.getElementById(id).disabled=false;
 
 let A4;
 if(G8>0)
