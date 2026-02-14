@@ -1,25 +1,20 @@
-*,
-*::before,
-*::after{box-sizing:border-box;}
+*{box-sizing:border-box;}
 
 body{
 background:#000;
-font-family:Arial,Helvetica,sans-serif;
+font-family:Arial, Helvetica, sans-serif;
 display:flex;
 justify-content:center;
 padding:30px;
 color:#e5e7eb;
 }
 
-.app{width:900px;display:flex;flex-direction:column;gap:20px;}
-
-.flowLabel{
-font-size:12px;
-letter-spacing:1px;
-opacity:.5;
-border-top:1px solid #222;
-padding-top:10px;
-margin-top:10px;
+.app{
+width:900px;
+display:flex;
+flex-direction:column;
+gap:20px;
+position:relative;
 }
 
 .panel{
@@ -33,9 +28,21 @@ gap:8px;
 width:100%;
 }
 
-.topRow{display:flex;gap:20px;align-items:stretch;}
+.panel h3{
+margin:0 0 8px 0;
+}
 
-label{font-size:13px;opacity:.8;}
+.enemyPanel{width:100%;}
+
+.topRow{
+display:flex;
+gap:20px;
+}
+
+label{
+font-size:13px;
+opacity:0.8;
+}
 
 input,select{
 background:#1a1a1a;
@@ -47,24 +54,15 @@ border-radius:6px;
 
 .result{
 background:#1f2937;
+padding:6px;
+border-radius:6px;
 text-align:center;
 }
 
-.miniInfo{
-font-size:11px;
-opacity:.6;
-margin-top:-4px;
-margin-bottom:6px;
-}
-
-.statField.dbMode{
-background:#243042;
-box-shadow:0 0 0 1px #3b82f6 inset;
-}
-
-.statField.manualMode{
-background:#1a1a1a;
-box-shadow:none;
+.or{
+text-align:center;
+margin:8px 0;
+opacity:0.7;
 }
 
 .enemyGrid{
@@ -75,30 +73,25 @@ margin-bottom:12px;
 }
 
 .totalBox{
-margin-top:12px;
-background:#0f172a;
-border:1px solid #334155;
-padding:16px;
+background:#1f2a44;
+padding:20px;
 text-align:center;
-border-radius:10px;
-transition:.25s;
+border-radius:12px;
+margin-top:10px;
 }
 
 .totalValue{
-font-size:32px;
+font-size:34px;
 font-weight:bold;
+}
+
+.resultRow{
+display:flex;
+justify-content:space-between;
 margin-top:6px;
 }
 
-.totalValue.update{
-animation:spdPulse .35s ease;
-}
-
-@keyframes spdPulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.12);color:#60a5fa;}
-100%{transform:scale(1);}
-}
+/* ===== CLEAR BUTTON ===== */
 
 .clearBtn{
 position:fixed;
@@ -106,50 +99,44 @@ right:30px;
 bottom:30px;
 height:42px;
 padding:0 18px;
-font-size:15px;
 cursor:pointer;
 background:#ef4444;
 color:white;
 border:none;
 border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,.4);
-transition:.15s;
+z-index:999;
 }
 
-.clearBtn:hover{
-transform:translateY(-2px);
-background:#dc2626;
-}
-/* ===== SMOOTH PANEL SHIFT (PRO UI FEEL) ===== */
+/* ===== HERO BLOCK ANIMATION ===== */
 
-/* Panel Character jako kontener animacji */
-.panel{
- transition:padding 0.25s ease;
-}
-
-/* Hero block już masz hidden – ulepszamy animację */
 #heroBlock{
- transition:
-  opacity 0.25s ease,
-  transform 0.25s ease,
-  height 0.25s ease,
-  margin 0.25s ease;
- transform-origin:top;
+transition:all .25s ease;
 }
 
-/* Gdy Manual → płynne zwijanie */
 #heroBlock.hidden{
- opacity:0;
- transform:translateY(-8px);
- height:0;
- margin:0;
- overflow:hidden;
- pointer-events:none;
+opacity:0;
+transform:translateY(-8px);
+height:0;
+margin:0;
+overflow:hidden;
+pointer-events:none;
 }
 
-/* BONUS: lekkie wygładzenie całego stacku inputów */
-.panel input,
-.panel select,
-.panel .totalBox{
- transition:transform 0.18s ease;
+/* ===== AUTO HIDE RESULTS ===== */
+
+#enemySpeedBlock,
+#enemyRawBlock{
+opacity:0;
+transform:translateY(-6px);
+pointer-events:none;
+max-height:0;
+overflow:hidden;
+transition:all .25s ease;
+}
+
+.showResult{
+opacity:1 !important;
+transform:translateY(0) !important;
+max-height:80px !important;
+pointer-events:auto !important;
 }
