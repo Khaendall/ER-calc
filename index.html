@@ -6,55 +6,15 @@
 <title>Etheria Enemy Speed Tool</title>
 
 <style>
-body{
- background:#253047;
- font-family:Arial;
- display:flex;
- justify-content:center;
- padding:30px;
-}
-
-.grid{
- display:grid;
- grid-template-columns:300px 120px 120px 120px 240px 170px;
- background:#000;
- gap:2px;
- padding:2px;
-}
-
-.cell{
- background:#d1d5db;
- height:46px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:15px;
- color:#111;
-}
-
-.head{
- background:#aeb7c2;
- font-weight:bold;
-}
-
-.result{
- background:#eef2f7;
- font-weight:bold;
-}
-
-input,select{
- width:100%;
- height:100%;
- border:none;
- text-align:center;
- font-size:15px;
- background:white;
-}
-
-.or{
- background:#cbd5e1;
- font-weight:bold;
-}
+body{background:#253047;font-family:Arial;display:flex;justify-content:center;padding:30px}
+.grid{display:grid;grid-template-columns:300px 120px 120px 120px 240px 220px;background:#000;gap:2px;padding:2px}
+.cell{background:#d1d5db;height:46px;display:flex;align-items:center;justify-content:center;color:#111}
+.head{background:#aeb7c2;font-weight:bold}
+.result{background:#eef2f7;font-weight:bold}
+input,select{width:100%;height:100%;border:none;text-align:center;background:white}
+.right{display:grid;grid-template-columns:1fr 1fr;height:100%}
+.label{background:#d1d5db;display:flex;align-items:center;justify-content:center}
+.or{background:#cbd5e1;font-weight:bold}
 </style>
 
 </head>
@@ -75,49 +35,60 @@ input,select{
 <div class="cell result" id="prowSPD"></div>
 <div class="cell"><input id="shell"></div>
 <div class="cell"><input id="set"></div>
-<div class="cell">mask</div>
+
+<div class="cell right">
+<div class="label">mask</div><input id="mask" class="slot">
+</div>
 
 <div class="cell result" id="totalSPD"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
-<div class="cell">transistor</div>
+
+<div class="cell right">
+<div class="label">transistor</div><input id="transistor" class="slot">
+</div>
 
 <div class="cell head">Enemy Speed</div>
 <div class="cell head">my speed</div>
 <div class="cell head">my turn meter</div>
 <div class="cell head">his turn meter</div>
 <div class="cell head">Enemy Speed Manual</div>
-<div class="cell">wristwheel</div>
+
+<div class="cell right">
+<div class="label">wristwheel</div><input id="wristwheel" class="slot">
+</div>
 
 <div class="cell result" id="enemySPD"></div>
 <div class="cell"><input id="myspd"></div>
 <div class="cell"><input id="mytm"></div>
 <div class="cell"><input id="histm"></div>
 <div class="cell"><input id="enemymanual"></div>
-<div class="cell">core I</div>
+
+<div class="cell right">
+<div class="label">core I</div><input id="core1" class="slot">
+</div>
 
 <div class="cell head">Enemy module sum speed</div>
 <div class="cell result" id="enemyModule"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
-<div class="cell">core II</div>
+
+<div class="cell right">
+<div class="label">core II</div><input id="core2" class="slot">
+</div>
 
 <div class="cell"></div>
-<div class="cell"><input class="roll"></div>
-<div class="cell"><input class="roll"></div>
-<div class="cell"><input class="roll"></div>
-<div class="cell"><input class="roll"></div>
-<div class="cell">core III</div>
-
-<div class="cell"></div>
-<div class="cell result" id="rollSum"></div>
+<div class="cell result" id="slotSum"></div>
 <div class="cell or">OR</div>
 <div class="cell"><input id="manual"></div>
 <div class="cell"></div>
-<div class="cell"></div>
+
+<div class="cell right">
+<div class="label">core III</div><input id="core3" class="slot">
+</div>
 
 </div>
 
@@ -130,18 +101,17 @@ let DB={};
 fetch(CSV_LINK)
 .then(r=>r.text())
 .then(csv=>{
-
  const rows=csv.trim().split("\n");
  const sel=document.getElementById("hero");
 
  rows.forEach(r=>{
-   const c=r.split(",");
-   DB[c[0]]={base:Number(c[1]),prow:Number(c[2])};
+  const c=r.split(",");
+  DB[c[0]]={base:Number(c[1]),prow:Number(c[2])};
 
-   const opt=document.createElement("option");
-   opt.value=c[0];
-   opt.textContent=c[0];
-   sel.appendChild(opt);
+  const opt=document.createElement("option");
+  opt.value=c[0];
+  opt.textContent=c[0];
+  sel.appendChild(opt);
  });
 
  calc();
@@ -163,43 +133,39 @@ const E2=num("set");
 baseSPD.innerText=B2;
 prowSPD.innerText=C2;
 
-// ===== SUM(G2:G7)
-const rolls=[...document.querySelectorAll(".roll")]
-.map(e=>Number(e.value)||0);
+// ===== SLOT SUM (PRAWA STRONA EXCEL)
+const slots=["mask","transistor","wristwheel","core1","core2","core3"]
+.map(id=>num(id));
 
-const G8=rolls.reduce((a,b)=>a+b,0);
-rollSum.innerText=G8;
+const G8=slots.reduce((a,b)=>a+b,0);
+slotSum.innerText=G8;
 
-const G10=num("manual");
+const manual=num("manual");
 
 // ===== TOTAL SPEED (A4 EXACT)
 let total;
 if(G8!==0)
  total=B2*(1+E2/100)+C2+D2+40+G8;
 else
- total=B2*(1+E2/100)+C2+D2+40+G10;
+ total=B2*(1+E2/100)+C2+D2+40+manual;
 
-totalSPD.innerText=Math.round(total);
+totalSPD.innerText(Math.round(total));
 
-// ===== ENEMY SPEED (A13 EXACT EXCEL)
+// ===== ENEMY SPEED (A13 EXACT)
 const B13=num("myspd");
 const C13=document.getElementById("mytm").value;
 const D13=document.getElementById("histm").value;
 
 let A13="";
-
-if(C13!=="")
- A13=B13/(Number(C13)/100);
-else if(D13!=="")
- A13=B13*(Number(D13)/100);
+if(C13!=="") A13=B13/(Number(C13)/100);
+else if(D13!=="") A13=B13*(Number(D13)/100);
 
 enemySPD.innerText=A13?Math.round(A13):"";
 
-// ===== ENEMY MODULE SUM (A9 EXACT)
+// ===== ENEMY MODULE (A9)
 const E7=num("enemymanual");
 
 let A9="";
-
 if(A13!=="")
  A9=A13-(B2*(1+E2/100))-C2-D2-40;
 else if(E7!==0)
