@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Etheria Enemy Speed Tool</title>
+<title>Speed Tool</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +11,7 @@
 
 <div class="app">
 
-<div class="flowLabel">Enemy Analysis</div>
+<!-- ================= ENEMY PANEL ================= -->
 
 <div class="panel enemyPanel">
 <h3>Enemy Speed Detect</h3>
@@ -26,24 +26,29 @@
 
 </div>
 
+<!-- RESULT (AUTO HIDE) -->
+
+<div id="enemySpeedBlock">
 <div class="resultRow">
-<div>Enemy Speed</div>
-<div class="result" id="enemySPD"></div>
+<span>Enemy Speed</span>
+<span id="enemySPD"></span>
 </div>
 </div>
 
-<div class="flowLabel">Build Setup</div>
+</div>
+
+<!-- ================= BUILD SETUP ================= -->
 
 <div class="topRow">
 
 <div class="panel">
 <h3>Modules Speed</h3>
 
-<label>Mask</label><input id="mask" class="slot"> <label>Transistor</label><input id="transistor" class="slot"> <label>Wristwheel</label><input id="wristwheel" class="slot"> <label>Core I</label><input id="core1" class="slot"> <label>Core II</label><input id="core2" class="slot"> <label>Core III</label><input id="core3" class="slot">
+<label>Mask</label><input id="mask"> <label>Transistor</label><input id="transistor"> <label>Wristwheel</label><input id="wristwheel"> <label>Core I</label><input id="core1"> <label>Core II</label><input id="core2"> <label>Core III</label><input id="core3">
 
 <label>Sum of Above</label>
 
-<div class="result" id="slotSum"></div>
+<div id="slotSum" class="result">0</div>
 
 <div class="or">OR</div>
 
@@ -65,26 +70,30 @@
 <select id="hero"></select>
 </div>
 
-<label>Base Speed</label> <input id="baseSPD" class="result statField">
+<label>Base Speed</label> <input id="baseSPD">
 
-<label>Prowess Speed</label> <input id="prowSPD" class="result statField">
+<label>Prowess Speed</label> <input id="prowSPD">
 
 <label>Shell Speed (enter roll)</label> <input id="shell">
 
-<label>Module Set SPD Bonus (summary of % value from module sets, type number without "%")</label> <input id="set">
+<label>Module Set SPD Bonus</label> <input id="set">
 
-<div class="miniInfo" id="setHint"></div>
+<div id="setHint"></div>
 
 <div class="totalBox">
 <div class="totalLabel">Total Speed</div>
-<div class="totalValue" id="totalSPD">0</div>
+<div id="totalSPD" class="totalValue">0</div>
 </div>
 
 <label>Enemy Speed Manual</label> <input id="enemymanual">
 
+<!-- RESULT (AUTO HIDE) -->
+
+<div id="enemyRawBlock">
 <div class="resultRow">
-<div>Enemy Raw Modules Speed</div>
-<div class="result" id="enemyModule"></div>
+<span>Enemy Raw Modules Speed</span>
+<span id="enemyModule"></span>
+</div>
 </div>
 
 </div>
