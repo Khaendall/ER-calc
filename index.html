@@ -4,88 +4,121 @@
 <head>
 <meta charset="UTF-8">
 <title>Etheria Enemy Speed Tool</title>
-
-<!-- CSS -->
-
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div style="display:flex; gap:20px;">
+<div class="app">
 
-<!-- ===== LEFT SIDE ===== -->
+<!-- ===== TOTAL SPEED ===== -->
 
-<div class="table">
+<div class="totalBox">
+  <div class="totalLabel">Total Speed</div>
+  <div class="totalValue" id="totalSPD"></div>
+</div>
 
-<div class="cell head">Total Speed</div>
-<div class="cell head">Base Speed</div>
-<div class="cell head">Prowess Speed</div>
-<div class="cell head">Shell Speed</div>
-<div class="cell head">Module Set SPD Bonus</div>
+<div class="topRow">
 
-<div class="cell"><select id="hero"></select></div>
-<div class="cell result" id="baseSPD"></div>
-<div class="cell result" id="prowSPD"></div>
-<div class="cell"><input id="shell"></div>
-<div class="cell"><input id="set"></div>
+  <!-- ===== MY CHARACTER ===== -->
 
-<div class="cell result" id="totalSPD"></div>
-<div class="cell"></div>
-<div class="cell"></div>
-<div class="cell"></div>
-<div class="cell"></div>
+  <div class="panel">
+    <h3>My Character</h3>
 
-<div class="cell head">Enemy Speed</div>
-<div class="cell head">My Speed</div>
-<div class="cell head">My Turn Meter</div>
-<div class="cell head">His Turn Meter</div>
-<div class="cell head">Enemy Speed Manual</div>
+```
+<label>Hero</label>
+<select id="hero"></select>
 
-<div class="cell result" id="enemySPD"></div>
-<div class="cell"><input id="myspd"></div>
-<div class="cell"><input id="mytm"></div>
-<div class="cell"><input id="histm"></div>
-<div class="cell"><input id="enemymanual"></div>
+<label>Base Speed</label>
+<div class="result" id="baseSPD"></div>
 
-<div class="cell head">Enemy Module Speed</div>
-<div class="cell result" id="enemyModule"></div>
-<div class="cell"></div>
-<div class="cell"></div>
-<div class="cell"></div>
+<label>Prowess Speed</label>
+<div class="result" id="prowSPD"></div>
+
+<label>Shell Speed</label>
+<input id="shell">
+
+<label>Module Set SPD Bonus</label>
+<input id="set">
+```
+
+  </div>
+
+  <!-- ===== MODULE SPEED INPUT ===== -->
+
+  <div class="panel">
+    <h3>Modules Speed Roll</h3>
+
+```
+<label>Mask</label>
+<input id="mask" class="slot">
+
+<label>Transistor</label>
+<input id="transistor" class="slot">
+
+<label>Wristwheel</label>
+<input id="wristwheel" class="slot">
+
+<label>Core I</label>
+<input id="core1" class="slot">
+
+<label>Core II</label>
+<input id="core2" class="slot">
+
+<label>Core III</label>
+<input id="core3" class="slot">
+
+<label>Sum of Above</label>
+<div class="result" id="slotSum"></div>
+
+<div class="or">OR</div>
+
+<label>Manual Value</label>
+<input id="manual">
+```
+
+  </div>
 
 </div>
 
-<!-- ===== RIGHT SIDE ===== -->
+<!-- ===== ENEMY DETECTION ===== -->
 
-<div class="rightTable">
+<div class="panel enemyPanel">
+  <h3>Enemy Detection</h3>
 
-<div class="cell head" style="grid-column:span 2;">Modules Speed Roll</div>
+  <div class="enemyGrid">
 
-<div class="cell">Mask</div><div class="cell"><input id="mask" class="slot"></div>
-<div class="cell">Transistor</div><div class="cell"><input id="transistor" class="slot"></div>
-<div class="cell">Wristwheel</div><div class="cell"><input id="wristwheel" class="slot"></div>
-<div class="cell">Core I</div><div class="cell"><input id="core1" class="slot"></div>
-<div class="cell">Core II</div><div class="cell"><input id="core2" class="slot"></div>
-<div class="cell">Core III</div><div class="cell"><input id="core3" class="slot"></div>
+```
+<label>My Speed</label>
+<input id="myspd">
 
-<div class="cell">Sum of Above:</div>
-<div class="cell result" id="slotSum"></div>
+<label>My Turn Meter</label>
+<input id="mytm">
 
-<div class="cell or" style="grid-column:span 2;">OR</div>
+<label>His Turn Meter</label>
+<input id="histm">
 
-<div class="cell">Manual Value:</div>
-<div class="cell"><input id="manual"></div>
+<label>Enemy Speed Manual</label>
+<input id="enemymanual">
+```
+
+  </div>
+
+  <div class="resultRow">
+    <div>Enemy Speed</div>
+    <div class="result" id="enemySPD"></div>
+  </div>
+
+  <div class="resultRow">
+    <div>Enemy Module Speed</div>
+    <div class="result" id="enemyModule"></div>
+  </div>
 
 </div>
 
 </div>
-
-<!-- CLEAR BUTTON -->
 
 <button class="clearBtn" onclick="clearAll()">Clear All</button>
-
-<!-- JS -->
 
 <script src="script.js"></script>
 
