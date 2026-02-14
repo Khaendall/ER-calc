@@ -11,6 +11,8 @@
 
 <div class="app">
 
+<!-- ===== ENEMY DETECT ===== -->
+
 <div class="panel enemyPanel">
 <h3>Enemy Speed Detect</h3>
 
@@ -22,8 +24,6 @@
 
 <label>Enemy Turn Meter (if faster than enemy)</label> <input id="histm">
 
-<label>Enemy Speed Manual</label> <input id="enemymanual">
-
 </div>
 
 <div class="resultRow">
@@ -31,13 +31,40 @@
 <div class="result" id="enemySPD"></div>
 </div>
 
-<div class="resultRow">
-<div>Enemy Raw Modules Speed (need to add base speed/prowess speed, shell speed roll and set bonuses down below)</div>
-<div class="result" id="enemyModule"></div>
-</div>
 </div>
 
+<!-- ===== LOWER ROW ===== -->
+
 <div class="topRow">
+
+<!-- ===== MODULES SPEED (LEFT NOW) ===== -->
+
+<div class="panel">
+<h3>Modules Speed</h3>
+
+<label>Mask</label> <input id="mask" class="slot">
+
+<label>Transistor</label> <input id="transistor" class="slot">
+
+<label>Wristwheel</label> <input id="wristwheel" class="slot">
+
+<label>Core I</label> <input id="core1" class="slot">
+
+<label>Core II</label> <input id="core2" class="slot">
+
+<label>Core III</label> <input id="core3" class="slot">
+
+<label>Sum of Above</label>
+
+<div class="result" id="slotSum"></div>
+
+<div class="or">OR</div>
+
+<label>Manual Value</label> <input id="manual">
+
+</div>
+
+<!-- ===== CHARACTER SPEED CALC (RIGHT NOW) ===== -->
 
 <div class="panel">
 <h3>Character Speed Calc</h3>
@@ -65,30 +92,15 @@
 <div class="totalLabel">Total Speed</div>
 <div class="totalValue" id="totalSPD">0</div>
 </div>
+
+<!-- ===== MOVED HERE ===== -->
+
+<label>Enemy Speed Manual</label> <input id="enemymanual">
+
+<div class="resultRow">
+<div>Enemy Raw Modules Speed</div>
+<div class="result" id="enemyModule"></div>
 </div>
-
-<div class="panel">
-<h3>Modules Speed</h3>
-
-<label>Mask</label> <input id="mask" class="slot">
-
-<label>Transistor</label> <input id="transistor" class="slot">
-
-<label>Wristwheel</label> <input id="wristwheel" class="slot">
-
-<label>Core I</label> <input id="core1" class="slot">
-
-<label>Core II</label> <input id="core2" class="slot">
-
-<label>Core III</label> <input id="core3" class="slot">
-
-<label>Sum of Above</label>
-
-<div class="result" id="slotSum"></div>
-
-<div class="or">OR</div>
-
-<label>Manual Value</label> <input id="manual">
 
 </div>
 
@@ -102,4 +114,3 @@
 
 </body>
 </html>
-
