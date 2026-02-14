@@ -120,3 +120,36 @@ transition:.15s;
 transform:translateY(-2px);
 background:#dc2626;
 }
+/* ===== SMOOTH PANEL SHIFT (PRO UI FEEL) ===== */
+
+/* Panel Character jako kontener animacji */
+.panel{
+ transition:padding 0.25s ease;
+}
+
+/* Hero block już masz hidden – ulepszamy animację */
+#heroBlock{
+ transition:
+  opacity 0.25s ease,
+  transform 0.25s ease,
+  height 0.25s ease,
+  margin 0.25s ease;
+ transform-origin:top;
+}
+
+/* Gdy Manual → płynne zwijanie */
+#heroBlock.hidden{
+ opacity:0;
+ transform:translateY(-8px);
+ height:0;
+ margin:0;
+ overflow:hidden;
+ pointer-events:none;
+}
+
+/* BONUS: lekkie wygładzenie całego stacku inputów */
+.panel input,
+.panel select,
+.panel .totalBox{
+ transition:transform 0.18s ease;
+}
