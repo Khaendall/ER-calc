@@ -1,82 +1,28 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Etheria Enemy Speed Tool</title>
 
-<style>
-body{
- background:#253047;
- font-family:Arial;
- display:flex;
- justify-content:center;
- padding:30px;
- gap:20px;
-}
+<!-- CSS -->
 
-.table{
- display:grid;
- grid-template-columns:300px 120px 120px 120px 240px;
- gap:2px;
- background:#000;
- padding:2px;
-}
-
-.rightTable{
- display:grid;
- grid-template-columns:150px 150px;
- gap:2px;
- background:#000;
- padding:2px;
-}
-
-.cell{
- background:#d1d5db;
- height:46px;
- display:flex;
- align-items:center;
- justify-content:center;
-}
-
-.head{background:#aeb7c2;font-weight:bold;}
-.result{background:#eef2f7;font-weight:bold;}
-
-input,select{
- width:100%;
- height:100%;
- border:none;
- text-align:center;
-}
-
-.or{background:#cbd5e1;font-weight:bold;}
-
-button{
- margin-top:10px;
- height:40px;
- width:200px;
- font-size:15px;
- cursor:pointer;
-}
-</style>
-
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div>
+<div style="display:flex; gap:20px;">
 
-<div style="display:flex;gap:20px;">
-
-<!-- LEWA STRONA -->
+<!-- ===== LEFT SIDE ===== -->
 
 <div class="table">
 
 <div class="cell head">Total Speed</div>
-<div class="cell head">base speed</div>
-<div class="cell head">prowess speed</div>
-<div class="cell head">shell speed</div>
-<div class="cell head">module set spd bonus sum</div>
+<div class="cell head">Base Speed</div>
+<div class="cell head">Prowess Speed</div>
+<div class="cell head">Shell Speed</div>
+<div class="cell head">Module Set SPD Bonus</div>
 
 <div class="cell"><select id="hero"></select></div>
 <div class="cell result" id="baseSPD"></div>
@@ -91,9 +37,9 @@ button{
 <div class="cell"></div>
 
 <div class="cell head">Enemy Speed</div>
-<div class="cell head">my speed</div>
-<div class="cell head">my turn meter</div>
-<div class="cell head">his turn meter</div>
+<div class="cell head">My Speed</div>
+<div class="cell head">My Turn Meter</div>
+<div class="cell head">His Turn Meter</div>
 <div class="cell head">Enemy Speed Manual</div>
 
 <div class="cell result" id="enemySPD"></div>
@@ -102,7 +48,7 @@ button{
 <div class="cell"><input id="histm"></div>
 <div class="cell"><input id="enemymanual"></div>
 
-<div class="cell head">Enemy module sum speed</div>
+<div class="cell head">Enemy Module Speed</div>
 <div class="cell result" id="enemyModule"></div>
 <div class="cell"></div>
 <div class="cell"></div>
@@ -110,167 +56,38 @@ button{
 
 </div>
 
-<!-- PRAWA STRONA -->
+<!-- ===== RIGHT SIDE ===== -->
 
 <div class="rightTable">
 
-<div class="cell head" style="grid-column:span 2;">modules speed roll</div>
+<div class="cell head" style="grid-column:span 2;">Modules Speed Roll</div>
 
-<div class="cell">mask</div><div class="cell"><input id="mask" class="slot"></div>
-<div class="cell">transistor</div><div class="cell"><input id="transistor" class="slot"></div>
-<div class="cell">wristwheel</div><div class="cell"><input id="wristwheel" class="slot"></div>
-<div class="cell">core I</div><div class="cell"><input id="core1" class="slot"></div>
-<div class="cell">core II</div><div class="cell"><input id="core2" class="slot"></div>
-<div class="cell">core III</div><div class="cell"><input id="core3" class="slot"></div>
+<div class="cell">Mask</div><div class="cell"><input id="mask" class="slot"></div>
+<div class="cell">Transistor</div><div class="cell"><input id="transistor" class="slot"></div>
+<div class="cell">Wristwheel</div><div class="cell"><input id="wristwheel" class="slot"></div>
+<div class="cell">Core I</div><div class="cell"><input id="core1" class="slot"></div>
+<div class="cell">Core II</div><div class="cell"><input id="core2" class="slot"></div>
+<div class="cell">Core III</div><div class="cell"><input id="core3" class="slot"></div>
 
-<div class="cell">sum of above:</div>
+<div class="cell">Sum of Above:</div>
 <div class="cell result" id="slotSum"></div>
 
 <div class="cell or" style="grid-column:span 2;">OR</div>
 
-<div class="cell">manual value:</div>
+<div class="cell">Manual Value:</div>
 <div class="cell"><input id="manual"></div>
 
 </div>
 
 </div>
 
-<button onclick="clearAll()">Wyczyść wszystko</button>
+<!-- CLEAR BUTTON -->
 
-</div>
+<button class="clearBtn" onclick="clearAll()">Clear All</button>
 
-<script>
+<!-- JS -->
 
-// ======================
-const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
-// ======================
-
-let DB={};
-
-fetch(CSV_LINK)
-.then(r=>r.text())
-.then(csv=>{
- const rows=csv.trim().split("\n");
- rows.forEach(r=>{
-   const c=r.split(",");
-   DB[c[0]]={base:Number(c[1]),prow:Number(c[2])};
-   const opt=document.createElement("option");
-   opt.value=c[0];
-   opt.textContent=c[0];
-   hero.appendChild(opt);
- });
- loadState();
- calc();
-});
-
-document.querySelectorAll("input,select")
-.forEach(e=>e.addEventListener("input",()=>{
- saveState();
- calc();
-}));
-
-function calc(){
-
-const heroName=hero.value;
-const heroData=DB[heroName]||{base:0,prow:0};
-
-const B2=heroData.base;
-const C2=heroData.prow;
-const D2=num("shell");
-const E2=num("set");
-
-baseSPD.innerText=B2;
-prowSPD.innerText=C2;
-
-// SLOT SUM
-const slotIDs=["mask","transistor","wristwheel","core1","core2","core3"];
-const G8=slotIDs.map(id=>num(id)).reduce((a,b)=>a+b,0);
-slotSum.innerText=G8;
-
-const G10=num("manual");
-
-// BLOCKING LOGIC
-if(G8>0){
- document.getElementById("manual").disabled=true;
-}else{
- document.getElementById("manual").disabled=false;
-}
-
-if(G10>0){
- slotIDs.forEach(id=>document.getElementById(id).disabled=true);
-}else{
- slotIDs.forEach(id=>document.getElementById(id).disabled=false);
-}
-
-// TOTAL SPEED
-let A4;
-if(G8>0)
- A4=B2*(1+E2/100)+C2+D2+40+G8;
-else
- A4=B2*(1+E2/100)+C2+D2+40+G10;
-
-totalSPD.innerText=Math.round(A4);
-
-// ENEMY SPEED
-const B7=num("myspd");
-const C7=document.getElementById("mytm").value;
-const D7=document.getElementById("histm").value;
-
-let A7="";
-if(C7!=="") A7=B7/(Number(C7)/100);
-else if(D7!=="") A7=B7*(Number(D7)/100);
-
-enemySPD.innerText=A7?Math.round(A7):"";
-
-// ENEMY MODULE
-const E7=num("enemymanual");
-
-let A9="";
-if(A7!=="")
- A9=A7-(B2*(1+E2/100))-C2-D2-40;
-else if(E7!==0)
- A9=E7-(B2*(1+E2/100))-C2-D2-40;
-
-enemyModule.innerText=A9?Math.round(A9):"";
-
-// HIDE TOTAL SPEED IN SCENARIO 2/3
-if(A7!=="" || E7!==0)
- totalSPD.style.visibility="hidden";
-else
- totalSPD.style.visibility="visible";
-
-}
-
-function num(id){
- return Number(document.getElementById(id).value)||0;
-}
-
-// SAVE STATE
-function saveState(){
- const data={};
- document.querySelectorAll("input,select").forEach(el=>{
-   data[el.id]=el.value;
- });
- localStorage.setItem("etheriaCalc",JSON.stringify(data));
-}
-
-// LOAD STATE
-function loadState(){
- const data=JSON.parse(localStorage.getItem("etheriaCalc")||"{}");
- Object.keys(data).forEach(id=>{
-   if(document.getElementById(id))
-     document.getElementById(id).value=data[id];
- });
-}
-
-// CLEAR
-function clearAll(){
- localStorage.removeItem("etheriaCalc");
- document.querySelectorAll("input").forEach(el=>el.value="");
- calc();
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
