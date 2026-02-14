@@ -1,54 +1,93 @@
 <!DOCTYPE html>
+
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Dane z Google Sheets</title>
-    <style>
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
+<meta charset="UTF-8">
+<title>Etheria Restart Speed Calculator</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h2>ER pepega calc</h2>
-    <div id="table-container">Ładowanie danych...</div>
+<div class="box">
 
-    <script>
-        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=133621919&single=true&output=csv";
+<h1>E:R pepega calc</h1>
 
-        async function fetchTSV() {
-            try {
-                const response = await fetch(url);
-                const data = await response.text();
-                displayTable(data);
-            } catch (error) {
-                document.getElementById('table-container').innerText = "Błąd ładowania danych.";
-                console.error(error);
-            }
-        }
+<label>Choose char</label> <select id="hero">
 
-        function displayTable(tsvData) {
-            const rows = tsvData.split("\n");
-            let html = "<table>";
-            
-            rows.forEach((row, index) => {
-                const columns = row.split("\t"); // Rozdzielanie tabulatorem (TSV)
-                html += "<tr>";
-                columns.forEach(col => {
-                    html += index === 0 ? `<th>${col}</th>` : `<td>${col}</td>`;
-                });
-                html += "</tr>";
-            });
+<option>Ładowanie postaci...</option>
+</select>
 
-            html += "</table>";
-            document.getElementById('table-container').innerHTML = html;
-        }
+<label>Enemy speed</label> <input id="enemySpeed" type="number" placeholder="np. 340">
 
-        fetchTSV();
-    </script>
+<label>Twój bonus speed z gearu</label> <input id="gearSpeed" type="number" placeholder="np. 120">
+
+<button onclick="calculate()">Oblicz</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=133621919&single=true&output=csv";
+
+let heroes = {};
+
+fetch(sheetURL)
+.then(response => response.text())
+.then(csv => {
+
+    const rows = csv.trim().split("\n");
+    const select = document.getElementById("hero");
+
+    select.innerHTML = "";
+
+    for(let i=1;i<rows.length;i++){
+
+        const cols = rows[i].split(",");
+
+        const name = cols[0];
+        const base = Number(cols[1]);
+        const prowess = Number(cols[2]);
+
+        heroes[name] = {base, prowess};
+
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+    }
+});
+
+function calculate(){
+
+    const heroName = document.getElementById("hero").value;
+    const enemy = Number(document.getElementById("enemySpeed").value);
+    const gear = Number(document.getElementById("gearSpeed").value);
+
+    const hero = heroes[heroName];
+
+    if(!hero){
+        document.getElementById("result").innerText = "Nie wybrano postaci.";
+        return;
+    }
+
+    const mySpeed = hero.base + hero.prowess + gear;
+
+    let text = "Twoja prędkość: " + mySpeed + "\n";
+
+    if(mySpeed > enemy)
+        text += "✅ Outspeedujesz przeciwnika";
+    else if(mySpeed === enemy)
+        text += "⚖️ Speed tie";
+    else
+        text += "❌ Przeciwnik szybszy";
+
+    document.getElementById("result").innerText = text;
+}
+
+</script>
 
 </body>
-
 </html>
-
