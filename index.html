@@ -6,29 +6,74 @@
 <title>Etheria Enemy Speed Tool</title>
 
 <style>
-body{background:#253047;font-family:Arial;display:flex;justify-content:center;padding:30px}
-.grid{display:grid;grid-template-columns:300px 120px 120px 120px 240px 220px;background:#000;gap:2px;padding:2px}
-.cell{background:#d1d5db;height:46px;display:flex;align-items:center;justify-content:center;color:#111}
-.head{background:#aeb7c2;font-weight:bold}
-.result{background:#eef2f7;font-weight:bold}
-input,select{width:100%;height:100%;border:none;text-align:center;background:white}
-.right{display:grid;grid-template-columns:1fr 1fr;height:100%}
-.label{background:#d1d5db;display:flex;align-items:center;justify-content:center}
-.or{background:#cbd5e1;font-weight:bold}
+
+body{
+ background:#253047;
+ font-family:Arial;
+ display:flex;
+ justify-content:center;
+ padding:30px;
+ gap:20px;
+}
+
+.table{
+ display:grid;
+ grid-template-columns:300px 120px 120px 120px 240px;
+ gap:2px;
+ background:#000;
+ padding:2px;
+}
+
+.rightTable{
+ display:grid;
+ grid-template-columns:150px 150px;
+ gap:2px;
+ background:#000;
+ padding:2px;
+}
+
+.cell{
+ background:#d1d5db;
+ height:46px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.head{
+ background:#aeb7c2;
+ font-weight:bold;
+}
+
+.result{
+ background:#eef2f7;
+ font-weight:bold;
+}
+
+input,select{
+ width:100%;
+ height:100%;
+ border:none;
+ text-align:center;
+}
+
+.or{background:#cbd5e1;font-weight:bold;}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="grid">
+<!-- ===== LEWA STRONA (SPEED CALC) ===== -->
+
+<div class="table">
 
 <div class="cell head">Total Speed</div>
 <div class="cell head">base speed</div>
 <div class="cell head">prowess speed</div>
 <div class="cell head">shell speed</div>
 <div class="cell head">module set spd bonus sum</div>
-<div class="cell head">modules speed roll</div>
 
 <div class="cell"><select id="hero"></select></div>
 <div class="cell result" id="baseSPD"></div>
@@ -36,19 +81,11 @@ input,select{width:100%;height:100%;border:none;text-align:center;background:whi
 <div class="cell"><input id="shell"></div>
 <div class="cell"><input id="set"></div>
 
-<div class="cell right">
-<div class="label">mask</div><input id="mask" class="slot">
-</div>
-
 <div class="cell result" id="totalSPD"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
 <div class="cell"></div>
-
-<div class="cell right">
-<div class="label">transistor</div><input id="transistor" class="slot">
-</div>
 
 <div class="cell head">Enemy Speed</div>
 <div class="cell head">my speed</div>
@@ -56,19 +93,11 @@ input,select{width:100%;height:100%;border:none;text-align:center;background:whi
 <div class="cell head">his turn meter</div>
 <div class="cell head">Enemy Speed Manual</div>
 
-<div class="cell right">
-<div class="label">wristwheel</div><input id="wristwheel" class="slot">
-</div>
-
 <div class="cell result" id="enemySPD"></div>
 <div class="cell"><input id="myspd"></div>
 <div class="cell"><input id="mytm"></div>
 <div class="cell"><input id="histm"></div>
 <div class="cell"><input id="enemymanual"></div>
-
-<div class="cell right">
-<div class="label">core I</div><input id="core1" class="slot">
-</div>
 
 <div class="cell head">Enemy module sum speed</div>
 <div class="cell result" id="enemyModule"></div>
@@ -76,24 +105,34 @@ input,select{width:100%;height:100%;border:none;text-align:center;background:whi
 <div class="cell"></div>
 <div class="cell"></div>
 
-<div class="cell right">
-<div class="label">core II</div><input id="core2" class="slot">
 </div>
 
-<div class="cell"></div>
+<!-- ===== PRAWA STRONA (MODULES SPEED ROLL) ===== -->
+
+<div class="rightTable">
+
+<div class="cell head" style="grid-column:span 2;">modules speed roll</div>
+
+<div class="cell">mask</div><div class="cell"><input id="mask" class="slot"></div>
+<div class="cell">transistor</div><div class="cell"><input id="transistor" class="slot"></div>
+<div class="cell">wristwheel</div><div class="cell"><input id="wristwheel" class="slot"></div>
+<div class="cell">core I</div><div class="cell"><input id="core1" class="slot"></div>
+<div class="cell">core II</div><div class="cell"><input id="core2" class="slot"></div>
+<div class="cell">core III</div><div class="cell"><input id="core3" class="slot"></div>
+
+<div class="cell">sum of above:</div>
 <div class="cell result" id="slotSum"></div>
-<div class="cell or">OR</div>
-<div class="cell"><input id="manual"></div>
-<div class="cell"></div>
 
-<div class="cell right">
-<div class="label">core III</div><input id="core3" class="slot">
-</div>
+<div class="cell or" style="grid-column:span 2;">OR</div>
+
+<div class="cell">manual value:</div>
+<div class="cell"><input id="manual"></div>
 
 </div>
 
 <script>
 
+// ===== CSV DB =====
 const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
 
 let DB={};
@@ -102,18 +141,14 @@ fetch(CSV_LINK)
 .then(r=>r.text())
 .then(csv=>{
  const rows=csv.trim().split("\n");
- const sel=document.getElementById("hero");
-
  rows.forEach(r=>{
-  const c=r.split(",");
-  DB[c[0]]={base:Number(c[1]),prow:Number(c[2])};
-
-  const opt=document.createElement("option");
-  opt.value=c[0];
-  opt.textContent=c[0];
-  sel.appendChild(opt);
+   const c=r.split(",");
+   DB[c[0]]={base:Number(c[1]),prow:Number(c[2])};
+   const opt=document.createElement("option");
+   opt.value=c[0];
+   opt.textContent=c[0];
+   hero.appendChild(opt);
  });
-
  calc();
 });
 
@@ -122,52 +157,51 @@ document.querySelectorAll("input,select")
 
 function calc(){
 
-const heroName=document.getElementById("hero").value;
-const hero=DB[heroName]||{base:0,prow:0};
+const heroName=hero.value;
+const heroData=DB[heroName]||{base:0,prow:0};
 
-const B2=hero.base;
-const C2=hero.prow;
+const B2=heroData.base;
+const C2=heroData.prow;
 const D2=num("shell");
 const E2=num("set");
 
 baseSPD.innerText=B2;
 prowSPD.innerText=C2;
 
-// ===== SLOT SUM (PRAWA STRONA EXCEL)
-const slots=["mask","transistor","wristwheel","core1","core2","core3"]
-.map(id=>num(id));
+// ===== G8 SLOT SUM EXACT
+const G8=["mask","transistor","wristwheel","core1","core2","core3"]
+.map(id=>num(id)).reduce((a,b)=>a+b,0);
 
-const G8=slots.reduce((a,b)=>a+b,0);
 slotSum.innerText=G8;
 
-const manual=num("manual");
+const G10=num("manual");
 
-// ===== TOTAL SPEED (A4 EXACT)
-let total;
-if(G8!==0)
- total=B2*(1+E2/100)+C2+D2+40+G8;
+// ===== A4 EXACT FROM PDF
+let A4;
+if(G8>0)
+ A4=B2*(1+E2/100)+C2+D2+40+G8;
 else
- total=B2*(1+E2/100)+C2+D2+40+manual;
+ A4=B2*(1+E2/100)+C2+D2+40+G10;
 
-totalSPD.innerText(Math.round(total));
+totalSPD.innerText=Math.round(A4);
 
-// ===== ENEMY SPEED (A13 EXACT)
-const B13=num("myspd");
-const C13=document.getElementById("mytm").value;
-const D13=document.getElementById("histm").value;
+// ===== A7 EXACT
+const B7=num("myspd");
+const C7=document.getElementById("mytm").value;
+const D7=document.getElementById("histm").value;
 
-let A13="";
-if(C13!=="") A13=B13/(Number(C13)/100);
-else if(D13!=="") A13=B13*(Number(D13)/100);
+let A7="";
+if(C7!=="") A7=B7/(Number(C7)/100);
+else if(D7!=="") A7=B7*(Number(D7)/100);
 
-enemySPD.innerText=A13?Math.round(A13):"";
+enemySPD.innerText=A7?Math.round(A7):"";
 
-// ===== ENEMY MODULE (A9)
+// ===== A9 EXACT
 const E7=num("enemymanual");
 
 let A9="";
-if(A13!=="")
- A9=A13-(B2*(1+E2/100))-C2-D2-40;
+if(A7!=="")
+ A9=A7-(B2*(1+E2/100))-C2-D2-40;
 else if(E7!==0)
  A9=E7-(B2*(1+E2/100))-C2-D2-40;
 
