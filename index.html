@@ -6,7 +6,6 @@
 <title>Etheria Enemy Speed Tool</title>
 
 <style>
-
 body{
  background:#253047;
  font-family:Arial;
@@ -40,15 +39,8 @@ body{
  justify-content:center;
 }
 
-.head{
- background:#aeb7c2;
- font-weight:bold;
-}
-
-.result{
- background:#eef2f7;
- font-weight:bold;
-}
+.head{background:#aeb7c2;font-weight:bold;}
+.result{background:#eef2f7;font-weight:bold;}
 
 input,select{
  width:100%;
@@ -59,13 +51,24 @@ input,select{
 
 .or{background:#cbd5e1;font-weight:bold;}
 
+button{
+ margin-top:10px;
+ height:40px;
+ width:200px;
+ font-size:15px;
+ cursor:pointer;
+}
 </style>
 
 </head>
 
 <body>
 
-<!-- ===== LEWA STRONA (SPEED CALC) ===== -->
+<div>
+
+<div style="display:flex;gap:20px;">
+
+<!-- LEWA STRONA -->
 
 <div class="table">
 
@@ -107,7 +110,7 @@ input,select{
 
 </div>
 
-<!-- ===== PRAWA STRONA (MODULES SPEED ROLL) ===== -->
+<!-- PRAWA STRONA -->
 
 <div class="rightTable">
 
@@ -130,10 +133,17 @@ input,select{
 
 </div>
 
+</div>
+
+<button onclick="clearAll()">Wyczyść wszystko</button>
+
+</div>
+
 <script>
 
-// ===== CSV DB =====
+// ======================
 const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVexXto376AAHwiikJWgAENIRfBX_kFV4vqDXduenXAL9m0LUiju8HtdaWrQvOzw8j/pub?gid=613669233&single=true&output=csv";
+// ======================
 
 let DB={};
 
@@ -149,11 +159,15 @@ fetch(CSV_LINK)
    opt.textContent=c[0];
    hero.appendChild(opt);
  });
+ loadState();
  calc();
 });
 
 document.querySelectorAll("input,select")
-.forEach(e=>e.addEventListener("input",calc));
+.forEach(e=>e.addEventListener("input",()=>{
+ saveState();
+ calc();
+}));
 
 function calc(){
 
@@ -168,15 +182,27 @@ const E2=num("set");
 baseSPD.innerText=B2;
 prowSPD.innerText=C2;
 
-// ===== G8 SLOT SUM EXACT
-const G8=["mask","transistor","wristwheel","core1","core2","core3"]
-.map(id=>num(id)).reduce((a,b)=>a+b,0);
-
+// SLOT SUM
+const slotIDs=["mask","transistor","wristwheel","core1","core2","core3"];
+const G8=slotIDs.map(id=>num(id)).reduce((a,b)=>a+b,0);
 slotSum.innerText=G8;
 
 const G10=num("manual");
 
-// ===== A4 EXACT FROM PDF
+// BLOCKING LOGIC
+if(G8>0){
+ document.getElementById("manual").disabled=true;
+}else{
+ document.getElementById("manual").disabled=false;
+}
+
+if(G10>0){
+ slotIDs.forEach(id=>document.getElementById(id).disabled=true);
+}else{
+ slotIDs.forEach(id=>document.getElementById(id).disabled=false);
+}
+
+// TOTAL SPEED
 let A4;
 if(G8>0)
  A4=B2*(1+E2/100)+C2+D2+40+G8;
@@ -185,7 +211,7 @@ else
 
 totalSPD.innerText=Math.round(A4);
 
-// ===== A7 EXACT
+// ENEMY SPEED
 const B7=num("myspd");
 const C7=document.getElementById("mytm").value;
 const D7=document.getElementById("histm").value;
@@ -196,7 +222,7 @@ else if(D7!=="") A7=B7*(Number(D7)/100);
 
 enemySPD.innerText=A7?Math.round(A7):"";
 
-// ===== A9 EXACT
+// ENEMY MODULE
 const E7=num("enemymanual");
 
 let A9="";
@@ -207,10 +233,41 @@ else if(E7!==0)
 
 enemyModule.innerText=A9?Math.round(A9):"";
 
+// HIDE TOTAL SPEED IN SCENARIO 2/3
+if(A7!=="" || E7!==0)
+ totalSPD.style.visibility="hidden";
+else
+ totalSPD.style.visibility="visible";
+
 }
 
 function num(id){
  return Number(document.getElementById(id).value)||0;
+}
+
+// SAVE STATE
+function saveState(){
+ const data={};
+ document.querySelectorAll("input,select").forEach(el=>{
+   data[el.id]=el.value;
+ });
+ localStorage.setItem("etheriaCalc",JSON.stringify(data));
+}
+
+// LOAD STATE
+function loadState(){
+ const data=JSON.parse(localStorage.getItem("etheriaCalc")||"{}");
+ Object.keys(data).forEach(id=>{
+   if(document.getElementById(id))
+     document.getElementById(id).value=data[id];
+ });
+}
+
+// CLEAR
+function clearAll(){
+ localStorage.removeItem("etheriaCalc");
+ document.querySelectorAll("input").forEach(el=>el.value="");
+ calc();
 }
 
 </script>
