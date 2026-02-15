@@ -1,26 +1,32 @@
+/* ===== STAGE ===== */
+
 .mapStage{
 display:flex;
 justify-content:center;
+overflow:hidden; /* blokuje rozciąganie przez layout */
 padding:20px;
 }
 
-/* BASE GRID 1441x752 */
+/* ===== SCALE WRAPPER ===== */
+
+#mapScale{
+display:inline-block;        /* 🔥 KLUCZ */
+transform-origin:top center;
+}
+
+/* ===== BASE GRID 1441x752 ===== */
 
 .mapBase{
 position:relative;
 width:1441px;
 height:752px;
+flex:0 0 auto;               /* 🔥 blokuje flex stretch */
 background:url("gvg-map.png") no-repeat;
 background-size:100% 100%;
+border-radius:12px;
 }
 
-/* SCALE WRAPPER */
-
-#mapScale{
-transform-origin:top center;
-}
-
-/* NODE */
+/* ===== NODE ===== */
 
 .node{
 position:absolute;
@@ -30,7 +36,7 @@ flex-direction:column;
 align-items:center;
 }
 
-/* STACK */
+/* ===== STACK ===== */
 
 .towerStack{
 display:flex;
@@ -38,7 +44,7 @@ flex-direction:column;
 gap:4px;
 }
 
-/* BOX */
+/* ===== INPUT BOX ===== */
 
 .tower{
 width:140px;
@@ -49,7 +55,10 @@ background:rgba(0,0,0,.55);
 color:white;
 text-align:center;
 font-size:14px;
+outline:none;
 }
+
+/* COLORS */
 
 .tower.purple{border-color:#a855f7;}
 .tower.teal{border-color:#2dd4bf;}
