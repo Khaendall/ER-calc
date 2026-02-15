@@ -46,7 +46,7 @@ body{
   background:#000c;
   padding:14px;
   font-size:13px;
-  max-width:340px;
+  max-width:360px;
   border-radius:8px;
 }
 
@@ -64,10 +64,11 @@ button{
 
 textarea{
   width:100%;
-  height:220px;
+  height:260px;
   background:#111;
   color:#0f0;
   margin-top:8px;
+  font-size:12px;
 }
 
 </style>
@@ -81,20 +82,20 @@ textarea{
 
 <div class="panel">
 
-  <div>
-    COLOR:
-    <button id="blueBtn">Blue</button>
-    <button id="purpleBtn">Purple</button>
-    <button id="redBtn">Red</button>
-    <button id="yellowBtn">Yellow</button>
-  </div>
+<div>
+COLOR:
+<button id="blueBtn">Blue</button>
+<button id="purpleBtn">Purple</button>
+<button id="redBtn">Red</button>
+<button id="yellowBtn">Yellow</button>
+</div>
 
-  <hr>
+<hr>
 
-  <button id="undoBtn">UNDO</button>
-  <button id="clearBtn">CLEAR ALL</button>
+<button id="undoBtn">UNDO</button>
+<button id="clearBtn">CLEAR ALL</button>
 
-  <textarea id="output"></textarea>
+<textarea id="output"></textarea>
 
 </div>
 
@@ -112,9 +113,8 @@ const yellowBtn = document.getElementById("yellowBtn");
 const undoBtn = document.getElementById("undoBtn");
 const clearBtn = document.getElementById("clearBtn");
 
-let currentColor = "blue";
-let markers = [];
-let data = [];
+let currentColor="blue";
+let data=[];
 
 function setActive(btn){
   [blueBtn,purpleBtn,redBtn,yellowBtn].forEach(b=>b.classList.remove("active"));
@@ -125,7 +125,6 @@ blueBtn.onclick=()=>{currentColor="blue";setActive(blueBtn);}
 purpleBtn.onclick=()=>{currentColor="purple";setActive(purpleBtn);}
 redBtn.onclick=()=>{currentColor="red";setActive(redBtn);}
 yellowBtn.onclick=()=>{currentColor="yellow";setActive(yellowBtn);}
-
 setActive(blueBtn);
 
 map.addEventListener("click", e => {
@@ -135,56 +134,87 @@ map.addEventListener("click", e => {
   const x = ((e.clientX - rect.left) / rect.width) * 100;
   const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-  createMarker(x,y,currentColor);
-
-});
-
-function createMarker(x,y,type){
-
-  const box = document.createElement("div");
-  box.className = "marker " + type;
-  box.style.left = x+"%";
-  box.style.top = y+"%";
-
-  wrapper.appendChild(box);
-
-  markers.push(box);
-
   data.push({
     x:Number(x.toFixed(2)),
     y:Number(y.toFixed(2)),
-    type:type
+    type:currentColor
   });
 
-  renderOutput();
-}
+  updateTextarea();
+  renderFromTextarea();
+
+});
 
 undoBtn.onclick=()=>{
-  if(markers.length===0) return;
-
-  const last = markers.pop();
-  last.remove();
   data.pop();
-  renderOutput();
+  updateTextarea();
+  renderFromTextarea();
 };
 
 clearBtn.onclick=()=>{
-  markers.forEach(m=>m.remove());
-  markers=[];
   data=[];
-  renderOutput();
+  updateTextarea();
+  renderFromTextarea();
 };
 
-function renderOutput(){
+function updateTextarea(){
 
-  let txt = "SKOPIUJ DO map.js:\n\n";
+  let txt="";
 
   data.forEach(p=>{
-    txt += `{ x:${p.x}, y:${p.y}, type:"${p.type}" },\n`;
+    txt+=`{ x:${p.x}, y:${p.y}, type:"${p.type}" },\n`;
   });
 
-  output.value = txt;
+  output.value=txt;
 }
+
+function clearMarkers(){
+  document.querySelectorAll(".marker").forEach(m=>m.remove());
+}
+
+function createMarker(p){
+
+  const box=document.createElement("div");
+  box.className="marker "+p.type;
+  box.style.left=p.x+"%";
+  box.style.top=p.y+"%";
+  wrapper.appendChild(box);
+}
+
+function renderFromTextarea(){
+
+  clearMarkers();
+
+  let lines = output.value.split("\n");
+
+  data=[];
+
+  lines.forEach(line=>{
+
+    try{
+
+      if(!line.includes("{")) return;
+
+      const obj = eval("("+line.replace(",","")+")");
+
+      if(obj.x!=null){
+
+        data.push(obj);
+        createMarker(obj);
+
+      }
+
+    }catch(err){}
+
+  });
+
+}
+
+output.addEventListener("input", ()=>{
+
+  renderFromTextarea();
+
+});
 
 </script>
 
