@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>Guild Defense</title>
 
-<link rel="stylesheet" href="shared/style.css">
-<link rel="stylesheet" href="map/map.css">
-</head>
+<!-- 🔥 NAJWAŻNIEJSZE – poprawne ścieżki pod GitHub Pages -->
+<link rel="stylesheet" href="/ER-calc/shared/style.css">
+<link rel="stylesheet" href="/ER-calc/map/map.css">
 
+</head>
 <body>
 
-<nav class="topbar">
+<nav class="top-nav">
     <a href="/ER-calc/index.html">Speed Tool</a>
-    <a class="active" href="map.html">Guild Defense</a>
+    <a href="/ER-calc/map.html" class="active">Guild Defense</a>
 </nav>
 
 <div class="map-wrapper">
-    <div id="mapContainer" class="map-container">
 
-        <img id="mapImage"
-             src="map/gvg-map.png"
-             class="map-image">
+    <img src="/ER-calc/assets/gvg-map.png" class="map-bg">
 
-        <div id="boxLayer"></div>
+    <div id="boxLayer"></div>
 
-    </div>
 </div>
 
 <button id="clearAllBtn">Clear All</button>
