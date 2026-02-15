@@ -1,32 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>Guild Defense</title>
 
-<!-- 🔥 NAJWAŻNIEJSZE – poprawne ścieżki pod GitHub Pages -->
-<link rel="stylesheet" href="/ER-calc/shared/style.css">
 <link rel="stylesheet" href="/ER-calc/map/map.css">
-
 </head>
+
 <body>
 
-<nav class="top-nav">
-    <a href="/ER-calc/index.html">Speed Tool</a>
-    <a href="/ER-calc/map.html" class="active">Guild Defense</a>
-</nav>
+<div class="topnav">
+<a href="/ER-calc/index.html">Speed Tool</a>
+<a class="active">Guild Defense</a>
+</div>
 
 <div class="map-wrapper">
 
-    <img src="/ER-calc/map/gvg-map.png" class="map-bg">
+<img src="/ER-calc/map/gvg-map.png" class="map-image">
 
-    <div id="boxLayer"></div>
+<div id="boxes"></div>
+
+<button id="clearBtn">Clear All</button>
 
 </div>
-
-<button id="clearAllBtn">Clear All</button>
 
 <script src="/ER-calc/map/map.js"></script>
 
