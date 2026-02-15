@@ -1,95 +1,67 @@
-const boxLayer = document.getElementById("boxLayer");
-const STORAGE_KEY = "gvg-defense-map";
+const data = [
 
-/*
-Współrzędne są zapisane względem referencji:
-1441 x 752
-(left = x/1441 * 100%)
-(top  = y/752  * 100%)
-*/
+/* ==== RED (3) ==== */
+{c:"red",x:17,y:16},
+{c:"red",x:17,y:21},
+{c:"red",x:17,y:26},
 
-const boxes = [
+/* ==== YELLOW (2) ==== */
+{c:"yellow",x:33,y:18},
+{c:"yellow",x:13,y:40},
 
-/* ===== CZERWONE (3) ===== */
-{ id:"r1", x:425, y:90,  color:"red" },
-{ id:"r2", x:425, y:140, color:"red" },
-{ id:"r3", x:425, y:190, color:"red" },
+/* ==== PURPLE (14) ==== */
+{c:"purple",x:10,y:28},
+{c:"purple",x:10,y:33},
 
-/* ===== ŻÓŁTE (2) ===== */
-{ id:"y1", x:675, y:150, color:"yellow" },
-{ id:"y2", x:265, y:300, color:"yellow" },
+{c:"purple",x:42,y:22},
+{c:"purple",x:42,y:27},
 
-/* ===== FIOLETOWE (14) ===== */
-{ id:"p1", x:200, y:220, color:"purple" },
-{ id:"p2", x:200, y:260, color:"purple" },
+{c:"purple",x:66,y:33},
+{c:"purple",x:66,y:38},
 
-{ id:"p3", x:580, y:180, color:"purple" },
-{ id:"p4", x:580, y:220, color:"purple" },
+{c:"purple",x:26,y:60},
+{c:"purple",x:26,y:65},
 
-{ id:"p5", x:830, y:180, color:"purple" },
-{ id:"p6", x:830, y:220, color:"purple" },
+{c:"purple",x:46,y:52},
+{c:"purple",x:46,y:57},
 
-{ id:"p7", x:1010, y:350, color:"purple" },
-{ id:"p8", x:1010, y:390, color:"purple" },
+{c:"purple",x:72,y:54},
+{c:"purple",x:72,y:59},
 
-{ id:"p9", x:1040, y:470, color:"purple" },
-{ id:"p10", x:1040, y:510, color:"purple" },
+{c:"purple",x:52,y:72},
+{c:"purple",x:52,y:77},
 
-{ id:"p11", x:620, y:360, color:"purple" },
-{ id:"p12", x:620, y:400, color:"purple" },
+/* ==== BLUE (11) ==== */
+{c:"blue",x:28,y:36},
+{c:"blue",x:38,y:36},
+{c:"blue",x:48,y:36},
+{c:"blue",x:58,y:36},
 
-{ id:"p13", x:520, y:520, color:"purple" },
-{ id:"p14", x:520, y:560, color:"purple" },
+{c:"blue",x:24,y:44},
+{c:"blue",x:34,y:44},
+{c:"blue",x:44,y:44},
+{c:"blue",x:54,y:44},
 
-/* ===== NIEBIESKIE (11) ===== */
-{ id:"b1", x:420, y:300, color:"blue" },
-{ id:"b2", x:520, y:300, color:"blue" },
-{ id:"b3", x:700, y:300, color:"blue" },
-{ id:"b4", x:900, y:300, color:"blue" },
+{c:"blue",x:64,y:66},
+{c:"blue",x:76,y:66},
+{c:"blue",x:86,y:66},
 
-{ id:"b5", x:420, y:360, color:"blue" },
-{ id:"b6", x:520, y:360, color:"blue" },
-{ id:"b7", x:700, y:360, color:"blue" },
-{ id:"b8", x:900, y:360, color:"blue" },
-
-{ id:"b9", x:380, y:430, color:"blue" },
-{ id:"b10", x:780, y:430, color:"blue" },
-{ id:"b11", x:1150, y:420, color:"blue" },
 ];
 
-const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+const wrap = document.getElementById("boxes");
 
-boxes.forEach(b => {
+data.forEach(d=>{
+const div=document.createElement("div");
+div.className=`map-box ${d.c}`;
+div.style.left=d.x+"%";
+div.style.top=d.y+"%";
 
-    const el = document.createElement("input");
+const input=document.createElement("input");
+div.appendChild(input);
 
-    el.className = `defense-box ${b.color}`;
-    el.style.left = (b.x / 1441 * 100) + "%";
-    el.style.top  = (b.y / 752  * 100) + "%";
-
-    el.value = saved[b.id] || "";
-
-    el.addEventListener("input", () => {
-        saved[b.id] = el.value;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-        autoResizeText(el);
-    });
-
-    autoResizeText(el);
-    boxLayer.appendChild(el);
+wrap.appendChild(div);
 });
 
-function autoResizeText(el){
-    let size = 14;
-    el.style.fontSize = size + "px";
-
-    while(el.scrollWidth > el.clientWidth && size > 8){
-        size--;
-        el.style.fontSize = size + "px";
-    }
-}
-
-document.getElementById("clearAllBtn").onclick = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    document.querySelectorAll(".defense-box").forEach(b=>b.value="");
+document.getElementById("clearBtn").onclick=()=>{
+document.querySelectorAll(".map-box input").forEach(i=>i.value="");
 };
