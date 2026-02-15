@@ -1,5 +1,3 @@
-/* ===== LOCAL STORAGE SAVE ===== */
-
 const towers = document.querySelectorAll(".tower");
 
 towers.forEach(input => {
@@ -16,8 +14,6 @@ localStorage.setItem(key, input.value);
 });
 
 });
-
-/* ===== CLEAR MAP ===== */
 
 function clearMap(){
 
