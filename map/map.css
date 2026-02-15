@@ -24,8 +24,13 @@ font-weight:bold;
 .map-wrapper{
 position:relative;
 width:90%;
-max-width:1500px;
+max-width:1200px;
 margin:40px auto;
+
+border:2px solid #a855f7; /* ramka */
+border-radius:14px;
+padding:10px;
+background:#0c0c0c;
 }
 
 .map-image{
