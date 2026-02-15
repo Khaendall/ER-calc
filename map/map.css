@@ -10,8 +10,8 @@ padding:20px;
 position:relative;
 width:1441px;
 height:752px;
-background:url("gvg-map.png") no-repeat center/cover;
-border-radius:12px;
+background:url("gvg-map.png") no-repeat;
+background-size:100% 100%;
 }
 
 /* SCALE WRAPPER */
