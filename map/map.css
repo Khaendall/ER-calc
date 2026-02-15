@@ -30,27 +30,24 @@ margin:40px auto;
 border-radius:14px;
 background:#0c0c0c;
 overflow:hidden;
+
+/* 🔥 pozwala cqw działać */
+container-type:inline-size;
 }
 
-/* 🔥 PRO BORDER OVERLAY — NADPISUJE KRAWĘDZIE MAPY */
-.map-wrapper{
-position:relative;
-width:90%;
-max-width:1400px;
-margin:40px auto;
-
-border-radius:14px;
-background:#0c0c0c;
-overflow:hidden;
-
-/* 🔥 KLUCZ DO DZIAŁANIA cqw */
-container-type:inline-size;
+.map-wrapper::after{
+content:"";
+position:absolute;
+inset:-1px;
+border-radius:16px;
+border:3px solid #a855f7;
+pointer-events:none;
+z-index:10;
 }
 
 .map-image{
 width:100%;
 display:block;
-border-radius:14px;
 }
 
 /* ===== BOXES ===== */
@@ -73,7 +70,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-/* 🔥 GLOBAL SCALE — KLUCZ */
+/* 🔥 GLOBAL SCALE */
 font-size:1.2cqw;
 }
 
@@ -85,22 +82,14 @@ outline:none;
 color:white;
 text-align:center;
 
-font-size:clamp(16px,0.9vw,24px); /* ⭐ responsive base */
+/* 🔥 RESPONSIVE FONT */
+font-size:1em;
 line-height:1;
 white-space:nowrap;
 overflow:hidden;
 }
 
-.map-box input{
-width:90%;
-background:transparent;
-border:none;
-outline:none;
-color:white;
-text-align:center;
-}
-
-/* ===== BOX COLORS (SCOPED + FUTURE PROOF) ===== */
+/* ===== BOX COLORS ===== */
 
 .map-box.purple{ --box-color:#bb6cff; }
 .map-box.blue{ --box-color:#45e3e3; }
