@@ -14,6 +14,7 @@
 <!-- ================= ENEMY PANEL ================= -->
 
 <div class="panel enemyPanel">
+
 <h3>Enemy Speed Detect</h3>
 
 <div class="enemyGrid">
@@ -26,13 +27,11 @@
 
 </div>
 
-<!-- RESULT (AUTO HIDE) -->
+<!-- BIG ENEMY RESULT -->
 
-<div id="enemySpeedBlock">
-<div class="resultRow">
-<span>Enemy Speed</span>
-<span id="enemySPD"></span>
-</div>
+<div id="enemySpeedBlock" class="totalBox hiddenBox">
+<div class="totalLabel">Enemy Speed</div>
+<div id="enemySPD" class="totalValue"></div>
 </div>
 
 </div>
@@ -87,9 +86,7 @@
 
 <label>Enemy Speed Manual</label> <input id="enemymanual">
 
-<!-- RESULT (AUTO HIDE) -->
-
-<div id="enemyRawBlock">
+<div id="enemyRawBlock" class="hiddenBox">
 <div class="resultRow">
 <span>Enemy Raw Modules Speed</span>
 <span id="enemyModule"></span>
