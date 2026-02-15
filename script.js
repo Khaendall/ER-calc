@@ -44,9 +44,9 @@ calc();
 .catch(()=>console.warn("Hero database failed to load"));
 
 document.querySelectorAll("input,select")
-.forEach(e=>{
-e.addEventListener("input",calc);
-e.addEventListener("change",calc);
+.forEach(node=>{
+node.addEventListener("input",calc);
+node.addEventListener("change",calc);
 });
 
 function calc(){
@@ -141,7 +141,7 @@ el.enemyRawBlock.classList.toggle("showResult",A9!==null);
 }
 
 function clearAll(){
-document.querySelectorAll("input").forEach(el=>el.value="");
+document.querySelectorAll("input").forEach(inp=>inp.value="");
 el.dataSource.value="manual";
 el.hero.selectedIndex=0;
 calc();
