@@ -48,17 +48,16 @@ const boxData = [
 
 ];
 
-/* ===== SMART AUTO TEXT FIT (FINAL PRO VERSION) ===== */
+
+/* ===== SMART AUTO TEXT FIT — FINAL UNIVERSAL ===== */
 
 function smartFitText(input){
 
-  // reset do bazowego rozmiaru z CSS
+  // reset do wartości z CSS (clamp/vw/em)
   input.style.fontSize = "";
 
-  let computed = window.getComputedStyle(input);
-  let size = parseFloat(computed.fontSize);
+  let size = parseFloat(getComputedStyle(input).fontSize);
 
-  // zmniejszaj tylko jeśli overflow
   while(input.scrollWidth > input.clientWidth && size > 8){
     size -= 0.5;
     input.style.fontSize = size + "px";
@@ -66,22 +65,17 @@ function smartFitText(input){
 }
 
 function refreshAllText(){
-  document.querySelectorAll(".map-box input").forEach(inp=>{
-    smartFitText(inp);
-  });
+  document.querySelectorAll(".map-box input")
+    .forEach(inp => smartFitText(inp));
 }
 
-/* 🔥 AUTO EVENT SYSTEM — DZIAŁA NA PRZYSZŁE BOXy TEŻ */
-document.addEventListener("input", (e)=>{
+document.addEventListener("input", e=>{
   if(e.target.matches(".map-box input")){
     smartFitText(e.target);
   }
 });
 
-/* 🔥 REAKCJA NA RESIZE */
 window.addEventListener("resize", refreshAllText);
-
-/* 🔥 PIERWSZE PRZELICZENIE PO ZAŁADOWANIU */
 window.addEventListener("load", refreshAllText);
 
 
@@ -89,7 +83,7 @@ window.addEventListener("load", refreshAllText);
 
 const container = document.getElementById("boxes");
 
-boxData.forEach((b,i)=>{
+boxData.forEach(b=>{
 
   const div = document.createElement("div");
   div.className = `map-box ${b.type}`;
@@ -99,23 +93,19 @@ boxData.forEach((b,i)=>{
 
   const input = document.createElement("input");
 
-  input.addEventListener("input",()=>{
-    autoFitText(input);
-  });
-
   div.appendChild(input);
   container.appendChild(div);
 
 });
 
+
 /* ===== CLEAR ALL ===== */
 
-document.getElementById("clearBtn").onclick=()=>{
+document.getElementById("clearBtn").onclick = ()=>{
 
-  document.querySelectorAll(".map-box input")
-  .forEach(i=>{
+  document.querySelectorAll(".map-box input").forEach(i=>{
     i.value="";
-    i.style.fontSize="14px";
+    i.style.fontSize=""; // 🔥 reset do responsive CSS
   });
 
 };
