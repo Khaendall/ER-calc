@@ -9,7 +9,6 @@ fetch(CSV_LINK)
 csv.trim().split("\n").forEach(r=>{
 const c=r.split(",");
 DB[c[0]]={base:+c[1],prow:+c[2]};
-
 const opt=document.createElement("option");
 opt.value=c[0];
 opt.textContent=c[0];
@@ -36,13 +35,23 @@ let B2=0,C2=0;
 
 if(!manualMode){
 const heroData=DB[hero.value]||{base:0,prow:0};
+
 B2=heroData.base;
 C2=heroData.prow;
+
 baseSPD.value=B2;
 prowSPD.value=C2;
+
+baseSPD.disabled=true;
+prowSPD.disabled=true;
+
 }else{
+
 B2=Number(baseSPD.value)||0;
 C2=Number(prowSPD.value)||0;
+
+baseSPD.disabled=false;
+prowSPD.disabled=false;
 }
 
 const D2=Number(shell.value)||0;
@@ -59,17 +68,9 @@ let A4=(G8>0)
 :B2*(1+E2/100)+C2+D2+40+G10;
 
 const newTotal=Math.round(A4);
-
-if(lastTotal!==null && lastTotal!==newTotal){
-totalSPD.classList.remove("update");
-void totalSPD.offsetWidth;
-totalSPD.classList.add("update");
-}
-
 totalSPD.innerText=newTotal;
-lastTotal=newTotal;
 
-/* ===== ENEMY CALC ===== */
+/* ENEMY CALC */
 
 const B7=Number(myspd.value)||0;
 const C7=mytm.value;
@@ -90,9 +91,6 @@ else if(E7!==0)
 A9=E7-(B2*(1+E2/100))-C2-D2-40;
 
 enemyModule.innerText=A9?Math.round(A9):"";
-
-const enemySpeedBlock=document.getElementById("enemySpeedBlock");
-const enemyRawBlock=document.getElementById("enemyRawBlock");
 
 enemySpeedBlock.classList.toggle("showResult",A7!=="");
 enemyRawBlock.classList.toggle("showResult",A9!=="");
