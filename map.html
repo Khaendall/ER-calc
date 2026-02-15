@@ -16,9 +16,13 @@
 </div>
 
 <div class="mapPage">
+
 <div class="mapWrapper">
 
 <img src="map/gvg-map.png" class="mapImage">
+
+<!-- ===== OVERLAY LAYER (BOXES) ===== -->
+<div class="mapOverlay">
 
 <!-- ===== PURPLE LEFT TOP (2) ===== -->
 <div class="node" style="top:28%;left:9%">
@@ -71,7 +75,7 @@
 </div>
 </div>
 
-<!-- ===== TEAL LINE (18 TOTAL) ===== -->
+<!-- ===== TEAL LINE ===== -->
 
 <div class="node" style="top:36%;left:34%">
 <input class="tower teal" data-id="t14">
@@ -138,12 +142,15 @@
 <input class="tower teal" data-id="t31">
 </div>
 
-</div>
+</div> <!-- mapOverlay -->
+
+</div> <!-- mapWrapper -->
 
 <button class="clearBtn" onclick="clearMap()">Clear All</button>
 
 </div>
 
 <script src="map/map.js"></script>
+
 </body>
 </html>
