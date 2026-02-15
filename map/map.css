@@ -62,12 +62,29 @@ border-radius:8px;
 background:rgba(0,0,0,0.35);
 backdrop-filter:blur(6px);
 
-border:2px solid var(--box-color, #ffffff); /* 🔥 future proof */
+border:2px solid var(--box-color,#ffffff);
 box-sizing:border-box;
 
 display:flex;
 align-items:center;
 justify-content:center;
+
+/* 🔥 GLOBAL SCALE — KLUCZ */
+font-size:1.2cqw;
+}
+
+.map-box input{
+width:92%;
+background:transparent;
+border:none;
+outline:none;
+color:white;
+text-align:center;
+
+font-size:1em;
+line-height:1;
+white-space:nowrap;
+overflow:hidden;
 }
 
 .map-box input{
