@@ -74,14 +74,14 @@ font-size:1.2cqw;
 }
 
 .map-box input{
-width:92%;
+width:90%;
 background:transparent;
 border:none;
 outline:none;
 color:white;
 text-align:center;
 
-font-size:1em;
+font-size:clamp(12px, 1vw, 18px); /* ⭐ responsive base */
 line-height:1;
 white-space:nowrap;
 overflow:hidden;
