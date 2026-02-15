@@ -48,19 +48,42 @@ const boxData = [
 
 ];
 
-/* ===== AUTO TEXT FIT FUNCTION ===== */
+/* ===== SMART AUTO TEXT FIT (FINAL PRO VERSION) ===== */
 
-function autoFitText(input){
+function smartFitText(input){
 
-  let size = 16;            // startowy rozmiar
-  input.style.fontSize = size + "px";
+  // reset do bazowego rozmiaru z CSS
+  input.style.fontSize = "1em";
 
-  // zmniejszaj dopóki tekst nie mieści się w boxie
+  let computed = window.getComputedStyle(input);
+  let size = parseFloat(computed.fontSize);
+
+  // zmniejszaj tylko jeśli overflow
   while(input.scrollWidth > input.clientWidth && size > 8){
-    size--;
+    size -= 0.5;
     input.style.fontSize = size + "px";
   }
 }
+
+function refreshAllText(){
+  document.querySelectorAll(".map-box input").forEach(inp=>{
+    smartFitText(inp);
+  });
+}
+
+/* 🔥 AUTO EVENT SYSTEM — DZIAŁA NA PRZYSZŁE BOXy TEŻ */
+document.addEventListener("input", (e)=>{
+  if(e.target.matches(".map-box input")){
+    smartFitText(e.target);
+  }
+});
+
+/* 🔥 REAKCJA NA RESIZE */
+window.addEventListener("resize", refreshAllText);
+
+/* 🔥 PIERWSZE PRZELICZENIE PO ZAŁADOWANIU */
+window.addEventListener("load", refreshAllText);
+
 
 /* ===== RENDER ===== */
 
