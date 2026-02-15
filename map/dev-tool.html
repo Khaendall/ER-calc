@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DEV TOOL PRO</title>
+
+<style>
+
+body{
+  margin:0;
+  background:#111;
+  font-family:Arial;
+  color:white;
+}
+
+.wrapper{
+  max-width:1400px;
+  margin:auto;
+  position:relative;
+}
+
+.map{
+  width:100%;
+  display:block;
+}
+
+.marker{
+  position:absolute;
+  width:160px;
+  height:36px;
+  transform:translate(-50%,-50%);
+  border-radius:8px;
+  pointer-events:none;
+}
+
+.blue{ border:2px solid #00eaff; }
+.purple{ border:2px solid #c16bff; }
+.red{ border:2px solid #ff4d4d; }
+.yellow{ border:2px solid #ffd84d; }
+
+.panel{
+  position:fixed;
+  right:20px;
+  top:20px;
+  background:#000c;
+  padding:14px;
+  font-size:13px;
+  width:360px;
+}
+
+button{
+  margin:3px;
+  padding:6px 10px;
+}
+
+textarea{
+  width:100%;
+  height:260px;
+  background:#111;
+  color:#0f0;
+  margin-top:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper" id="wrapper">
+  <img src="/ER-calc/map/gvg-map.png" id="map" class="map">
+</div>
+
+<div class="panel">
+
+COLOR:
+<button onclick="setColor('blue')">Blue</button>
+<button onclick="setColor('purple')">Purple</button>
+<button onclick="setColor('red')">Red</button>
+<button onclick="setColor('yellow')">Yellow</button>
+
+<hr>
+
+<button onclick="undo()">UNDO</button>
+<button onclick="clearAll()">CLEAR</button>
+
+<textarea id="output"></textarea>
+
+</div>
+
+<script>
+
+const map=document.getElementById("map");
+const wrapper=document.getElementById("wrapper");
+const output=document.getElementById("output");
+
+let currentColor="blue";
+
+function setColor(c){
+  currentColor=c;
+}
+
+function parseTextarea(){
+
+  const lines=output.value.split("\n");
+  const arr=[];
+
+  lines.forEach(l=>{
+
+    const match=l.match(/x:(.*?), y:(.*?), type:"(.*?)"/);
+
+    if(match){
+
+      arr.push({
+        x:parseFloat(match[1]),
+        y:parseFloat(match[2]),
+        type:match[3]
+      });
+
+    }
+
+  });
+
+  return arr;
+}
+
+function render(){
+
+  document.querySelectorAll(".marker").forEach(m=>m.remove());
+
+  const data=parseTextarea();
+
+  data.forEach(p=>{
+
+    const div=document.createElement("div");
+    div.className="marker "+p.type;
+    div.style.left=p.x+"%";
+    div.style.top=p.y+"%";
+    wrapper.appendChild(div);
+
+  });
+
+}
+
+map.addEventListener("click",e=>{
+
+  const rect=map.getBoundingClientRect();
+
+  const x=((e.clientX-rect.left)/rect.width*100).toFixed(2);
+  const y=((e.clientY-rect.top)/rect.height*100).toFixed(2);
+
+  output.value+=`{ x:${x}, y:${y}, type:"${currentColor}" },\n`;
+
+  render();
+
+});
+
+function undo(){
+
+  let lines=output.value.trim().split("\n");
+  lines.pop();
+  output.value=lines.join("\n")+"\n";
+  render();
+
+}
+
+function clearAll(){
+  output.value="";
+  render();
+}
+
+output.addEventListener("input",render);
+
+</script>
+
+</body>
+</html>

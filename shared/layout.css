@@ -1,0 +1,16 @@
+.topNav{
+text-align:center;
+padding:14px;
+background:var(--bg-panel);
+}
+
+.topNav a{
+color:#c77dff;
+margin:0 12px;
+text-decoration:none;
+font-weight:600;
+}
+
+.topNav a.active{
+color:white;
+}
