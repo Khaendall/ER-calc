@@ -53,7 +53,7 @@ const boxData = [
 function smartFitText(input){
 
   // reset do bazowego rozmiaru z CSS
-  input.style.fontSize = "1em";
+  input.style.fontSize = "";
 
   let computed = window.getComputedStyle(input);
   let size = parseFloat(computed.fontSize);
