@@ -1,83 +1,95 @@
-const REF_WIDTH = 1441;
-const REF_HEIGHT = 752;
+const boxLayer = document.getElementById("boxLayer");
+const STORAGE_KEY = "gvg-defense-map";
 
-const BOXES = [
+/*
+Współrzędne są zapisane względem referencji:
+1441 x 752
+(left = x/1441 * 100%)
+(top  = y/752  * 100%)
+*/
 
-/* ===== RED (3) ===== */
-{ x:470, y:120, type:"purple"},
-{ x:470, y:160, type:"purple"},
-{ x:470, y:200, type:"purple"},
+const boxes = [
 
-/* ===== LEFT PURPLE (2) ===== */
-{ x:220, y:220, type:"purple"},
-{ x:220, y:260, type:"purple"},
+/* ===== CZERWONE (3) ===== */
+{ id:"r1", x:425, y:90,  color:"red" },
+{ id:"r2", x:425, y:140, color:"red" },
+{ id:"r3", x:425, y:190, color:"red" },
 
-/* ===== YELLOW (2) ===== */
-{ x:350, y:300, type:"yellow"},
-{ x:740, y:140, type:"yellow"},
+/* ===== ŻÓŁTE (2) ===== */
+{ id:"y1", x:675, y:150, color:"yellow" },
+{ id:"y2", x:265, y:300, color:"yellow" },
 
-/* ===== TOP RIGHT PURPLE (2) ===== */
-{ x:980, y:160, type:"purple"},
-{ x:980, y:200, type:"purple"},
+/* ===== FIOLETOWE (14) ===== */
+{ id:"p1", x:200, y:220, color:"purple" },
+{ id:"p2", x:200, y:260, color:"purple" },
 
-/* ===== CYAN GRID ===== */
-{ x:560,y:260,type:"cyan"},
-{ x:700,y:260,type:"cyan"},
-{ x:840,y:260,type:"cyan"},
-{ x:460,y:300,type:"cyan"},
-{ x:600,y:300,type:"cyan"},
-{ x:740,y:300,type:"cyan"},
-{ x:880,y:300,type:"cyan"},
-{ x:460,y:340,type:"cyan"},
-{ x:600,y:340,type:"cyan"},
-{ x:740,y:340,type:"cyan"},
-{ x:880,y:340,type:"cyan"},
-{ x:560,y:380,type:"cyan"},
-{ x:700,y:380,type:"cyan"},
-{ x:840,y:380,type:"cyan"},
-{ x:980,y:380,type:"cyan"},
-{ x:1100,y:380,type:"cyan"},
-{ x:1200,y:380,type:"cyan"},
+{ id:"p3", x:580, y:180, color:"purple" },
+{ id:"p4", x:580, y:220, color:"purple" },
 
-/* ===== LOWER PURPLE ===== */
-{ x:720,y:420,type:"purple"},
-{ x:720,y:460,type:"purple"},
-{ x:960,y:420,type:"purple"},
-{ x:960,y:460,type:"purple"}
+{ id:"p5", x:830, y:180, color:"purple" },
+{ id:"p6", x:830, y:220, color:"purple" },
 
+{ id:"p7", x:1010, y:350, color:"purple" },
+{ id:"p8", x:1010, y:390, color:"purple" },
+
+{ id:"p9", x:1040, y:470, color:"purple" },
+{ id:"p10", x:1040, y:510, color:"purple" },
+
+{ id:"p11", x:620, y:360, color:"purple" },
+{ id:"p12", x:620, y:400, color:"purple" },
+
+{ id:"p13", x:520, y:520, color:"purple" },
+{ id:"p14", x:520, y:560, color:"purple" },
+
+/* ===== NIEBIESKIE (11) ===== */
+{ id:"b1", x:420, y:300, color:"blue" },
+{ id:"b2", x:520, y:300, color:"blue" },
+{ id:"b3", x:700, y:300, color:"blue" },
+{ id:"b4", x:900, y:300, color:"blue" },
+
+{ id:"b5", x:420, y:360, color:"blue" },
+{ id:"b6", x:520, y:360, color:"blue" },
+{ id:"b7", x:700, y:360, color:"blue" },
+{ id:"b8", x:900, y:360, color:"blue" },
+
+{ id:"b9", x:380, y:430, color:"blue" },
+{ id:"b10", x:780, y:430, color:"blue" },
+{ id:"b11", x:1150, y:420, color:"blue" },
 ];
 
-const mapImage = document.getElementById("mapImage");
-const boxLayer = document.getElementById("boxLayer");
+const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
 
-function renderBoxes(){
+boxes.forEach(b => {
 
-    boxLayer.innerHTML = "";
+    const el = document.createElement("input");
 
-    const scaleX = mapImage.clientWidth / REF_WIDTH;
-    const scaleY = mapImage.clientHeight / REF_HEIGHT;
+    el.className = `defense-box ${b.color}`;
+    el.style.left = (b.x / 1441 * 100) + "%";
+    el.style.top  = (b.y / 752  * 100) + "%";
 
-    BOXES.forEach((b,i)=>{
+    el.value = saved[b.id] || "";
 
-        const div = document.createElement("input");
-        div.className = `map-box box-${b.type}`;
-        div.style.left = (b.x * scaleX) + "px";
-        div.style.top  = (b.y * scaleY) + "px";
-
-        div.value = localStorage.getItem("box_"+i) || "";
-
-        div.addEventListener("input",()=>{
-            localStorage.setItem("box_"+i, div.value);
-        });
-
-        boxLayer.appendChild(div);
+    el.addEventListener("input", () => {
+        saved[b.id] = el.value;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        autoResizeText(el);
     });
+
+    autoResizeText(el);
+    boxLayer.appendChild(el);
+});
+
+function autoResizeText(el){
+    let size = 14;
+    el.style.fontSize = size + "px";
+
+    while(el.scrollWidth > el.clientWidth && size > 8){
+        size--;
+        el.style.fontSize = size + "px";
+    }
 }
 
-mapImage.onload = renderBoxes;
-window.addEventListener("resize", renderBoxes);
-
-document.getElementById("clearAllBtn").onclick = ()=>{
-    localStorage.clear();
-    renderBoxes();
+document.getElementById("clearAllBtn").onclick = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll(".defense-box").forEach(b=>b.value="");
 };
