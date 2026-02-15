@@ -39,7 +39,7 @@ border-radius:14px;
 .map-box{
 position:absolute;
 transform:translate(-50%,-50%);
-width:12%;
+width:10%;
 height:5%;
 border-radius:8px;
 background:rgba(0,0,0,0.35);
