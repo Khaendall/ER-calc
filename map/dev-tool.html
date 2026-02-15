@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MAP DEV TOOL</title>
+
+<style>
+body{
+  margin:0;
+  background:#111;
+  font-family:Arial;
+}
+
+.wrapper{
+  max-width:1400px;
+  margin:auto;
+  position:relative;
+}
+
+.map{
+  width:100%;
+  display:block;
+  border-radius:12px;
+}
+
+.marker{
+  position:absolute;
+  width:160px;
+  height:36px;
+  transform:translate(-50%,-50%);
+  border:2px solid cyan;
+  border-radius:8px;
+  pointer-events:none;
+}
+
+.panel{
+  position:fixed;
+  right:20px;
+  top:20px;
+  background:#000c;
+  padding:12px;
+  color:white;
+  font-size:12px;
+  max-width:320px;
+  white-space:pre;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper" id="wrapper">
+
+  <!-- WAŻNE: używamy TEGO SAMEGO obrazka -->
+  <img src="/ER-calc/map/gvg-map.png" id="map" class="map">
+
+</div>
+
+<div class="panel" id="output">
+Klikaj w mapę...
+</div>
+
+<script>
+
+const map = document.getElementById("map");
+const wrapper = document.getElementById("wrapper");
+const output = document.getElementById("output");
+
+let data = [];
+
+map.addEventListener("click", e => {
+
+  const rect = map.getBoundingClientRect();
+
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+  // twórz wizualny box
+  const box = document.createElement("div");
+  box.className = "marker";
+  box.style.left = x + "%";
+  box.style.top = y + "%";
+  wrapper.appendChild(box);
+
+  data.push({
+    x: Number(x.toFixed(2)),
+    y: Number(y.toFixed(2))
+  });
+
+  renderOutput();
+
+});
+
+function renderOutput(){
+  let txt = "SKOPIUJ DO map.js:\n\n";
+
+  data.forEach((p,i)=>{
+    txt += `{ x:${p.x}, y:${p.y}, type:"blue" },\n`;
+  });
+
+  output.textContent = txt;
+}
+
+</script>
+
+</body>
+</html>
