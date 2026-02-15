@@ -29,7 +29,7 @@ margin:40px auto;
 
 border:2px solid #a855f7; /* ramka */
 border-radius:14px;
-padding:10px;
+padding:-1px;
 background:#0c0c0c;
 }
 
@@ -44,12 +44,17 @@ border-radius:14px;
 .map-box{
 position:absolute;
 transform:translate(-50%,-50%);
+
 width:10%;
 height:5%;
+
 border-radius:8px;
 background:rgba(0,0,0,0.35);
 backdrop-filter:blur(6px);
-outline:2px solid;
+
+border:2px solid;          /* zamiast outline */
+box-sizing:border-box;     /* żeby border nie powiększał boxa */
+
 display:flex;
 align-items:center;
 justify-content:center;
