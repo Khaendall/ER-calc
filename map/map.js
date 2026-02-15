@@ -1,64 +1,78 @@
-const data = [
+/* ===== BOX DATA (31 TOTAL) ===== */
 
-{c:"red",x:17,y:16},
-{c:"red",x:17,y:21},
-{c:"red",x:17,y:26},
+const boxData = [
 
-{c:"yellow",x:33,y:18},
-{c:"yellow",x:13,y:40},
+{ x:25.93, y:21.20, type:"red" },
+{ x:25.93, y:15.5, type:"red" },
+{ x:25.93, y:9.85, type:"red" },
 
-{c:"purple",x:10,y:28},
-{c:"purple",x:10,y:33},
+{ x:37.90, y:25, type:"purple" },
+{ x:37.90, y:19.30, type:"purple" },
 
-{c:"purple",x:42,y:22},
-{c:"purple",x:42,y:27},
+{ x:17.21, y:35, type:"purple" },
+{ x:17.21, y:29.30, type:"purple" },
 
-{c:"purple",x:66,y:33},
-{c:"purple",x:66,y:38},
+{ x:12.93, y:42.60, type:"yellow" },
+{ x:49.80, y:20.11, type:"yellow" },
 
-{c:"purple",x:26,y:60},
-{c:"purple",x:26,y:65},
+{ x:61.79, y:25.27, type:"purple" },
+{ x:61.79, y:19.65, type:"purple" },
 
-{c:"purple",x:46,y:52},
-{c:"purple",x:46,y:57},
+{ x:50.14, y:34.30, type:"blue" },
+{ x:39.21, y:40.3, type:"blue" },
+{ x:27.29, y:47.57, type:"blue" },
 
-{c:"purple",x:72,y:54},
-{c:"purple",x:72,y:59},
+{ x:18.21, y:63.20, type:"purple" },
+{ x:18.21, y:57.55, type:"purple" },
 
-{c:"purple",x:52,y:72},
-{c:"purple",x:52,y:77},
+{ x:49.1, y:54.6, type:"purple" },
+{ x:49.1, y:49, type:"purple" },
 
-/* ==== BLUE (11) ==== */
-{c:"blue",x:28,y:36},
-{c:"blue",x:38,y:36},
-{c:"blue",x:48,y:36},
-{c:"blue",x:58,y:36},
+{ x:73.5, y:54.72, type:"purple" },
+{ x:73.5, y:49.1, type:"purple" },
 
-{c:"blue",x:24,y:44},
-{c:"blue",x:34,y:44},
-{c:"blue",x:44,y:44},
-{c:"blue",x:54,y:44},
+{ x:56.64, y:79, type:"purple" },
+{ x:56.64, y:73.3, type:"purple" },
 
-{c:"blue",x:64,y:66},
-{c:"blue",x:76,y:66},
-{c:"blue",x:86,y:66},
+{ x:61.2, y:47.52, type:"blue" },
+{ x:67.79, y:34.02, type:"blue" },
+
+{ x:83.36, y:61, type:"blue" },
+{ x:69.36, y:66.5, type:"blue" },
+
+{ x:42.64, y:60.97, type:"blue" },
+{ x:31.36, y:68.50, type:"blue" },
+
+{ x:72.64, y:83.72, type:"blue" },
+{ x:86.50, y:79.35, type:"blue" },
 
 ];
 
-const wrap = document.getElementById("boxes");
+/* ===== RENDER ===== */
 
-data.forEach(d=>{
-const div=document.createElement("div");
-div.className=`map-box ${d.c}`;
-div.style.left=d.x+"%";
-div.style.top=d.y+"%";
+const container = document.getElementById("boxes");
 
-const input=document.createElement("input");
-div.appendChild(input);
+boxData.forEach((b,i)=>{
 
-wrap.appendChild(div);
+  const div = document.createElement("div");
+  div.className = `map-box ${b.type}`;
+
+  div.style.left = b.x + "%";
+  div.style.top  = b.y + "%";
+
+  const input = document.createElement("input");
+  input.placeholder = "";
+
+  div.appendChild(input);
+  container.appendChild(div);
+
 });
 
-document.getElementById("clearBtn").onclick=()=>{
-document.querySelectorAll(".map-box input").forEach(i=>i.value="");
+/* ===== CLEAR ALL BUTTON ===== */
+
+document.getElementById("clearBtn").onclick = ()=>{
+
+  document.querySelectorAll(".map-box input")
+  .forEach(i=>i.value="");
+
 };
