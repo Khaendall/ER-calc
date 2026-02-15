@@ -1,0 +1,152 @@
+*{box-sizing:border-box;}
+
+body{
+background:#000;
+font-family:Arial, Helvetica, sans-serif;
+display:flex;
+justify-content:center;
+padding:30px;
+color:#e5e7eb;
+}
+
+.app{
+width:900px;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.panel{
+background:#111;
+border:1px solid #333;
+padding:16px;
+border-radius:12px;
+display:flex;
+flex-direction:column;
+gap:8px;
+width:100%;
+transition:.25s ease;
+}
+
+.topRow{
+display:flex;
+gap:20px;
+align-items:flex-start;
+}
+
+.enemyPanel{
+width:100%;
+}
+
+.topRow .panel{
+flex:1;
+}
+
+label{
+font-size:13px;
+opacity:0.8;
+}
+
+input,select{
+background:#1a1a1a;
+border:1px solid #333;
+color:white;
+padding:6px;
+border-radius:6px;
+transition:.18s ease;
+}
+
+input:focus,select:focus{
+outline:none;
+border-color:#3b82f6;
+box-shadow:0 0 0 1px #3b82f6;
+}
+
+input:disabled{
+opacity:0.6;
+}
+
+.result{
+background:#1f2937;
+padding:6px;
+border-radius:6px;
+text-align:center;
+}
+
+.totalBox{
+background:#25344f;
+padding:20px;
+text-align:center;
+border-radius:12px;
+margin-top:10px;
+transition:.25s ease;
+}
+
+.totalValue{
+font-size:34px;
+font-weight:bold;
+transition:.25s ease;
+}
+
+.update{
+animation:pulse .35s ease;
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1)}
+}
+
+.enemyGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-bottom:12px;
+}
+
+.clearBtn{
+position:fixed;
+right:30px;
+bottom:30px;
+height:42px;
+padding:0 18px;
+cursor:pointer;
+background:#ef4444;
+color:white;
+border:none;
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,.4);
+transition:.2s ease;
+z-index:999;
+}
+
+.clearBtn:hover{
+transform:translateY(-2px);
+background:#ff5a5a;
+}
+
+#heroBlock{
+transition:.25s ease;
+}
+
+#heroBlock.hidden{
+opacity:0;
+height:0;
+overflow:hidden;
+pointer-events:none;
+}
+
+.hiddenBox{
+opacity:0;
+transform:translateY(-8px);
+max-height:0;
+overflow:hidden;
+transition:.25s ease;
+}
+
+.showResult{
+opacity:1!important;
+transform:translateY(0)!important;
+max-height:140px!important;
+}
