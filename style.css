@@ -9,16 +9,12 @@ padding:30px;
 color:#e5e7eb;
 }
 
-/* ===== APP ===== */
-
 .app{
 width:900px;
 display:flex;
 flex-direction:column;
 gap:20px;
 }
-
-/* ===== PANELS ===== */
 
 .panel{
 background:#111;
@@ -29,35 +25,12 @@ display:flex;
 flex-direction:column;
 gap:8px;
 width:100%;
-transition:.25s ease;
 }
-
-.panel:hover
-
-/* ===== GRID ===== */
 
 .topRow{
 display:flex;
 gap:20px;
 }
-/* ===== FIX LAYOUT ROW ===== */
-
-.enemyPanel{
- width:100%;
-}
-
-.topRow{
- display:flex;
- gap:20px;
- align-items:flex-start;
-}
-
-/* żeby oba panele miały równą szerokość */
-.topRow .panel{
- flex:1;
-}
-
-/* ===== INPUTS ===== */
 
 label{
 font-size:13px;
@@ -70,20 +43,9 @@ border:1px solid #333;
 color:white;
 padding:6px;
 border-radius:6px;
-transition:.18s ease;
 }
-
-input:focus,select:focus{
-outline:none;
-border-color:#3b82f6;
-box-shadow:0 0 0 1px #3b82f6;
-}
-
-/* DB MODE INPUT COLOR (WRACA) */
 
 input:disabled
-
-/* ===== RESULT SMALL ===== */
 
 .result{
 background:#1f2937;
@@ -92,7 +54,20 @@ border-radius:6px;
 text-align:center;
 }
 
-/* ===== BIG RESULT BOX ===== */
+.or{
+text-align:center;
+margin:8px 0;
+opacity:0.7;
+}
+
+.enemyGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-bottom:12px;
+}
+
+/* BIG RESULT BOX */
 
 .totalBox{
 background:#25344f;
@@ -106,31 +81,15 @@ transition:.25s ease;
 .totalValue{
 font-size:34px;
 font-weight:bold;
-transition:.25s ease;
 }
 
-/* ANIMACJA WYNIKU (WRACA) */
-
-.update{
-animation:pulse .35s ease;
+.resultRow{
+display:flex;
+justify-content:space-between;
+margin-top:6px;
 }
 
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.05)}
-100%{transform:scale(1)}
-}
-
-/* ===== ENEMY GRID ===== */
-
-.enemyGrid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-margin-bottom:12px;
-}
-
-/* ===== CLEAR BUTTON ===== */
+/* CLEAR BUTTON */
 
 .clearBtn{
 position:fixed;
@@ -143,17 +102,10 @@ background:#ef4444;
 color:white;
 border:none;
 border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,.4);
-transition:.2s ease;
 z-index:999;
 }
 
-.clearBtn:hover{
-transform:translateY(-2px);
-background:#ff5a5a;
-}
-
-/* ===== HERO BLOCK ANIMATION ===== */
+/* HERO ANIMATION */
 
 #heroBlock{
 transition:.25s ease;
@@ -166,11 +118,11 @@ overflow:hidden;
 pointer-events:none;
 }
 
-/* ===== RESULT AUTO SHOW ===== */
+/* HIDDEN RESULT */
 
 .hiddenBox{
 opacity:0;
-transform:translateY(-8px);
+transform:translateY(-6px);
 max-height:0;
 overflow:hidden;
 transition:.25s ease;
@@ -179,5 +131,5 @@ transition:.25s ease;
 .showResult{
 opacity:1!important;
 transform:translateY(0)!important;
-max-height:140px!important;
+max-height:120px!important;
 }
