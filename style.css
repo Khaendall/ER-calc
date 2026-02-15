@@ -40,6 +40,22 @@ transition:.25s ease;
 display:flex;
 gap:20px;
 }
+/* ===== FIX LAYOUT ROW ===== */
+
+.enemyPanel{
+ width:100%;
+}
+
+.topRow{
+ display:flex;
+ gap:20px;
+ align-items:flex-start;
+}
+
+/* żeby oba panele miały równą szerokość */
+.topRow .panel{
+ flex:1;
+}
 
 /* ===== INPUTS ===== */
 
