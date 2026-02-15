@@ -1,25 +1,19 @@
-const towers = document.querySelectorAll(".tower");
+function updateScale(){
 
-towers.forEach(input => {
+const base = document.querySelector(".mapBase");
+const wrapper = document.getElementById("mapScale");
 
-const key = "tower_" + input.dataset.id;
-const saved = localStorage.getItem(key);
+const scale = Math.min(
+window.innerWidth / base.offsetWidth,
+1
+);
 
-if(saved){
-input.value = saved;
+wrapper.style.transform = `scale(${scale})`;
 }
 
-input.addEventListener("input", () => {
-localStorage.setItem(key, input.value);
-});
-
-});
+window.addEventListener("resize",updateScale);
+window.addEventListener("load",updateScale);
 
 function clearMap(){
-
-document.querySelectorAll(".tower").forEach(el=>{
-el.value="";
-localStorage.removeItem("tower_"+el.dataset.id);
-});
-
+document.querySelectorAll(".tower").forEach(el=>el.value="");
 }
