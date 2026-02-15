@@ -1,86 +1,83 @@
-const boxLayer = document.getElementById("boxLayer");
+const REF_WIDTH = 1441;
+const REF_HEIGHT = 752;
 
 const BOXES = [
 
-/* --- RED (3) --- */
-{ x: 21.5, y: 16.5, color:"red"},
-{ x: 21.5, y: 22.0, color:"red"},
-{ x: 21.5, y: 27.5, color:"red"},
+/* ===== RED (3) ===== */
+{ x:470, y:120, type:"purple"},
+{ x:470, y:160, type:"purple"},
+{ x:470, y:200, type:"purple"},
 
-/* --- PURPLE TOP LEFT (2) --- */
-{ x: 10.5, y: 30.0, color:"purple"},
-{ x: 10.5, y: 35.5, color:"purple"},
+/* ===== LEFT PURPLE (2) ===== */
+{ x:220, y:220, type:"purple"},
+{ x:220, y:260, type:"purple"},
 
-/* --- YELLOW LEFT (1) --- */
-{ x: 13.5, y: 45.5, color:"yellow"},
+/* ===== YELLOW (2) ===== */
+{ x:350, y:300, type:"yellow"},
+{ x:740, y:140, type:"yellow"},
 
-/* --- PURPLE TOP MID (1) --- */
-{ x: 36.5, y: 25.0, color:"purple"},
+/* ===== TOP RIGHT PURPLE (2) ===== */
+{ x:980, y:160, type:"purple"},
+{ x:980, y:200, type:"purple"},
 
-/* --- YELLOW MID (1) --- */
-{ x: 47.0, y: 21.5, color:"yellow"},
+/* ===== CYAN GRID ===== */
+{ x:560,y:260,type:"cyan"},
+{ x:700,y:260,type:"cyan"},
+{ x:840,y:260,type:"cyan"},
+{ x:460,y:300,type:"cyan"},
+{ x:600,y:300,type:"cyan"},
+{ x:740,y:300,type:"cyan"},
+{ x:880,y:300,type:"cyan"},
+{ x:460,y:340,type:"cyan"},
+{ x:600,y:340,type:"cyan"},
+{ x:740,y:340,type:"cyan"},
+{ x:880,y:340,type:"cyan"},
+{ x:560,y:380,type:"cyan"},
+{ x:700,y:380,type:"cyan"},
+{ x:840,y:380,type:"cyan"},
+{ x:980,y:380,type:"cyan"},
+{ x:1100,y:380,type:"cyan"},
+{ x:1200,y:380,type:"cyan"},
 
-/* --- PURPLE TOP RIGHT (2) --- */
-{ x: 62.0, y: 24.5, color:"purple"},
-{ x: 62.0, y: 30.0, color:"purple"},
-
-/* --- CYAN MAIN ROW --- */
-{ x: 34.0, y: 43.0, color:"cyan"},
-{ x: 44.0, y: 42.5, color:"cyan"},
-{ x: 54.5, y: 42.5, color:"cyan"},
-{ x: 65.0, y: 42.5, color:"cyan"},
-
-/* --- CYAN CENTER STACK --- */
-{ x: 38.5, y: 48.5, color:"cyan"},
-{ x: 48.5, y: 48.5, color:"cyan"},
-{ x: 58.0, y: 48.5, color:"cyan"},
-
-/* --- PURPLE CENTER (2) --- */
-{ x: 48.0, y: 54.5, color:"purple"},
-{ x: 48.0, y: 59.5, color:"purple"},
-
-/* --- CYAN LEFT LOWER --- */
-{ x: 28.0, y: 53.5, color:"cyan"},
-{ x: 28.0, y: 60.5, color:"cyan"},
-
-/* --- CYAN RIGHT LOWER --- */
-{ x: 67.0, y: 55.0, color:"cyan"},
-{ x: 76.5, y: 55.0, color:"cyan"},
-
-/* --- PURPLE RIGHT MID --- */
-{ x: 67.0, y: 50.0, color:"purple"},
-{ x: 76.5, y: 50.0, color:"purple"},
-
-/* --- CYAN BOTTOM --- */
-{ x: 30.0, y: 67.0, color:"cyan"},
-{ x: 44.0, y: 67.0, color:"cyan"},
-{ x: 58.0, y: 67.0, color:"cyan"},
-{ x: 72.0, y: 67.0, color:"cyan"},
-
-/* --- PURPLE BOTTOM STACK --- */
-{ x: 45.0, y: 74.0, color:"purple"},
-{ x: 45.0, y: 79.0, color:"purple"},
-
-/* --- CYAN FAR RIGHT --- */
-{ x: 86.0, y: 61.0, color:"cyan"}
+/* ===== LOWER PURPLE ===== */
+{ x:720,y:420,type:"purple"},
+{ x:720,y:460,type:"purple"},
+{ x:960,y:420,type:"purple"},
+{ x:960,y:460,type:"purple"}
 
 ];
 
-function createBox(data){
+const mapImage = document.getElementById("mapImage");
+const boxLayer = document.getElementById("boxLayer");
 
-    const box = document.createElement("input");
-    box.type = "text";
-    box.className = "mapBox " + data.color;
+function renderBoxes(){
 
-    box.style.left = data.x + "%";
-    box.style.top  = data.y + "%";
-    box.style.transform = "translate(-50%,-50%)";
+    boxLayer.innerHTML = "";
 
-    boxLayer.appendChild(box);
+    const scaleX = mapImage.clientWidth / REF_WIDTH;
+    const scaleY = mapImage.clientHeight / REF_HEIGHT;
+
+    BOXES.forEach((b,i)=>{
+
+        const div = document.createElement("input");
+        div.className = `map-box box-${b.type}`;
+        div.style.left = (b.x * scaleX) + "px";
+        div.style.top  = (b.y * scaleY) + "px";
+
+        div.value = localStorage.getItem("box_"+i) || "";
+
+        div.addEventListener("input",()=>{
+            localStorage.setItem("box_"+i, div.value);
+        });
+
+        boxLayer.appendChild(div);
+    });
 }
 
-BOXES.forEach(createBox);
+mapImage.onload = renderBoxes;
+window.addEventListener("resize", renderBoxes);
 
-document.getElementById("clearAllBtn").onclick = () => {
-    document.querySelectorAll(".mapBox").forEach(b=>b.value="");
+document.getElementById("clearAllBtn").onclick = ()=>{
+    localStorage.clear();
+    renderBoxes();
 };
