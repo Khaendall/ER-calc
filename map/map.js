@@ -1,4 +1,4 @@
-/* ===== BOX DATA (31 TOTAL) ===== */
+/* ===== BOX DATA ===== */
 
 const boxData = [
 
@@ -48,6 +48,20 @@ const boxData = [
 
 ];
 
+/* ===== AUTO TEXT FIT FUNCTION ===== */
+
+function autoFitText(input){
+
+  let size = 16;            // startowy rozmiar
+  input.style.fontSize = size + "px";
+
+  // zmniejszaj dopóki tekst nie mieści się w boxie
+  while(input.scrollWidth > input.clientWidth && size > 8){
+    size--;
+    input.style.fontSize = size + "px";
+  }
+}
+
 /* ===== RENDER ===== */
 
 const container = document.getElementById("boxes");
@@ -61,18 +75,24 @@ boxData.forEach((b,i)=>{
   div.style.top  = b.y + "%";
 
   const input = document.createElement("input");
-  input.placeholder = "";
+
+  input.addEventListener("input",()=>{
+    autoFitText(input);
+  });
 
   div.appendChild(input);
   container.appendChild(div);
 
 });
 
-/* ===== CLEAR ALL BUTTON ===== */
+/* ===== CLEAR ALL ===== */
 
-document.getElementById("clearBtn").onclick = ()=>{
+document.getElementById("clearBtn").onclick=()=>{
 
   document.querySelectorAll(".map-box input")
-  .forEach(i=>i.value="");
+  .forEach(i=>{
+    i.value="";
+    i.style.fontSize="14px";
+  });
 
 };
