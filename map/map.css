@@ -4,22 +4,24 @@ justify-content:center;
 padding:20px;
 }
 
+/* wrapper działa teraz w naturalnej rozdzielczości */
 .mapWrapper{
 position:relative;
-width:100%;
-max-width:1200px;
+transform-origin:top left;
 }
 
 .mapImage{
+display:block;
 width:100%;
+max-width:1200px;
 border-radius:12px;
 }
 
-/* ===== NODE ANCHOR ===== */
+/* ===== NODE (ANCHOR POINT) ===== */
 
 .node{
 position:absolute;
-transform:translate(-50%,-100%);
+transform:translate(-50%,-50%);
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -30,27 +32,36 @@ align-items:center;
 .towerStack{
 display:flex;
 flex-direction:column;
-gap:4px; /* MNIEJSZY ODSTĘP */
+gap:4px; /* mniejszy odstęp */
 }
 
-/* ===== TOWER ===== */
+/* ===== BOX ===== */
 
 .tower{
 width:140px;
 height:30px;
+
 border-radius:6px;
 border:2px solid;
-background:rgba(0,0,0,.6);
+
+background:rgba(0,0,0,.55);
 color:white;
 text-align:center;
+
 font-size:clamp(10px,1vw,14px);
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
+
 outline:none;
+transition:.15s ease;
 }
 
-/* COLORS */
+.tower:focus{
+box-shadow:0 0 0 2px #3b82f6;
+}
+
+/* ===== COLORS ===== */
 
 .tower.purple{ border-color:#a855f7; }
 .tower.teal{ border-color:#2dd4bf; }
