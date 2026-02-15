@@ -11,19 +11,17 @@
 <body>
 
 <div class="topNav">
-<a href="index.html">Speed Tool</a>
+<a href="../index.html">Speed Tool</a>
 <a href="map.html" class="active">Guild Defense</a>
 </div>
 
 <div class="mapStage">
 
 <div id="mapScale">
-
 <div class="mapBase">
 
-<!-- NODES (PX POSITION BASED ON 1441x752 IMAGE) -->
-
-<div class="node" style="left:260px;top:110px">
+<!-- ===== RED HUB (3) ===== -->
+<div class="node" style="left:355px;top:120px">
 <div class="towerStack">
 <input class="tower red">
 <input class="tower red">
@@ -31,28 +29,111 @@
 </div>
 </div>
 
-<div class="node" style="left:600px;top:120px">
+<!-- ===== PURPLE LEFT (2) ===== -->
+<div class="node" style="left:140px;top:220px">
+<div class="towerStack">
+<input class="tower purple">
+<input class="tower purple">
+</div>
+</div>
+
+<!-- ===== GOLD LEFT (1) ===== -->
+<div class="node" style="left:210px;top:300px">
 <input class="tower gold">
 </div>
 
-<div class="node" style="left:850px;top:140px">
+<!-- ===== GOLD TOP (1) ===== -->
+<div class="node" style="left:620px;top:140px">
+<input class="tower gold">
+</div>
+
+<!-- ===== PURPLE RIGHT TOP (2) ===== -->
+<div class="node" style="left:860px;top:160px">
 <div class="towerStack">
 <input class="tower purple">
 <input class="tower purple">
 </div>
 </div>
 
-<!-- reszta node tutaj — dokładnie wg Twojego pliku 1441x752 -->
+<!-- ===== TEAL LINE (RESZTA DO 31) ===== -->
 
+<div class="node" style="left:430px;top:300px"><input class="tower teal"></div>
+<div class="node" style="left:600px;top:300px"><input class="tower teal"></div>
+<div class="node" style="left:760px;top:300px"><input class="tower teal"></div>
+
+<div class="node" style="left:350px;top:360px">
+<div class="towerStack">
+<input class="tower teal">
+<input class="tower teal">
+</div>
 </div>
 
+<div class="node" style="left:520px;top:360px">
+<div class="towerStack">
+<input class="tower teal">
+<input class="tower teal">
+</div>
+</div>
+
+<div class="node" style="left:690px;top:360px">
+<div class="towerStack">
+<input class="tower teal">
+<input class="tower teal">
+</div>
+</div>
+
+<div class="node" style="left:310px;top:430px">
+<div class="towerStack">
+<input class="tower teal">
+<input class="tower teal">
+</div>
+</div>
+
+<div class="node" style="left:520px;top:440px">
+<div class="towerStack">
+<input class="tower purple">
+<input class="tower purple">
+</div>
+</div>
+
+<div class="node" style="left:720px;top:430px">
+<div class="towerStack">
+<input class="tower teal">
+<input class="tower teal">
+</div>
+</div>
+
+<div class="node" style="left:900px;top:430px">
+<div class="towerStack">
+<input class="tower purple">
+<input class="tower purple">
+</div>
+</div>
+
+<div class="node" style="left:260px;top:500px"><input class="tower teal"></div>
+<div class="node" style="left:430px;top:520px"><input class="tower teal"></div>
+<div class="node" style="left:610px;top:520px"><input class="tower purple"></div>
+<div class="node" style="left:790px;top:520px"><input class="tower teal"></div>
+<div class="node" style="left:980px;top:520px"><input class="tower teal"></div>
+
+<div class="node" style="left:640px;top:600px">
+<div class="towerStack">
+<input class="tower purple">
+<input class="tower purple">
+</div>
+</div>
+
+<div class="node" style="left:850px;top:610px"><input class="tower teal"></div>
+<div class="node" style="left:1050px;top:610px"><input class="tower teal"></div>
+
+</div>
 </div>
 
 <button class="clearBtn" onclick="clearMap()">Clear All</button>
 
 </div>
 
-<script src="map/map.js"></script>
+<script src="./map.js"></script>
 
 </body>
 </html>
