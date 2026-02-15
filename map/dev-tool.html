@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>MAP DEV TOOL PRO</title>
+<title>DEV TOOL PRO</title>
 
 <style>
 
@@ -22,7 +22,6 @@ body{
 .map{
   width:100%;
   display:block;
-  border-radius:12px;
 }
 
 .marker{
@@ -46,20 +45,12 @@ body{
   background:#000c;
   padding:14px;
   font-size:13px;
-  max-width:360px;
-  border-radius:8px;
+  width:360px;
 }
 
 button{
   margin:3px;
   padding:6px 10px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.active{
-  outline:2px solid white;
 }
 
 textarea{
@@ -68,7 +59,6 @@ textarea{
   background:#111;
   color:#0f0;
   margin-top:8px;
-  font-size:12px;
 }
 
 </style>
@@ -82,18 +72,16 @@ textarea{
 
 <div class="panel">
 
-<div>
 COLOR:
-<button id="blueBtn">Blue</button>
-<button id="purpleBtn">Purple</button>
-<button id="redBtn">Red</button>
-<button id="yellowBtn">Yellow</button>
-</div>
+<button onclick="setColor('blue')">Blue</button>
+<button onclick="setColor('purple')">Purple</button>
+<button onclick="setColor('red')">Red</button>
+<button onclick="setColor('yellow')">Yellow</button>
 
 <hr>
 
-<button id="undoBtn">UNDO</button>
-<button id="clearBtn">CLEAR ALL</button>
+<button onclick="undo()">UNDO</button>
+<button onclick="clearAll()">CLEAR</button>
 
 <textarea id="output"></textarea>
 
@@ -101,120 +89,86 @@ COLOR:
 
 <script>
 
-const map = document.getElementById("map");
-const wrapper = document.getElementById("wrapper");
-const output = document.getElementById("output");
-
-const blueBtn = document.getElementById("blueBtn");
-const purpleBtn = document.getElementById("purpleBtn");
-const redBtn = document.getElementById("redBtn");
-const yellowBtn = document.getElementById("yellowBtn");
-
-const undoBtn = document.getElementById("undoBtn");
-const clearBtn = document.getElementById("clearBtn");
+const map=document.getElementById("map");
+const wrapper=document.getElementById("wrapper");
+const output=document.getElementById("output");
 
 let currentColor="blue";
-let data=[];
 
-function setActive(btn){
-  [blueBtn,purpleBtn,redBtn,yellowBtn].forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
+function setColor(c){
+  currentColor=c;
 }
 
-blueBtn.onclick=()=>{currentColor="blue";setActive(blueBtn);}
-purpleBtn.onclick=()=>{currentColor="purple";setActive(purpleBtn);}
-redBtn.onclick=()=>{currentColor="red";setActive(redBtn);}
-yellowBtn.onclick=()=>{currentColor="yellow";setActive(yellowBtn);}
-setActive(blueBtn);
+function parseTextarea(){
 
-map.addEventListener("click", e => {
+  const lines=output.value.split("\n");
+  const arr=[];
 
-  const rect = map.getBoundingClientRect();
+  lines.forEach(l=>{
 
-  const x = ((e.clientX - rect.left) / rect.width) * 100;
-  const y = ((e.clientY - rect.top) / rect.height) * 100;
+    const match=l.match(/x:(.*?), y:(.*?), type:"(.*?)"/);
 
-  data.push({
-    x:Number(x.toFixed(2)),
-    y:Number(y.toFixed(2)),
-    type:currentColor
+    if(match){
+
+      arr.push({
+        x:parseFloat(match[1]),
+        y:parseFloat(match[2]),
+        type:match[3]
+      });
+
+    }
+
   });
 
-  updateTextarea();
-  renderFromTextarea();
+  return arr;
+}
 
-});
+function render(){
 
-undoBtn.onclick=()=>{
-  data.pop();
-  updateTextarea();
-  renderFromTextarea();
-};
+  document.querySelectorAll(".marker").forEach(m=>m.remove());
 
-clearBtn.onclick=()=>{
-  data=[];
-  updateTextarea();
-  renderFromTextarea();
-};
-
-function updateTextarea(){
-
-  let txt="";
+  const data=parseTextarea();
 
   data.forEach(p=>{
-    txt+=`{ x:${p.x}, y:${p.y}, type:"${p.type}" },\n`;
-  });
 
-  output.value=txt;
-}
-
-function clearMarkers(){
-  document.querySelectorAll(".marker").forEach(m=>m.remove());
-}
-
-function createMarker(p){
-
-  const box=document.createElement("div");
-  box.className="marker "+p.type;
-  box.style.left=p.x+"%";
-  box.style.top=p.y+"%";
-  wrapper.appendChild(box);
-}
-
-function renderFromTextarea(){
-
-  clearMarkers();
-
-  let lines = output.value.split("\n");
-
-  data=[];
-
-  lines.forEach(line=>{
-
-    try{
-
-      if(!line.includes("{")) return;
-
-      const obj = eval("("+line.replace(",","")+")");
-
-      if(obj.x!=null){
-
-        data.push(obj);
-        createMarker(obj);
-
-      }
-
-    }catch(err){}
+    const div=document.createElement("div");
+    div.className="marker "+p.type;
+    div.style.left=p.x+"%";
+    div.style.top=p.y+"%";
+    wrapper.appendChild(div);
 
   });
 
 }
 
-output.addEventListener("input", ()=>{
+map.addEventListener("click",e=>{
 
-  renderFromTextarea();
+  const rect=map.getBoundingClientRect();
+
+  const x=((e.clientX-rect.left)/rect.width*100).toFixed(2);
+  const y=((e.clientY-rect.top)/rect.height*100).toFixed(2);
+
+  output.value+=`{ x:${x}, y:${y}, type:"${currentColor}" },\n`;
+
+  render();
 
 });
+
+function undo(){
+
+  let lines=output.value.trim().split("\n");
+  lines.pop();
+  output.value=lines.join("\n")+"\n";
+  render();
+
+}
+
+function clearAll(){
+  output.value="";
+  render();
+}
+
+output.addEventListener("input",render);
 
 </script>
 
