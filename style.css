@@ -14,7 +14,6 @@ width:900px;
 display:flex;
 flex-direction:column;
 gap:20px;
-position:relative;
 }
 
 .panel{
@@ -27,12 +26,6 @@ flex-direction:column;
 gap:8px;
 width:100%;
 }
-
-.panel h3{
-margin:0 0 8px 0;
-}
-
-.enemyPanel{width:100%;}
 
 .topRow{
 display:flex;
@@ -51,6 +44,8 @@ color:white;
 padding:6px;
 border-radius:6px;
 }
+
+input:disabled
 
 .result{
 background:#1f2937;
@@ -72,12 +67,15 @@ gap:8px;
 margin-bottom:12px;
 }
 
+/* BIG RESULT BOX */
+
 .totalBox{
-background:#1f2a44;
+background:#25344f;
 padding:20px;
 text-align:center;
 border-radius:12px;
 margin-top:10px;
+transition:.25s ease;
 }
 
 .totalValue{
@@ -91,7 +89,7 @@ justify-content:space-between;
 margin-top:6px;
 }
 
-/* ===== CLEAR BUTTON ===== */
+/* CLEAR BUTTON */
 
 .clearBtn{
 position:fixed;
@@ -107,36 +105,31 @@ border-radius:10px;
 z-index:999;
 }
 
-/* ===== HERO BLOCK ANIMATION ===== */
+/* HERO ANIMATION */
 
 #heroBlock{
-transition:all .25s ease;
+transition:.25s ease;
 }
 
 #heroBlock.hidden{
 opacity:0;
-transform:translateY(-8px);
 height:0;
-margin:0;
 overflow:hidden;
 pointer-events:none;
 }
 
-/* ===== AUTO HIDE RESULTS ===== */
+/* HIDDEN RESULT */
 
-#enemySpeedBlock,
-#enemyRawBlock{
+.hiddenBox{
 opacity:0;
 transform:translateY(-6px);
-pointer-events:none;
 max-height:0;
 overflow:hidden;
-transition:all .25s ease;
+transition:.25s ease;
 }
 
 .showResult{
-opacity:1 !important;
-transform:translateY(0) !important;
-max-height:80px !important;
-pointer-events:auto !important;
+opacity:1!important;
+transform:translateY(0)!important;
+max-height:120px!important;
 }
