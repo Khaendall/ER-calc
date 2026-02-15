@@ -30,6 +30,7 @@ margin:40px auto;
 border:3px solid #a855f7; /* ramka */
 border-radius:14px;
 background:#0c0c0c;
+overflow:hidden;
 }
 
 .map-image{
