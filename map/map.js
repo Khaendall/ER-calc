@@ -1,6 +1,4 @@
-/* ===== BOX DATA ===== */
-
-const boxData = [
+const boxData=[
 
 { x:25.93, y:21.20, type:"red" },
 { x:25.93, y:15.5, type:"red" },
@@ -48,64 +46,51 @@ const boxData = [
 
 ];
 
-
-/* ===== SMART AUTO TEXT FIT — FINAL UNIVERSAL ===== */
+const container=document.getElementById("boxes");
 
 function smartFitText(input){
 
-  // reset do wartości z CSS (clamp/vw/em)
-  input.style.fontSize = "";
+const box=input.parentElement;
 
-  let size = parseFloat(getComputedStyle(input).fontSize);
+/* ⭐ START SIZE = % HEIGHT BOXA */
+let size=box.clientHeight*0.45;
 
-  while(input.scrollWidth > input.clientWidth && size > 8){
-    size -= 0.5;
-    input.style.fontSize = size + "px";
-  }
+input.style.fontSize=size+"px";
+
+while(input.scrollWidth>input.clientWidth && size>8){
+size-=0.5;
+input.style.fontSize=size+"px";
+}
 }
 
-function refreshAllText(){
-  document.querySelectorAll(".map-box input")
-    .forEach(inp => smartFitText(inp));
-}
-
-document.addEventListener("input", e=>{
-  if(e.target.matches(".map-box input")){
-    smartFitText(e.target);
-  }
+function refreshAll(){
+document.querySelectorAll(".map-box input").forEach(i=>{
+smartFitText(i);
 });
-
-window.addEventListener("resize", refreshAllText);
-window.addEventListener("load", refreshAllText);
-
-
-/* ===== RENDER ===== */
-
-const container = document.getElementById("boxes");
+}
 
 boxData.forEach(b=>{
 
-  const div = document.createElement("div");
-  div.className = `map-box ${b.type}`;
+const div=document.createElement("div");
+div.className=`map-box ${b.type}`;
+div.style.left=b.x+"%";
+div.style.top=b.y+"%";
 
-  div.style.left = b.x + "%";
-  div.style.top  = b.y + "%";
+const input=document.createElement("input");
 
-  const input = document.createElement("input");
+input.addEventListener("input",()=>smartFitText(input));
 
-  div.appendChild(input);
-  container.appendChild(div);
+div.appendChild(input);
+container.appendChild(div);
 
 });
 
+window.addEventListener("resize",refreshAll);
+window.addEventListener("load",refreshAll);
 
-/* ===== CLEAR ALL ===== */
-
-document.getElementById("clearBtn").onclick = ()=>{
-
-  document.querySelectorAll(".map-box input").forEach(i=>{
-    i.value="";
-    i.style.fontSize=""; // 🔥 reset do responsive CSS
-  });
-
+document.getElementById("clearBtn").onclick=()=>{
+document.querySelectorAll(".map-box input").forEach(i=>{
+i.value="";
+});
+refreshAll();
 };
