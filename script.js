@@ -2,6 +2,7 @@ const CSV_LINK="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCQD7EM8DG1oZVe
 
 let DB={};
 let lastTotal=null;
+let lastEnemy=null;
 
 fetch(CSV_LINK)
 .then(r=>r.text())
@@ -68,9 +69,17 @@ let A4=(G8>0)
 :B2*(1+E2/100)+C2+D2+40+G10;
 
 const newTotal=Math.round(A4);
-totalSPD.innerText=newTotal;
 
-/* ENEMY CALC */
+if(lastTotal!==null && lastTotal!==newTotal){
+totalSPD.classList.remove("update");
+void totalSPD.offsetWidth;
+totalSPD.classList.add("update");
+}
+
+totalSPD.innerText=newTotal;
+lastTotal=newTotal;
+
+/* ===== ENEMY CALC ===== */
 
 const B7=Number(myspd.value)||0;
 const C7=mytm.value;
@@ -80,7 +89,15 @@ let A7="";
 if(C7!=="")A7=B7/(Number(C7)/100);
 else if(D7!=="")A7=B7*(Number(D7)/100);
 
-enemySPD.innerText=A7?Math.round(A7):"";
+const enemyValue=A7?Math.round(A7):"";
+enemySPD.innerText=enemyValue;
+
+if(lastEnemy!==null && lastEnemy!==enemyValue){
+enemySPD.classList.remove("update");
+void enemySPD.offsetWidth;
+enemySPD.classList.add("update");
+}
+lastEnemy=enemyValue;
 
 const E7=Number(enemymanual.value)||0;
 
