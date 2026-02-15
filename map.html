@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Guild Defense Planner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guild Defense</title>
 
 <link rel="stylesheet" href="/ER-calc/shared/style.css">
 <link rel="stylesheet" href="/ER-calc/map/map.css">
@@ -10,130 +11,25 @@
 
 <body>
 
-<div class="topNav">
-<a href="/ER-calc/index.html">Speed Tool</a>
-<a href="map.html" class="active">Guild Defense</a>
-</div>
+<nav class="topbar">
+    <a href="index.html">Speed Tool</a>
+    <a class="active" href="map.html">Guild Defense</a>
+</nav>
 
-<div class="mapStage">
+<div class="map-wrapper">
 
-<div id="mapScale">
-<div class="mapBase">
+    <div id="mapContainer" class="map-container">
 
-<!-- RED HUB -->
-<div class="node" style="left:330px;top:145px">
-<div class="towerStack">
-<input class="tower red">
-<input class="tower red">
-<input class="tower red">
-</div>
-</div>
+        <img src="/ER-calc/map/map-bg.jpg" class="map-image">
 
-<!-- PURPLE LEFT -->
-<div class="node" style="left:130px;top:255px">
-<div class="towerStack">
-<input class="tower purple">
-<input class="tower purple">
-</div>
-</div>
+        <div id="boxLayer"></div>
 
-<!-- GOLD LEFT -->
-<div class="node" style="left:200px;top:315px">
-<input class="tower gold">
-</div>
-
-<!-- GOLD TOP -->
-<div class="node" style="left:570px;top:155px">
-<input class="tower gold">
-</div>
-
-<!-- PURPLE RIGHT TOP -->
-<div class="node" style="left:835px;top:190px">
-<div class="towerStack">
-<input class="tower purple">
-<input class="tower purple">
-</div>
-</div>
-
-<!-- ===== TEAL NETWORK ===== -->
-
-<div class="node" style="left:420px;top:305px"><input class="tower teal"></div>
-<div class="node" style="left:600px;top:300px"><input class="tower teal"></div>
-<div class="node" style="left:780px;top:300px"><input class="tower teal"></div>
-
-<div class="node" style="left:350px;top:365px">
-<div class="towerStack">
-<input class="tower teal">
-<input class="tower teal">
-</div>
-</div>
-
-<div class="node" style="left:520px;top:365px">
-<div class="towerStack">
-<input class="tower teal">
-<input class="tower teal">
-</div>
-</div>
-
-<div class="node" style="left:690px;top:365px">
-<div class="towerStack">
-<input class="tower teal">
-<input class="tower teal">
-</div>
-</div>
-
-<div class="node" style="left:310px;top:435px">
-<div class="towerStack">
-<input class="tower teal">
-<input class="tower teal">
-</div>
-</div>
-
-<div class="node" style="left:520px;top:440px">
-<div class="towerStack">
-<input class="tower purple">
-<input class="tower purple">
-</div>
-</div>
-
-<div class="node" style="left:720px;top:435px">
-<div class="towerStack">
-<input class="tower teal">
-<input class="tower teal">
-</div>
-</div>
-
-<div class="node" style="left:900px;top:440px">
-<div class="towerStack">
-<input class="tower purple">
-<input class="tower purple">
-</div>
-</div>
-
-<div class="node" style="left:260px;top:510px"><input class="tower teal"></div>
-<div class="node" style="left:430px;top:525px"><input class="tower teal"></div>
-<div class="node" style="left:610px;top:525px"><input class="tower purple"></div>
-<div class="node" style="left:790px;top:525px"><input class="tower teal"></div>
-<div class="node" style="left:980px;top:525px"><input class="tower teal"></div>
-
-<div class="node" style="left:640px;top:600px">
-<div class="towerStack">
-<input class="tower purple">
-<input class="tower purple">
-</div>
-</div>
-
-<div class="node" style="left:850px;top:615px"><input class="tower teal"></div>
-<div class="node" style="left:1050px;top:615px"><input class="tower teal"></div>
+    </div>
 
 </div>
-</div>
 
-<button class="clearBtn" onclick="clearMap()">Clear All</button>
-
-</div>
+<button id="clearAllBtn">Clear All</button>
 
 <script src="/ER-calc/map/map.js"></script>
-
 </body>
 </html>
