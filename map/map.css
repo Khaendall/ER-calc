@@ -81,7 +81,7 @@ outline:none;
 color:white;
 text-align:center;
 
-font-size:clamp(12px, 1vw, 18px); /* ⭐ responsive base */
+font-size:clamp(16px,0.9vw,24px); /* ⭐ responsive base */
 line-height:1;
 white-space:nowrap;
 overflow:hidden;
