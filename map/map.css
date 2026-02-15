@@ -33,14 +33,18 @@ overflow:hidden;
 }
 
 /* 🔥 PRO BORDER OVERLAY — NADPISUJE KRAWĘDZIE MAPY */
-.map-wrapper::after{
-content:"";
-position:absolute;
-inset:-1px;                 /* wchodzi 1px na obraz → maskuje szczeliny */
-border-radius:16px;         /* minimalnie większy radius */
-border:3px solid #a855f7;   /* kolor ramki */
-pointer-events:none;        /* NIE blokuje kliknięć */
-z-index:10;                 /* nad mapą i boxami */
+.map-wrapper{
+position:relative;
+width:90%;
+max-width:1400px;
+margin:40px auto;
+
+border-radius:14px;
+background:#0c0c0c;
+overflow:hidden;
+
+/* 🔥 KLUCZ DO DZIAŁANIA cqw */
+container-type:inline-size;
 }
 
 .map-image{
