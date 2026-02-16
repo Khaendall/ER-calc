@@ -46,6 +46,8 @@ color:var(--box-color, #ffffff);
 text-align:center;
 white-space:nowrap;
 overflow:hidden;
+font-size:1.35em;     /* 🔥 większa czcionka */
+font-weight:600;      /* 🔥 pogrubienie */
 }
 
 /* COLORS */
@@ -86,3 +88,4 @@ transform:scale(1.08);
   backdrop-filter:none !important;
   background:rgba(0,0,0,0.90) !important;
 }
+
