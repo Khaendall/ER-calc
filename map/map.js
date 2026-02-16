@@ -251,8 +251,10 @@ saveBtn.onclick = ()=>{
 
 const map = document.querySelector(".map-wrapper");
 
-/* 🔥 1. zamieniamy inputy na span na czas exportu */
+/* 🔥 EXPORT MODE ON */
+map.classList.add("export-mode");
 
+/* 🔥 zamiana input → span */
 const swaps=[];
 
 document.querySelectorAll(".map-box input").forEach(input=>{
@@ -271,7 +273,7 @@ swaps.push({input,span});
 
 });
 
-/* 🔥 2. export */
+/* 🔥 EXPORT */
 
 html2canvas(map,{
 backgroundColor:null,
@@ -284,7 +286,8 @@ link.download="guild-map.png";
 link.href=canvas.toDataURL("image/png");
 link.click();
 
-/* 🔥 3. przywracamy inputy */
+/* 🔥 RETURN NORMAL MODE */
+map.classList.remove("export-mode");
 
 swaps.forEach(s=>{
 s.span.remove();
