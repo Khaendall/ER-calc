@@ -71,7 +71,19 @@ document.querySelectorAll(".map-box input")
 
 const nameList = document.getElementById("nameList");
 
-boxData.forEach((b,index)=>{
+/* ===== SORT ORDER ===== */
+const order = {
+red:0,
+yellow:1,
+purple:2,
+blue:3
+};
+
+const sortedData=[...boxData].sort((a,b)=>order[a.type]-order[b.type]);
+
+const allBoxes=[];
+
+sortedData.forEach((b,index)=>{
 
 const div=document.createElement("div");
 div.className=`map-box ${b.type}`;
@@ -80,14 +92,17 @@ div.style.top=b.y+"%";
 
 const input=document.createElement("input");
 
-/* ===== INPUT NA LIŚCIE ===== */
-
 let listInput=null;
 
 if(nameList){
+
+const row=document.createElement("div");
+
 listInput=document.createElement("input");
-listInput.placeholder="Tower "+(index+1);
-nameList.appendChild(listInput);
+listInput.placeholder=`${b.type.toUpperCase()} ${index+1}`;
+
+row.appendChild(listInput);
+nameList.appendChild(row);
 }
 
 /* ===== MAP → LIST ===== */
@@ -106,8 +121,21 @@ smartFitText(input);
 });
 }
 
+/* ===== HIGHLIGHT ===== */
+
+if(listInput){
+listInput.addEventListener("focus",()=>{
+
+allBoxes.forEach(box=>box.classList.remove("active"));
+div.classList.add("active");
+
+});
+}
+
 div.appendChild(input);
 container.appendChild(div);
+
+allBoxes.push(div);
 
 });
 
@@ -119,7 +147,27 @@ const clearBtn=document.getElementById("clearBtn");
 if(clearBtn){
 clearBtn.onclick=()=>{
 document.querySelectorAll(".map-box input").forEach(i=>i.value="");
+document.querySelectorAll("#nameList input").forEach(i=>i.value="");
 refreshAll();
+};
+}
+
+/* ===== COPY ALL ===== */
+
+const copyBtn=document.getElementById("copyAllBtn");
+
+if(copyBtn){
+copyBtn.onclick=()=>{
+
+const values=[...document.querySelectorAll("#nameList input")]
+.map(i=>i.value)
+.filter(v=>v.trim()!=="");
+
+navigator.clipboard.writeText(values.join("\n"));
+
+copyBtn.textContent="Copied!";
+setTimeout(()=>copyBtn.textContent="Copy All",1000);
+
 };
 }
 
@@ -135,7 +183,6 @@ saveBtn.onclick = () => {
 
 const map = document.querySelector(".map-wrapper");
 
-// 🔥 WŁĄCZ TRYB EXPORTU (naprawia znikające tła)
 map.classList.add("export-mode");
 
 html2canvas(map,{
@@ -149,7 +196,6 @@ link.download="guild-map.png";
 link.href=canvas.toDataURL("image/png");
 link.click();
 
-// 🔥 PRZYWRÓĆ NORMALNY WYGLĄD
 map.classList.remove("export-mode");
 
 });

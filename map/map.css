@@ -111,3 +111,23 @@ color:white;
 padding:6px;
 border-radius:6px;
 }
+/* ===== LIST HIGHLIGHT ===== */
+
+.map-box.active{
+transform:translate(-50%,-50%) scale(1.15);
+box-shadow:0 0 18px var(--box-color,#fff);
+z-index:5;
+}
+
+/* COPY BUTTON */
+
+#copyAllBtn{
+width:100%;
+margin-bottom:8px;
+background:#4ade80;
+border:none;
+padding:8px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
