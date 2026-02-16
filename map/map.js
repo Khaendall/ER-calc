@@ -3,6 +3,16 @@ const container=document.getElementById("boxes");
 /* 🔥 SAFETY GUARD */
 if(container){
 
+const STORAGE_KEY="gvg-map-names";
+
+/* ===== LOAD SAVED DATA ===== */
+let savedData=[];
+try{
+savedData=JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+}catch(e){
+savedData=[];
+}
+
 const boxData=[
 
 { x:25.93, y:21.20, type:"red" },
@@ -51,6 +61,16 @@ const boxData=[
 
 ];
 
+/* ===== SAVE FUNCTION ===== */
+
+function saveAllNames(){
+
+const values=[...document.querySelectorAll(".map-box input")]
+.map(i=>i.value);
+
+localStorage.setItem(STORAGE_KEY,JSON.stringify(values));
+}
+
 /* ===================================================
    🔥 ULTRA PRO TEXT SCALING
 =================================================== */
@@ -58,16 +78,11 @@ const boxData=[
 function smartFitText(input){
 
 const box=input.parentElement;
-
-/* 🔥 liczymy z SZEROKOŚCI zamiast wysokości */
 let size = box.clientWidth * 0.16;
-
-/* limit żeby nie było gigantycznych liter */
 size = Math.min(size, 26);
 
 input.style.fontSize = size + "px";
 
-/* dopasowanie jeśli tekst za długi */
 while(input.scrollWidth > input.clientWidth && size > 8){
   size -= 0.5;
   input.style.fontSize = size + "px";
@@ -96,6 +111,11 @@ div.style.top=b.y+"%";
 
 const input=document.createElement("input");
 
+/* 🔥 LOAD SAVED VALUE */
+if(savedData[index]){
+input.value=savedData[index];
+}
+
 let listInput=null;
 
 if(nameList){
@@ -104,6 +124,10 @@ const row=document.createElement("div");
 
 listInput=document.createElement("input");
 listInput.placeholder=`${b.type.toUpperCase()} ${index+1}`;
+
+if(savedData[index]){
+listInput.value=savedData[index];
+}
 
 row.appendChild(listInput);
 nameList.appendChild(row);
@@ -114,6 +138,7 @@ nameList.appendChild(row);
 input.addEventListener("input",()=>{
 if(listInput) listInput.value=input.value;
 smartFitText(input);
+saveAllNames();
 });
 
 /* LIST → MAP */
@@ -122,6 +147,7 @@ if(listInput){
 listInput.addEventListener("input",()=>{
 input.value=listInput.value;
 smartFitText(input);
+saveAllNames();
 });
 }
 
@@ -151,8 +177,12 @@ const clearBtn=document.getElementById("clearBtn");
 
 if(clearBtn){
 clearBtn.onclick=()=>{
+
 document.querySelectorAll(".map-box input").forEach(i=>i.value="");
 document.querySelectorAll("#nameList input").forEach(i=>i.value="");
+
+localStorage.removeItem(STORAGE_KEY);   // 🔥 RESET SAVE
+
 refreshAll();
 };
 }
@@ -224,12 +254,7 @@ const map = document.querySelector(".map-wrapper");
 html2canvas(map,{
 backgroundColor:null,
 scale:2,
-
-/* 🔥 NIE RENDERUJ SAVE BUTTON */
-ignoreElements: (el)=>{
-return el.id === "saveBtn";
-}
-
+ignoreElements:(el)=>el.id==="saveBtn"
 }).then(canvas=>{
 
 const link=document.createElement("a");
