@@ -57,17 +57,13 @@ const boxData=[
 
 function smartFitText(input){
 
-const map=document.querySelector(".map-wrapper");
+const box=input.parentElement;
 
-const base=Math.max(map.clientWidth,map.clientHeight);
-
-/* 🔥 MAGIC VALUE — idealne proporcje */
-let size=base*0.015;
+let size = box.clientHeight * 0.6;   // 🔥 większy start
 
 input.style.fontSize=size+"px";
 
-/* auto shrink */
-while(input.scrollWidth>input.clientWidth && size>10){
+while(input.scrollWidth>box.clientWidth*0.92 && size>10){
 size-=0.5;
 input.style.fontSize=size+"px";
 }

@@ -38,16 +38,25 @@ justify-content:center;
 }
 
 .map-box input{
-width:92%;
-background:transparent;
-border:none;
-outline:none;
-color:var(--box-color, #ffffff);
+
+all:unset;                    /* 💥 reset shared UI input */
+
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+color:var(--box-color,#fff);
 text-align:center;
+font-weight:700;
+
 white-space:nowrap;
 overflow:hidden;
-font-size:1.35em;     /* 🔥 większa czcionka */
-font-weight:600;      /* 🔥 pogrubienie */
 }
 
 /* COLORS */
@@ -150,7 +159,18 @@ max-height:70vh;   /* normalna wysokość */
 /* 🔥 zwinięty panel = cienki pasek */
 
 .name-panel.collapsed{
-max-height:38px;   /* wysokość samego toggle */
+max-height:28px;
+padding:0;
+background:transparent;
+box-shadow:none;
+overflow:visible;   /* 🔥 żeby strzałka nie była ucięta */
+}
+.name-panel.collapsed #toggleListBtn{
+width:auto;
+margin:auto;
+background:transparent;
+padding:0;
+font-size:14px;
 }
 
 /* chowamy zawartość poza przyciskiem */
