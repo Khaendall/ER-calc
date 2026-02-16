@@ -211,30 +211,31 @@ namePanel.classList.contains("collapsed")
 
 }
 
-/* SAVE IMAGE */
+/* ===== SAVE MAP AS IMAGE ===== */
 
-const saveBtn=document.getElementById("saveBtn");
+const saveBtn = document.getElementById("saveBtn");
 
 if(saveBtn){
 
-saveBtn.onclick=()=>{
+saveBtn.onclick = ()=>{
 
-const map=document.querySelector(".map-wrapper");
-
-map.classList.add("export-mode");
+const map = document.querySelector(".map-wrapper");
 
 html2canvas(map,{
 backgroundColor:null,
-useCORS:true,
-scale:2
+scale:2,
+
+/* 🔥 NIE RENDERUJ SAVE BUTTON */
+ignoreElements: (el)=>{
+return el.id === "saveBtn";
+}
+
 }).then(canvas=>{
 
 const link=document.createElement("a");
 link.download="guild-map.png";
 link.href=canvas.toDataURL("image/png");
 link.click();
-
-map.classList.remove("export-mode");
 
 });
 
