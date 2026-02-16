@@ -1,0 +1,81 @@
+/* ===================================
+   CALC PAGE WRAPPER
+=================================== */
+
+.page-wrapper{
+max-width:1200px;
+margin:40px auto;
+padding:20px;
+}
+
+/* ===================================
+   GRID LAYOUT (NAPRAWA)
+=================================== */
+
+.calc-grid{
+display:grid;
+grid-template-columns: 1fr 320px;
+gap:40px;
+align-items:start;
+}
+
+@media(max-width:1000px){
+.calc-grid{
+grid-template-columns:1fr;
+}
+}
+
+/* ===================================
+   HERO SETUP PANEL
+=================================== */
+
+.calc-panel{
+background:#111;
+border-radius:14px;
+padding:18px;
+box-shadow:0 0 20px rgba(0,0,0,0.35);
+}
+
+/* ===================================
+   ENEMY DETECT CARD
+=================================== */
+
+.enemy-card{
+background:#151515;
+border-radius:12px;
+padding:16px;
+box-shadow:0 0 14px rgba(0,0,0,0.35);
+}
+
+/* ===================================
+   INPUT SECTIONS (z poprzedniej wersji)
+=================================== */
+
+.section-title{
+font-weight:bold;
+margin:14px 0 8px;
+opacity:0.9;
+}
+
+.calc-panel input,
+.calc-panel select{
+width:100%;
+background:#1a1a1a;
+border:none;
+outline:none;
+border-radius:8px;
+padding:8px;
+color:white;
+margin-bottom:6px;
+}
+
+/* ===================================
+   TOTAL SPD BOX
+=================================== */
+
+.total-box{
+margin-top:18px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
