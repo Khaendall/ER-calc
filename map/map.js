@@ -254,7 +254,8 @@ const map = document.querySelector(".map-wrapper");
 /* 🔥 EXPORT MODE ON */
 map.classList.add("export-mode");
 
-/* 🔥 zamiana input → span */
+/* 🔥 zamiana input → span (FIX ALIGN + NO DUPLICATE) */
+
 const swaps=[];
 
 document.querySelectorAll(".map-box input").forEach(input=>{
@@ -264,9 +265,16 @@ const span=document.createElement("span");
 span.textContent=input.value;
 span.style.color=getComputedStyle(input).color;
 span.style.fontWeight="bold";
+span.style.position="absolute";
+span.style.left="50%";
+span.style.top="50%";
+span.style.transform="translate(-50%,-50%)";
 span.style.pointerEvents="none";
+span.style.whiteSpace="nowrap";
 
-input.style.display="none";
+input.style.color="transparent";   // 🔥 zamiast display:none
+input.style.caretColor="transparent";
+
 input.parentElement.appendChild(span);
 
 swaps.push({input,span});
@@ -291,7 +299,8 @@ map.classList.remove("export-mode");
 
 swaps.forEach(s=>{
 s.span.remove();
-s.input.style.display="";
+s.input.style.color="";
+s.input.style.caretColor="";
 });
 
 });

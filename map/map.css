@@ -271,7 +271,7 @@ margin:0;
 /* ===== EXPORT MODE FIX ===== */
 
 .export-mode .map-box{
-background:rgba(0,0,0,0.65) !important;
+background:rgba(0,0,0,0.80) !important;
 backdrop-filter:none !important;
 }
 
