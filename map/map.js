@@ -64,10 +64,8 @@ const boxData=[
 /* ===== SAVE FUNCTION ===== */
 
 function saveAllNames(){
-
 const values=[...document.querySelectorAll(".map-box input")]
 .map(i=>i.value);
-
 localStorage.setItem(STORAGE_KEY,JSON.stringify(values));
 }
 
@@ -84,8 +82,8 @@ size = Math.min(size, 26);
 input.style.fontSize = size + "px";
 
 while(input.scrollWidth > input.clientWidth && size > 8){
-  size -= 0.5;
-  input.style.fontSize = size + "px";
+size -= 0.5;
+input.style.fontSize = size + "px";
 }
 }
 
@@ -111,7 +109,6 @@ div.style.top=b.y+"%";
 
 const input=document.createElement("input");
 
-/* 🔥 LOAD SAVED VALUE */
 if(savedData[index]){
 input.value=savedData[index];
 }
@@ -181,27 +178,100 @@ clearBtn.onclick=()=>{
 document.querySelectorAll(".map-box input").forEach(i=>i.value="");
 document.querySelectorAll("#nameList input").forEach(i=>i.value="");
 
-localStorage.removeItem(STORAGE_KEY);   // 🔥 RESET SAVE
+localStorage.removeItem(STORAGE_KEY);
 
 refreshAll();
 };
 }
 
-/* COPY ALL */
+/* ===================================================
+   ✅ EXPORT DEFENSE LIST (type#number name)
+=================================================== */
 
 const copyBtn=document.getElementById("copyAllBtn");
 
 if(copyBtn){
 copyBtn.onclick=()=>{
 
-const values=[...document.querySelectorAll("#nameList input")]
-.map(i=>i.value)
-.filter(v=>v.trim()!=="");
+const lines=[...document.querySelectorAll("#nameList input")]
+.map((input,index)=>{
 
-navigator.clipboard.writeText(values.join("\n"));
+const name=input.value.trim();
+if(!name) return null;
+
+const type=sortedData[index].type;
+const number=index+1;
+
+return `${type}#${number} ${name}`;
+
+})
+.filter(v=>v!==null);
+
+navigator.clipboard.writeText(lines.join("\n"));
 
 copyBtn.textContent="Copied!";
 setTimeout(()=>copyBtn.textContent="Copy All",1000);
+
+};
+}
+
+/* ===================================================
+   ✅ IMPORT DEFENSE LIST (SMART PARSER)
+=================================================== */
+
+function importDefenseList(text){
+
+const mapInputs=document.querySelectorAll(".map-box input");
+const listInputs=document.querySelectorAll("#nameList input");
+
+const lines=text.split("\n");
+
+lines.forEach(line=>{
+
+/* obsługuje:
+   red#1 Nick
+   red 1 Nick
+*/
+const match=line.match(/^(\w+)[#\s]+(\d+)\s+(.+)$/i);
+if(!match) return;
+
+const type=match[1].toLowerCase();
+const number=parseInt(match[2],10);
+const name=match[3];
+
+const index=sortedData.findIndex(
+(b,i)=>b.type===type && (i+1)===number
+);
+
+if(index===-1) return;
+
+if(mapInputs[index]){
+mapInputs[index].value=name;
+smartFitText(mapInputs[index]);
+}
+
+if(listInputs[index]){
+listInputs[index].value=name;
+}
+
+});
+
+saveAllNames();
+refreshAll();
+}
+
+/* IMPORT BUTTON (jeśli istnieje w HTML) */
+
+const importBtn=document.getElementById("importBtn");
+
+if(importBtn){
+importBtn.onclick=async()=>{
+
+const text=await navigator.clipboard.readText();
+importDefenseList(text);
+
+importBtn.textContent="Imported!";
+setTimeout(()=>importBtn.textContent="Import",1000);
 
 };
 }
@@ -251,10 +321,7 @@ saveBtn.onclick = ()=>{
 
 const map = document.querySelector(".map-wrapper");
 
-/* 🔥 EXPORT MODE ON */
 map.classList.add("export-mode");
-
-/* 🔥 zamiana input → span (FIX ALIGN + NO DUPLICATE) */
 
 const swaps=[];
 
@@ -272,7 +339,7 @@ span.style.transform="translate(-50%,-50%)";
 span.style.pointerEvents="none";
 span.style.whiteSpace="nowrap";
 
-input.style.color="transparent";   // 🔥 zamiast display:none
+input.style.color="transparent";
 input.style.caretColor="transparent";
 
 input.parentElement.appendChild(span);
@@ -280,8 +347,6 @@ input.parentElement.appendChild(span);
 swaps.push({input,span});
 
 });
-
-/* 🔥 EXPORT */
 
 html2canvas(map,{
 backgroundColor:null,
@@ -294,7 +359,6 @@ link.download="guild-map.png";
 link.href=canvas.toDataURL("image/png");
 link.click();
 
-/* 🔥 RETURN NORMAL MODE */
 map.classList.remove("export-mode");
 
 swaps.forEach(s=>{
