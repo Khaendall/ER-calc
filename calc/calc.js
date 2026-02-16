@@ -60,6 +60,7 @@ el.setHint.innerText=setVal?`Base SPD multiplier = x${(1+setVal/100).toFixed(2)}
 let B2=0,C2=0;
 
 if(!manualMode){
+
 const heroData=DB[el.hero.value]||{base:0,prow:0};
 
 B2=heroData.base;
@@ -71,6 +72,10 @@ el.prowSPD.value=C2;
 el.baseSPD.disabled=true;
 el.prowSPD.disabled=true;
 
+/* 🔥 AUTO COLOR ON */
+el.baseSPD.classList.add("autoFill");
+el.prowSPD.classList.add("autoFill");
+
 }else{
 
 B2=Number(el.baseSPD.value)||0;
@@ -78,6 +83,10 @@ C2=Number(el.prowSPD.value)||0;
 
 el.baseSPD.disabled=false;
 el.prowSPD.disabled=false;
+
+/* 🔥 REMOVE COLOR */
+el.baseSPD.classList.remove("autoFill");
+el.prowSPD.classList.remove("autoFill");
 }
 
 const D2=Number(el.shell.value)||0;

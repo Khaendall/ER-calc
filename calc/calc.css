@@ -205,3 +205,12 @@ opacity:1!important;
 transform:translateY(0)!important;
 max-height:140px!important;
 }
+
+/* ===== AUTO FILLED INPUTS ===== */
+
+input.autoFill{
+border-color:#a855f7 !important;
+box-shadow:0 0 8px rgba(168,85,247,.4);
+background:#181024;
+color:#e9d5ff;
+}
