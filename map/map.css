@@ -29,7 +29,7 @@ display:block;
 }
 
 /* ==================================================
-   BOXES
+   MAP BOXES
 ================================================== */
 
 .map-box{
@@ -48,17 +48,21 @@ justify-content:center;
 
 .map-box input{
 all:unset;
+
 position:absolute;
 left:0;
 top:0;
 width:100%;
 height:100%;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 color:var(--box-color,#fff);
 text-align:center;
 font-weight:700;
+
 white-space:nowrap;
 overflow:hidden;
 }
@@ -70,7 +74,7 @@ overflow:hidden;
 .map-box.red{ --box-color:var(--accent-red); }
 .map-box.yellow{ --box-color:var(--accent-yellow); }
 
-/* ACTIVE */
+/* ACTIVE HIGHLIGHT */
 
 .map-box.active{
 transform:translate(-50%,-50%) scale(1.15);
@@ -79,7 +83,7 @@ z-index:5;
 }
 
 /* ==================================================
-   BUTTONS
+   SAVE + CLEAR BUTTONS
 ================================================== */
 
 #clearBtn{
@@ -115,57 +119,60 @@ background:rgba(0,0,0,0.90) !important;
 }
 
 /* ==================================================
-   DEFENSE PANEL
+   DEFENSE PANEL (SCROLLABLE)
 ================================================== */
 
 .name-panel{
 position:absolute;
-right:-20px;
+right:20px;        /* 🔥 już nie wychodzi poza ekran */
 top:120px;
 width:260px;
+
 max-height:70vh;
-overflow:hidden;
+overflow-y:auto;   /* 🔥 SCROLL NA PANELU */
+
 background:rgba(20,20,20,.85);
 backdrop-filter:blur(10px);
+
 border-radius:14px;
 padding:10px;
 z-index:50;
+
+scrollbar-width:thin;
+scrollbar-color:var(--accent-purple) transparent;
+
 transition:max-height .25s ease;
 }
 
-/* SCROLL LIST */
+/* ==================================================
+   PRO SCROLLBAR (VISIBLE)
+================================================== */
 
-#nameList{
-max-height:55vh;
-overflow-y:auto;
-padding-right:4px;
-
-/* 🔥 FIREFOX SCROLL */
-scrollbar-width:thin;
-scrollbar-color:var(--accent-purple) transparent;
-cursor:grab;
-}
-
-/* PRO SCROLLBAR */
-
-#nameList::-webkit-scrollbar{
+.name-panel::-webkit-scrollbar{
 width:10px;
 }
 
-#nameList::-webkit-scrollbar-track{
+.name-panel::-webkit-scrollbar-track{
 background:transparent;
 }
 
-#nameList::-webkit-scrollbar-thumb{
+.name-panel::-webkit-scrollbar-thumb{
 background:var(--accent-purple);
 border-radius:10px;
 }
 
-#nameList::-webkit-scrollbar-thumb:hover{
+.name-panel::-webkit-scrollbar-thumb:hover{
 background:#d5a3ff;
 }
 
-/* INPUT IN PANEL */
+/* ==================================================
+   LIST INSIDE PANEL
+================================================== */
+
+#nameList{
+padding-right:4px;
+cursor:grab;
+}
 
 .name-panel input{
 width:100%;
@@ -191,7 +198,7 @@ font-weight:bold;
 }
 
 /* ==================================================
-   COLLAPSE UP
+   COLLAPSE UP (ONLY ARROW)
 ================================================== */
 
 .name-panel.collapsed{
