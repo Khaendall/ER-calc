@@ -173,6 +173,22 @@ setTimeout(()=>copyBtn.textContent="Copy All",1000);
 
 }
 
+/* ===== CLICK OUTSIDE = REMOVE HIGHLIGHT ===== */
+
+document.addEventListener("click",(e)=>{
+
+const panel=document.querySelector(".name-panel");
+
+/* jeśli klik poza listą */
+if(panel && !panel.contains(e.target)){
+
+document.querySelectorAll(".map-box.active")
+.forEach(box=>box.classList.remove("active"));
+
+}
+
+});
+
 /* ===== SAVE MAP AS IMAGE ===== */
 
 const saveBtn = document.getElementById("saveBtn");
