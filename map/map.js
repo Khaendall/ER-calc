@@ -98,3 +98,29 @@ refreshAll();
 }
 
 }
+
+/* ===== SAVE MAP AS IMAGE ===== */
+
+const saveBtn=document.getElementById("saveBtn");
+
+if(saveBtn){
+
+saveBtn.onclick=()=>{
+
+const map=document.querySelector(".map-wrapper");
+
+html2canvas(map,{
+backgroundColor:null,
+scale:2   // 🔥 super jakość exportu
+}).then(canvas=>{
+
+const link=document.createElement("a");
+link.download="guild-map.png";
+link.href=canvas.toDataURL("image/png");
+link.click();
+
+});
+
+};
+
+}
