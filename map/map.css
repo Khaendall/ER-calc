@@ -1,3 +1,7 @@
+/* ==================================================
+   MAP WRAPPER
+================================================== */
+
 .map-wrapper{
 position:relative;
 z-index:1;
@@ -24,6 +28,10 @@ width:100%;
 display:block;
 }
 
+/* ==================================================
+   BOXES
+================================================== */
+
 .map-box{
 position:absolute;
 transform:translate(-50%,-50%);
@@ -39,23 +47,18 @@ justify-content:center;
 }
 
 .map-box input{
-
-all:unset;                    /* 💥 reset shared UI input */
-
+all:unset;
 position:absolute;
 left:0;
 top:0;
 width:100%;
 height:100%;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
 color:var(--box-color,#fff);
 text-align:center;
 font-weight:700;
-
 white-space:nowrap;
 overflow:hidden;
 }
@@ -67,6 +70,18 @@ overflow:hidden;
 .map-box.red{ --box-color:var(--accent-red); }
 .map-box.yellow{ --box-color:var(--accent-yellow); }
 
+/* ACTIVE */
+
+.map-box.active{
+transform:translate(-50%,-50%) scale(1.15);
+box-shadow:0 0 18px var(--box-color,#fff);
+z-index:5;
+}
+
+/* ==================================================
+   BUTTONS
+================================================== */
+
 #clearBtn{
 position:fixed;
 right:40px;
@@ -76,7 +91,7 @@ bottom:40px;
 #saveBtn{
 position:fixed;
 right:40px;
-bottom:100px;   /* nad Clear All */
+bottom:100px;
 background:#4ade80;
 border:none;
 padding:14px 20px;
@@ -92,44 +107,49 @@ z-index:999;
 transform:scale(1.08);
 }
 
-/* ===== EXPORT MODE (dla zapisu obrazu) ===== */
+/* EXPORT MODE */
 
 .export-mode .map-box{
-  backdrop-filter:none !important;
-  background:rgba(0,0,0,0.90) !important;
+backdrop-filter:none !important;
+background:rgba(0,0,0,0.90) !important;
 }
 
-/* ===== DEFENSE PANEL ===== */
+/* ==================================================
+   DEFENSE PANEL
+================================================== */
 
 .name-panel{
 position:absolute;
 right:-20px;
 top:120px;
 width:260px;
-
 max-height:70vh;
-overflow:hidden;          /* potrzebne do animacji collapse */
-
+overflow:hidden;
 background:rgba(20,20,20,.85);
 backdrop-filter:blur(10px);
-
 border-radius:14px;
 padding:10px;
-z-index:50;               /* 🔥 ponad mapą */
+z-index:50;
+transition:max-height .25s ease;
 }
 
-/* SCROLL TYLKO NA LIŚCIE */
+/* SCROLL LIST */
 
 #nameList{
 max-height:55vh;
 overflow-y:auto;
 padding-right:4px;
+
+/* 🔥 FIREFOX SCROLL */
+scrollbar-width:thin;
+scrollbar-color:var(--accent-purple) transparent;
+cursor:grab;
 }
 
-/* ===== PRO SCROLLBAR ===== */
+/* PRO SCROLLBAR */
 
 #nameList::-webkit-scrollbar{
-width:6px;
+width:10px;
 }
 
 #nameList::-webkit-scrollbar-track{
@@ -137,13 +157,15 @@ background:transparent;
 }
 
 #nameList::-webkit-scrollbar-thumb{
-background:#666;
+background:var(--accent-purple);
 border-radius:10px;
 }
 
 #nameList::-webkit-scrollbar-thumb:hover{
-background:#aaa;
+background:#d5a3ff;
 }
+
+/* INPUT IN PANEL */
 
 .name-panel input{
 width:100%;
@@ -153,14 +175,6 @@ border:1px solid #333;
 color:white;
 padding:6px;
 border-radius:6px;
-}
-
-/* ===== LIST HIGHLIGHT ===== */
-
-.map-box.active{
-transform:translate(-50%,-50%) scale(1.15);
-box-shadow:0 0 18px var(--box-color,#fff);
-z-index:5;
 }
 
 /* COPY BUTTON */
@@ -176,29 +190,18 @@ cursor:pointer;
 font-weight:bold;
 }
 
-/* ===== COLLAPSIBLE LIST ===== */
-
-.name-panel{
-transition:transform .25s ease, opacity .25s ease;
-}
-
-/* ===== COLLAPSE UP (PRO CLEAN VERSION) ===== */
-
-.name-panel{
-overflow:hidden;
-transition:max-height .25s ease;
-max-height:70vh;   /* normalna wysokość */
-}
-
-/* 🔥 zwinięty panel = cienki pasek */
+/* ==================================================
+   COLLAPSE UP
+================================================== */
 
 .name-panel.collapsed{
 max-height:28px;
 padding:0;
 background:transparent;
 box-shadow:none;
-overflow:visible;   /* 🔥 żeby strzałka nie była ucięta */
+overflow:visible;
 }
+
 .name-panel.collapsed #toggleListBtn{
 width:auto;
 margin:auto;
@@ -207,14 +210,12 @@ padding:0;
 font-size:14px;
 }
 
-/* chowamy zawartość poza przyciskiem */
-
 .name-panel.collapsed #nameList,
 .name-panel.collapsed #copyAllBtn{
 display:none;
 }
 
-/* wygląd toggle */
+/* TOGGLE BUTTON */
 
 #toggleListBtn{
 width:100%;
@@ -227,4 +228,3 @@ color:white;
 cursor:pointer;
 font-weight:bold;
 }
-
