@@ -42,7 +42,7 @@ width:92%;
 background:transparent;
 border:none;
 outline:none;
-color:white;
+color:var(--box-color, #ffffff);
 text-align:center;
 white-space:nowrap;
 overflow:hidden;
@@ -84,6 +84,5 @@ transform:scale(1.08);
 
 .export-mode .map-box{
   backdrop-filter:none !important;
-  background:rgba(0,0,0,0.75) !important;
+  background:rgba(0,0,0,0.90) !important;
 }
-
