@@ -138,9 +138,25 @@ font-weight:bold;
 transition:transform .25s ease, opacity .25s ease;
 }
 
+/* ===== COLLAPSE UP ===== */
+
+.name-panel{
+overflow:hidden;
+transition:max-height .25s ease;
+max-height:70vh;   /* obecna wysokość panelu */
+}
+
+/* zwinięty panel */
+
 .name-panel.collapsed{
-transform:translateX(180px);
-opacity:.6;
+max-height:38px;   /* wysokość samego przycisku */
+}
+
+/* chowamy zawartość poza toggle */
+
+.name-panel.collapsed #nameList,
+.name-panel.collapsed #copyAllBtn{
+display:none;
 }
 
 #toggleListBtn{

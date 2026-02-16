@@ -54,7 +54,7 @@ const boxData=[
 function smartFitText(input){
 
 const box=input.parentElement;
-let size=box.clientHeight*0.45;
+let size=box.clientHeight*0.7;
 
 input.style.fontSize=size+"px";
 
