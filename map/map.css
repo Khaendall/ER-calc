@@ -79,3 +79,11 @@ z-index:999;
 #saveBtn:hover{
 transform:scale(1.08);
 }
+
+/* ===== EXPORT MODE (dla zapisu obrazu) ===== */
+
+.export-mode .map-box{
+  backdrop-filter:none !important;
+  background:rgba(0,0,0,0.75) !important;
+}
+

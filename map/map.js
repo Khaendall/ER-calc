@@ -101,23 +101,30 @@ refreshAll();
 
 /* ===== SAVE MAP AS IMAGE ===== */
 
-const saveBtn=document.getElementById("saveBtn");
+const saveBtn = document.getElementById("saveBtn");
 
 if(saveBtn){
 
-saveBtn.onclick=()=>{
+saveBtn.onclick = () => {
 
-const map=document.querySelector(".map-wrapper");
+const map = document.querySelector(".map-wrapper");
+
+// 🔥 WŁĄCZ TRYB EXPORTU (naprawia znikające tła)
+map.classList.add("export-mode");
 
 html2canvas(map,{
 backgroundColor:null,
-scale:2   // 🔥 super jakość exportu
+useCORS:true,
+scale:2
 }).then(canvas=>{
 
 const link=document.createElement("a");
 link.download="guild-map.png";
 link.href=canvas.toDataURL("image/png");
 link.click();
+
+// 🔥 PRZYWRÓĆ NORMALNY WYGLĄD
+map.classList.remove("export-mode");
 
 });
 
