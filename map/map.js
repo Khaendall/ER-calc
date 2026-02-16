@@ -189,6 +189,27 @@ document.querySelectorAll(".map-box.active")
 
 });
 
+/* ===== TOGGLE LIST PANEL ===== */
+
+const toggleBtn=document.getElementById("toggleListBtn");
+const namePanel=document.getElementById("namePanel");
+
+if(toggleBtn && namePanel){
+
+toggleBtn.onclick=()=>{
+
+namePanel.classList.toggle("collapsed");
+
+if(namePanel.classList.contains("collapsed")){
+toggleBtn.textContent="Defense List ▸";
+}else{
+toggleBtn.textContent="Defense List ▾";
+}
+
+};
+
+}
+
 /* ===== SAVE MAP AS IMAGE ===== */
 
 const saveBtn = document.getElementById("saveBtn");
