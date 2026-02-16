@@ -1,81 +1,79 @@
-/* ===================================
-   CALC PAGE WRAPPER
-=================================== */
+/* ===== CALCULATOR LAYOUT ===== */
 
-.page-wrapper{
-max-width:1200px;
-margin:40px auto;
-padding:20px;
+.main-container{
+    max-width:1400px;
+    margin:40px auto;
+    padding:20px;
 }
 
-/* ===================================
-   GRID LAYOUT (NAPRAWA)
-=================================== */
+/* ===== SECTIONS ===== */
 
-.calc-grid{
-display:grid;
-grid-template-columns: 1fr 320px;
-gap:40px;
-align-items:start;
+.section{
+    margin-bottom:20px;
 }
 
-@media(max-width:1000px){
-.calc-grid{
-grid-template-columns:1fr;
-}
-}
-
-/* ===================================
-   HERO SETUP PANEL
-=================================== */
-
-.calc-panel{
-background:#111;
-border-radius:14px;
-padding:18px;
-box-shadow:0 0 20px rgba(0,0,0,0.35);
+.section h2{
+    font-size:22px;
+    margin-bottom:10px;
 }
 
-/* ===================================
-   ENEMY DETECT CARD
-=================================== */
+/* ===== INPUT ROWS ===== */
 
-.enemy-card{
-background:#151515;
-border-radius:12px;
-padding:16px;
-box-shadow:0 0 14px rgba(0,0,0,0.35);
+.input-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:8px;
 }
 
-/* ===================================
-   INPUT SECTIONS (z poprzedniej wersji)
-=================================== */
-
-.section-title{
-font-weight:bold;
-margin:14px 0 8px;
-opacity:0.9;
+.input-row input,
+.input-row select{
+    flex:1;
+    background:#1a1a1a;
+    border:1px solid #2a2a2a;
+    color:white;
+    padding:8px;
+    border-radius:6px;
 }
 
-.calc-panel input,
-.calc-panel select{
-width:100%;
-background:#1a1a1a;
-border:none;
-outline:none;
-border-radius:8px;
-padding:8px;
-color:white;
-margin-bottom:6px;
+/* ===== MODULE LIST ===== */
+
+.module-list{
+    margin-top:10px;
 }
 
-/* ===================================
-   TOTAL SPD BOX
-=================================== */
+.module-item{
+    background:#151515;
+    border:1px solid #222;
+    border-radius:8px;
+    padding:10px;
+    margin-bottom:6px;
+}
 
-.total-box{
-margin-top:18px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
+/* ===== TOTAL SPD BOX ===== */
+
+.total-spd{
+    text-align:center;
+    font-size:26px;
+    margin:20px 0;
+}
+
+/* ===== ENEMY DETECT PANEL ===== */
+
+.enemy-panel{
+    width:260px;
+    margin:40px auto;
+    padding:14px;
+    background:#121212;
+    border-radius:12px;
+    border:1px solid #222;
+}
+
+.enemy-panel input{
+    width:100%;
+    margin-bottom:8px;
+    background:#1a1a1a;
+    border:1px solid #2a2a2a;
+    color:white;
+    padding:8px;
+    border-radius:6px;
 }
