@@ -66,7 +66,6 @@ localStorage.setItem(STORAGE_KEY,JSON.stringify(values));
 }
 
 function smartFitText(input){
-
 const box=input.parentElement;
 let size = box.clientWidth * 0.16;
 size = Math.min(size, 26);
@@ -99,9 +98,7 @@ div.style.top=b.y+"%";
 
 const input=document.createElement("input");
 
-if(savedData[index]){
-input.value=savedData[index];
-}
+if(savedData[index]) input.value=savedData[index];
 
 let listInput=null;
 
@@ -112,9 +109,7 @@ const row=document.createElement("div");
 listInput=document.createElement("input");
 listInput.placeholder=`${b.type.toUpperCase()} ${index+1}`;
 
-if(savedData[index]){
-listInput.value=savedData[index];
-}
+if(savedData[index]) listInput.value=savedData[index];
 
 row.appendChild(listInput);
 nameList.appendChild(row);
@@ -150,38 +145,41 @@ allBoxes.push(div);
 window.addEventListener("resize",refreshAll);
 window.addEventListener("load",refreshAll);
 
+/* ===== CLEAR ALL (PRZYWRÓCONE) ===== */
+
+const clearBtn=document.getElementById("clearBtn");
+
+if(clearBtn){
+clearBtn.onclick=()=>{
+document.querySelectorAll(".map-box input").forEach(i=>i.value="");
+document.querySelectorAll("#nameList input").forEach(i=>i.value="");
+localStorage.removeItem(STORAGE_KEY);
+refreshAll();
+};
+}
+
 /* ===== EXPORT ===== */
 
 const copyBtn=document.getElementById("copyAllBtn");
 
 if(copyBtn){
 copyBtn.onclick=()=>{
-
 const lines=[...document.querySelectorAll("#nameList input")]
 .map((input,index)=>{
-
 const name=input.value.trim();
 if(!name) return null;
-
 const type=sortedData[index].type;
 const number=index+1;
-
 return `${type}#${number} ${name}`;
-
-})
-.filter(v=>v!==null);
+}).filter(v=>v!==null);
 
 navigator.clipboard.writeText(lines.join("\n"));
-
 copyBtn.textContent="Copied!";
 setTimeout(()=>copyBtn.textContent="Copy All",1000);
-
 };
 }
 
-/* ===================================================
-   ⭐ IMPORT MODAL VERSION (NOWA WERSJA)
-=================================================== */
+/* ===== IMPORT LOGIC ===== */
 
 function importDefenseList(text){
 
@@ -229,12 +227,10 @@ const closeImportBtn=document.getElementById("closeImportBtn");
 const importTextarea=document.getElementById("importTextarea");
 
 if(importBtn && importModal){
-
 importBtn.onclick=()=>{
 importModal.style.display="flex";
 importTextarea.value="";
 };
-
 }
 
 if(closeImportBtn){
@@ -249,5 +245,92 @@ importDefenseList(importTextarea.value);
 importModal.style.display="none";
 };
 }
+
+}
+
+/* ===== CLICK OUTSIDE ===== */
+
+document.addEventListener("click",(e)=>{
+const panel=document.querySelector(".name-panel");
+if(panel && !panel.contains(e.target)){
+document.querySelectorAll(".map-box.active")
+.forEach(box=>box.classList.remove("active"));
+}
+});
+
+/* ===== TOGGLE LIST ===== */
+
+const toggleBtn=document.getElementById("toggleListBtn");
+const namePanel=document.getElementById("namePanel");
+
+if(toggleBtn && namePanel){
+toggleBtn.onclick=()=>{
+namePanel.classList.toggle("collapsed");
+toggleBtn.textContent=
+namePanel.classList.contains("collapsed")
+? "▸"
+: "Defense List ▾";
+};
+}
+
+/* ===== SAVE IMAGE (PRZYWRÓCONE) ===== */
+
+const saveBtn=document.getElementById("saveBtn");
+
+if(saveBtn){
+
+saveBtn.onclick=()=>{
+
+const map=document.querySelector(".map-wrapper");
+
+map.classList.add("export-mode");
+
+const swaps=[];
+
+document.querySelectorAll(".map-box input").forEach(input=>{
+
+const span=document.createElement("span");
+
+span.textContent=input.value;
+span.style.color=getComputedStyle(input).color;
+span.style.fontWeight="bold";
+span.style.position="absolute";
+span.style.left="50%";
+span.style.top="50%";
+span.style.transform="translate(-50%,-50%)";
+span.style.pointerEvents="none";
+span.style.whiteSpace="nowrap";
+
+input.style.color="transparent";
+input.style.caretColor="transparent";
+
+input.parentElement.appendChild(span);
+
+swaps.push({input,span});
+
+});
+
+html2canvas(map,{
+backgroundColor:null,
+scale:2,
+ignoreElements:(el)=>el.id==="saveBtn"
+}).then(canvas=>{
+
+const link=document.createElement("a");
+link.download="guild-map.png";
+link.href=canvas.toDataURL("image/png");
+link.click();
+
+map.classList.remove("export-mode");
+
+swaps.forEach(s=>{
+s.span.remove();
+s.input.style.color="";
+s.input.style.caretColor="";
+});
+
+});
+
+};
 
 }
