@@ -251,8 +251,27 @@ saveBtn.onclick = ()=>{
 
 const map = document.querySelector(".map-wrapper");
 
-/* 🔥 TRYB EXPORTU */
-map.classList.add("export-mode");
+/* 🔥 1. zamieniamy inputy na span na czas exportu */
+
+const swaps=[];
+
+document.querySelectorAll(".map-box input").forEach(input=>{
+
+const span=document.createElement("span");
+
+span.textContent=input.value;
+span.style.color=getComputedStyle(input).color;
+span.style.fontWeight="bold";
+span.style.pointerEvents="none";
+
+input.style.display="none";
+input.parentElement.appendChild(span);
+
+swaps.push({input,span});
+
+});
+
+/* 🔥 2. export */
 
 html2canvas(map,{
 backgroundColor:null,
@@ -260,13 +279,17 @@ scale:2,
 ignoreElements:(el)=>el.id==="saveBtn"
 }).then(canvas=>{
 
-/* 🔥 POWRÓT DO NORMALNEGO TRYBU */
-map.classList.remove("export-mode");
-
 const link=document.createElement("a");
 link.download="guild-map.png";
 link.href=canvas.toDataURL("image/png");
 link.click();
+
+/* 🔥 3. przywracamy inputy */
+
+swaps.forEach(s=>{
+s.span.remove();
+s.input.style.display="";
+});
 
 });
 
