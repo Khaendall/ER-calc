@@ -1,11 +1,9 @@
 const container=document.getElementById("boxes");
 
-/* 🔥 SAFETY GUARD */
 if(container){
 
 const STORAGE_KEY="gvg-map-names";
 
-/* ===== LOAD SAVED DATA ===== */
 let savedData=[];
 try{
 savedData=JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -61,17 +59,11 @@ const boxData=[
 
 ];
 
-/* ===== SAVE FUNCTION ===== */
-
 function saveAllNames(){
 const values=[...document.querySelectorAll(".map-box input")]
 .map(i=>i.value);
 localStorage.setItem(STORAGE_KEY,JSON.stringify(values));
 }
-
-/* ===================================================
-   🔥 ULTRA PRO TEXT SCALING
-=================================================== */
 
 function smartFitText(input){
 
@@ -91,8 +83,6 @@ function refreshAll(){
 document.querySelectorAll(".map-box input")
 .forEach(i=>smartFitText(i));
 }
-
-/* ===== SORT ORDER ===== */
 
 const order={red:0,yellow:1,purple:2,blue:3};
 const sortedData=[...boxData].sort((a,b)=>order[a.type]-order[b.type]);
@@ -130,15 +120,11 @@ row.appendChild(listInput);
 nameList.appendChild(row);
 }
 
-/* MAP → LIST */
-
 input.addEventListener("input",()=>{
 if(listInput) listInput.value=input.value;
 smartFitText(input);
 saveAllNames();
 });
-
-/* LIST → MAP */
 
 if(listInput){
 listInput.addEventListener("input",()=>{
@@ -147,8 +133,6 @@ smartFitText(input);
 saveAllNames();
 });
 }
-
-/* HIGHLIGHT */
 
 if(listInput){
 listInput.addEventListener("focus",()=>{
@@ -163,30 +147,10 @@ allBoxes.push(div);
 
 });
 
-/* ===== EVENTS ===== */
-
 window.addEventListener("resize",refreshAll);
 window.addEventListener("load",refreshAll);
 
-/* CLEAR */
-
-const clearBtn=document.getElementById("clearBtn");
-
-if(clearBtn){
-clearBtn.onclick=()=>{
-
-document.querySelectorAll(".map-box input").forEach(i=>i.value="");
-document.querySelectorAll("#nameList input").forEach(i=>i.value="");
-
-localStorage.removeItem(STORAGE_KEY);
-
-refreshAll();
-};
-}
-
-/* ===================================================
-   ✅ EXPORT DEFENSE LIST (type#number name)
-=================================================== */
+/* ===== EXPORT ===== */
 
 const copyBtn=document.getElementById("copyAllBtn");
 
@@ -216,7 +180,7 @@ setTimeout(()=>copyBtn.textContent="Copy All",1000);
 }
 
 /* ===================================================
-   ✅ IMPORT DEFENSE LIST (SMART PARSER)
+   ⭐ IMPORT MODAL VERSION (NOWA WERSJA)
 =================================================== */
 
 function importDefenseList(text){
@@ -228,10 +192,6 @@ const lines=text.split("\n");
 
 lines.forEach(line=>{
 
-/* obsługuje:
-   red#1 Nick
-   red 1 Nick
-*/
 const match=line.match(/^(\w+)[#\s]+(\d+)\s+(.+)$/i);
 if(!match) return;
 
@@ -260,115 +220,34 @@ saveAllNames();
 refreshAll();
 }
 
-/* IMPORT BUTTON (jeśli istnieje w HTML) */
+/* ===== MODAL EVENTS ===== */
 
 const importBtn=document.getElementById("importBtn");
+const importModal=document.getElementById("importModal");
+const confirmImportBtn=document.getElementById("confirmImportBtn");
+const closeImportBtn=document.getElementById("closeImportBtn");
+const importTextarea=document.getElementById("importTextarea");
 
-if(importBtn){
-importBtn.onclick=async()=>{
+if(importBtn && importModal){
 
-const text=await navigator.clipboard.readText();
-importDefenseList(text);
-
-importBtn.textContent="Imported!";
-setTimeout(()=>importBtn.textContent="Import",1000);
-
-};
-}
-
-}
-
-/* CLICK OUTSIDE */
-
-document.addEventListener("click",(e)=>{
-
-const panel=document.querySelector(".name-panel");
-
-if(panel && !panel.contains(e.target)){
-document.querySelectorAll(".map-box.active")
-.forEach(box=>box.classList.remove("active"));
-}
-
-});
-
-/* TOGGLE LIST PANEL */
-
-const toggleBtn=document.getElementById("toggleListBtn");
-const namePanel=document.getElementById("namePanel");
-
-if(toggleBtn && namePanel){
-
-toggleBtn.onclick=()=>{
-
-namePanel.classList.toggle("collapsed");
-
-toggleBtn.textContent=
-namePanel.classList.contains("collapsed")
-? "▸"
-: "Defense List ▾";
-
+importBtn.onclick=()=>{
+importModal.style.display="flex";
+importTextarea.value="";
 };
 
 }
 
-/* ===== SAVE MAP AS IMAGE ===== */
-
-const saveBtn = document.getElementById("saveBtn");
-
-if(saveBtn){
-
-saveBtn.onclick = ()=>{
-
-const map = document.querySelector(".map-wrapper");
-
-map.classList.add("export-mode");
-
-const swaps=[];
-
-document.querySelectorAll(".map-box input").forEach(input=>{
-
-const span=document.createElement("span");
-
-span.textContent=input.value;
-span.style.color=getComputedStyle(input).color;
-span.style.fontWeight="bold";
-span.style.position="absolute";
-span.style.left="50%";
-span.style.top="50%";
-span.style.transform="translate(-50%,-50%)";
-span.style.pointerEvents="none";
-span.style.whiteSpace="nowrap";
-
-input.style.color="transparent";
-input.style.caretColor="transparent";
-
-input.parentElement.appendChild(span);
-
-swaps.push({input,span});
-
-});
-
-html2canvas(map,{
-backgroundColor:null,
-scale:2,
-ignoreElements:(el)=>el.id==="saveBtn"
-}).then(canvas=>{
-
-const link=document.createElement("a");
-link.download="guild-map.png";
-link.href=canvas.toDataURL("image/png");
-link.click();
-
-map.classList.remove("export-mode");
-
-swaps.forEach(s=>{
-s.span.remove();
-s.input.style.color="";
-s.input.style.caretColor="";
-});
-
-});
-
+if(closeImportBtn){
+closeImportBtn.onclick=()=>{
+importModal.style.display="none";
 };
+}
+
+if(confirmImportBtn){
+confirmImportBtn.onclick=()=>{
+importDefenseList(importTextarea.value);
+importModal.style.display="none";
+};
+}
 
 }

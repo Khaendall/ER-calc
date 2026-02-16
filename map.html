@@ -36,5 +36,42 @@
 <button id="clearBtn">Clear All</button>
 
 <script src="/ER-calc/map/map.js"></script>
+
+<div id="importModal" style="
+display:none;
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+z-index:9999;
+align-items:center;
+justify-content:center;
+">
+
+<div style="
+background:#1b1b1b;
+padding:20px;
+border-radius:8px;
+width:400px;
+max-width:90%;
+display:flex;
+flex-direction:column;
+gap:10px;
+">
+
+<textarea id="importTextarea"
+placeholder="Wklej defense list..."
+style="width:100%;height:200px;"></textarea>
+
+<div style="display:flex;gap:10px;justify-content:flex-end;">
+<button id="confirmImportBtn">Import</button>
+<button id="closeImportBtn">Cancel</button>
+</div>
+
+</div>
+</div>
+
 </body>
 </html>
