@@ -244,3 +244,14 @@ color:white;
 cursor:pointer;
 font-weight:bold;
 }
+
+/* ==========================================
+   EXPORT MODE FIX (html2canvas compatibility)
+========================================== */
+
+.export-mode .map-box input{
+position:static !important;
+display:flex !important;
+align-items:center;
+justify-content:center;
+}

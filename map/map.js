@@ -251,11 +251,17 @@ saveBtn.onclick = ()=>{
 
 const map = document.querySelector(".map-wrapper");
 
+/* 🔥 TRYB EXPORTU */
+map.classList.add("export-mode");
+
 html2canvas(map,{
 backgroundColor:null,
 scale:2,
 ignoreElements:(el)=>el.id==="saveBtn"
 }).then(canvas=>{
+
+/* 🔥 POWRÓT DO NORMALNEGO TRYBU */
+map.classList.remove("export-mode");
 
 const link=document.createElement("a");
 link.download="guild-map.png";
