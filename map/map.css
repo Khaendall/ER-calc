@@ -96,11 +96,11 @@ bottom:40px;
 position:fixed;
 right:40px;
 bottom:100px;
-background:#4ade80;
+background:#7f00e7;
 border:none;
 padding:14px 20px;
 border-radius:10px;
-color:black;
+color:rgb(255, 255, 255);
 font-weight:bold;
 cursor:pointer;
 transition:0.2s;
@@ -162,7 +162,7 @@ border-radius:10px;
 }
 
 .name-panel::-webkit-scrollbar-thumb:hover{
-background:#d5a3ff;
+background:#7f00e7;
 }
 
 /* ==================================================
@@ -189,7 +189,7 @@ border-radius:6px;
 #copyAllBtn{
 width:100%;
 margin-bottom:8px;
-background:#4ade80;
+background:#7f00e7;
 border:none;
 padding:8px;
 border-radius:8px;
