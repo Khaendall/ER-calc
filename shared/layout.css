@@ -1,16 +1,25 @@
 .topNav{
-text-align:center;
-padding:14px;
-background:var(--bg-panel);
+display:flex;
+gap:20px;
+padding:12px 20px;
+background:#111;
+border-bottom:1px solid #333;
+width:100%;
+justify-content:center;
 }
 
 .topNav a{
-color:#c77dff;
-margin:0 12px;
+color:#aaa;
 text-decoration:none;
-font-weight:600;
+font-size:14px;
+transition:.2s ease;
+}
+
+.topNav a:hover{
+color:white;
 }
 
 .topNav a.active{
 color:white;
+font-weight:bold;
 }
