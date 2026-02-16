@@ -53,14 +53,17 @@ const boxData=[
 
 function smartFitText(input){
 
-const box=input.parentElement;
-let size = Math.min(box.clientHeight, box.clientWidth) * 0.75;
+const map = document.querySelector(".map-wrapper");
 
-input.style.fontSize=size+"px";
+/* 🔥 bazujemy na wysokości mapy, nie boxa */
+let size = map.clientHeight * 0.035;
 
-while(input.scrollWidth>input.clientWidth && size>8){
-size-=0.5;
-input.style.fontSize=size+"px";
+input.style.fontSize = size + "px";
+
+/* auto shrink jeśli tekst za długi */
+while(input.scrollWidth > input.clientWidth && size > 10){
+size -= 0.5;
+input.style.fontSize = size + "px";
 }
 }
 
