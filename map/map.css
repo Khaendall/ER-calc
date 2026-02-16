@@ -1,5 +1,6 @@
 .map-wrapper{
 position:relative;
+z-index:1;
 width:90%;
 max-width:1400px;
 margin:40px auto;
@@ -98,17 +99,50 @@ transform:scale(1.08);
   background:rgba(0,0,0,0.90) !important;
 }
 
+/* ===== DEFENSE PANEL ===== */
+
 .name-panel{
-position:fixed;
-top:100px;
-right:20px;
-width:220px;
-background:#111;
-padding:12px;
-border-radius:12px;
-box-shadow:0 0 14px rgba(0,0,0,.4);
+position:absolute;
+right:-20px;
+top:120px;
+width:260px;
+
 max-height:70vh;
-overflow:auto;
+overflow:hidden;          /* potrzebne do animacji collapse */
+
+background:rgba(20,20,20,.85);
+backdrop-filter:blur(10px);
+
+border-radius:14px;
+padding:10px;
+z-index:50;               /* 🔥 ponad mapą */
+}
+
+/* SCROLL TYLKO NA LIŚCIE */
+
+#nameList{
+max-height:55vh;
+overflow-y:auto;
+padding-right:4px;
+}
+
+/* ===== PRO SCROLLBAR ===== */
+
+#nameList::-webkit-scrollbar{
+width:6px;
+}
+
+#nameList::-webkit-scrollbar-track{
+background:transparent;
+}
+
+#nameList::-webkit-scrollbar-thumb{
+background:#666;
+border-radius:10px;
+}
+
+#nameList::-webkit-scrollbar-thumb:hover{
+background:#aaa;
 }
 
 .name-panel input{

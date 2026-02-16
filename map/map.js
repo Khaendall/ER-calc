@@ -57,23 +57,24 @@ const boxData=[
 
 function smartFitText(input){
 
-const map=document.querySelector(".map-wrapper");
-const box=input.parentElement;
+  const box = input.parentElement;
 
-/* 🔥 bierzemy większy wymiar mapy */
-const base=Math.max(map.clientWidth,map.clientHeight);
+  /* 🔥 Bierzemy mniejszy wymiar boxa */
+  const base = Math.min(box.clientWidth, box.clientHeight);
 
-/* MAGIC SCALE */
-let size=base*0.030;
+  /* 🔥 PRO SCALE — działa na ultrawide */
+  let size = base * 0.42;
 
-input.style.fontSize=size+"px";
+  /* 🔥 Minimalny startowy rozmiar */
+  if(size < 14) size = 14;
 
-/* shrink tylko jeśli naprawdę trzeba */
-while(input.scrollWidth>box.clientWidth*0.92 && size>12){
-size-=0.5;
-input.style.fontSize=size+"px";
-}
+  input.style.fontSize = size + "px";
 
+  /* dopasowanie overflow */
+  while(input.scrollWidth > input.clientWidth && size > 10){
+    size -= 0.5;
+    input.style.fontSize = size + "px";
+  }
 }
 
 function refreshAll(){
