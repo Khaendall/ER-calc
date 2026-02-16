@@ -111,6 +111,7 @@ color:white;
 padding:6px;
 border-radius:6px;
 }
+
 /* ===== LIST HIGHLIGHT ===== */
 
 .map-box.active{
@@ -138,26 +139,28 @@ font-weight:bold;
 transition:transform .25s ease, opacity .25s ease;
 }
 
-/* ===== COLLAPSE UP ===== */
+/* ===== COLLAPSE UP (PRO CLEAN VERSION) ===== */
 
 .name-panel{
 overflow:hidden;
 transition:max-height .25s ease;
-max-height:70vh;   /* obecna wysokość panelu */
+max-height:70vh;   /* normalna wysokość */
 }
 
-/* zwinięty panel */
+/* 🔥 zwinięty panel = cienki pasek */
 
 .name-panel.collapsed{
-max-height:38px;   /* wysokość samego przycisku */
+max-height:38px;   /* wysokość samego toggle */
 }
 
-/* chowamy zawartość poza toggle */
+/* chowamy zawartość poza przyciskiem */
 
 .name-panel.collapsed #nameList,
 .name-panel.collapsed #copyAllBtn{
 display:none;
 }
+
+/* wygląd toggle */
 
 #toggleListBtn{
 width:100%;
@@ -170,3 +173,4 @@ color:white;
 cursor:pointer;
 font-weight:bold;
 }
+

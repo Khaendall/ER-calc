@@ -1,6 +1,6 @@
 const container=document.getElementById("boxes");
 
-/* 🔥 SAFETY GUARD — nic nie rób jeśli nie ma mapy */
+/* 🔥 SAFETY GUARD */
 if(container){
 
 const boxData=[
@@ -51,20 +51,27 @@ const boxData=[
 
 ];
 
+/* ===================================================
+   🔥 ULTRA PRO TEXT SCALING
+=================================================== */
+
 function smartFitText(input){
 
-const map = document.querySelector(".map-wrapper");
+const map=document.querySelector(".map-wrapper");
 
-/* 🔥 bazujemy na wysokości mapy, nie boxa */
-let size = map.clientHeight * 0.035;
+const base=Math.max(map.clientWidth,map.clientHeight);
 
-input.style.fontSize = size + "px";
+/* 🔥 MAGIC VALUE — idealne proporcje */
+let size=base*0.015;
 
-/* auto shrink jeśli tekst za długi */
-while(input.scrollWidth > input.clientWidth && size > 10){
-size -= 0.5;
-input.style.fontSize = size + "px";
+input.style.fontSize=size+"px";
+
+/* auto shrink */
+while(input.scrollWidth>input.clientWidth && size>10){
+size-=0.5;
+input.style.fontSize=size+"px";
 }
+
 }
 
 function refreshAll(){
@@ -72,18 +79,12 @@ document.querySelectorAll(".map-box input")
 .forEach(i=>smartFitText(i));
 }
 
-const nameList = document.getElementById("nameList");
-
 /* ===== SORT ORDER ===== */
-const order = {
-red:0,
-yellow:1,
-purple:2,
-blue:3
-};
 
+const order={red:0,yellow:1,purple:2,blue:3};
 const sortedData=[...boxData].sort((a,b)=>order[a.type]-order[b.type]);
 
+const nameList=document.getElementById("nameList");
 const allBoxes=[];
 
 sortedData.forEach((b,index)=>{
@@ -108,14 +109,14 @@ row.appendChild(listInput);
 nameList.appendChild(row);
 }
 
-/* ===== MAP → LIST ===== */
+/* MAP → LIST */
 
 input.addEventListener("input",()=>{
 if(listInput) listInput.value=input.value;
 smartFitText(input);
 });
 
-/* ===== LIST → MAP ===== */
+/* LIST → MAP */
 
 if(listInput){
 listInput.addEventListener("input",()=>{
@@ -124,26 +125,27 @@ smartFitText(input);
 });
 }
 
-/* ===== HIGHLIGHT ===== */
+/* HIGHLIGHT */
 
 if(listInput){
 listInput.addEventListener("focus",()=>{
-
 allBoxes.forEach(box=>box.classList.remove("active"));
 div.classList.add("active");
-
 });
 }
 
 div.appendChild(input);
 container.appendChild(div);
-
 allBoxes.push(div);
 
 });
 
+/* ===== EVENTS ===== */
+
 window.addEventListener("resize",refreshAll);
 window.addEventListener("load",refreshAll);
+
+/* CLEAR */
 
 const clearBtn=document.getElementById("clearBtn");
 
@@ -155,7 +157,7 @@ refreshAll();
 };
 }
 
-/* ===== COPY ALL ===== */
+/* COPY ALL */
 
 const copyBtn=document.getElementById("copyAllBtn");
 
@@ -176,23 +178,20 @@ setTimeout(()=>copyBtn.textContent="Copy All",1000);
 
 }
 
-/* ===== CLICK OUTSIDE = REMOVE HIGHLIGHT ===== */
+/* CLICK OUTSIDE */
 
 document.addEventListener("click",(e)=>{
 
 const panel=document.querySelector(".name-panel");
 
-/* jeśli klik poza listą */
 if(panel && !panel.contains(e.target)){
-
 document.querySelectorAll(".map-box.active")
 .forEach(box=>box.classList.remove("active"));
-
 }
 
 });
 
-/* ===== TOGGLE LIST PANEL ===== */
+/* TOGGLE LIST PANEL */
 
 const toggleBtn=document.getElementById("toggleListBtn");
 const namePanel=document.getElementById("namePanel");
@@ -203,25 +202,24 @@ toggleBtn.onclick=()=>{
 
 namePanel.classList.toggle("collapsed");
 
-if(namePanel.classList.contains("collapsed")){
-toggleBtn.textContent="Defense List ▸";
-}else{
-toggleBtn.textContent="Defense List ▾";
-}
+toggleBtn.textContent=
+namePanel.classList.contains("collapsed")
+? "▸"
+: "Defense List ▾";
 
 };
 
 }
 
-/* ===== SAVE MAP AS IMAGE ===== */
+/* SAVE IMAGE */
 
-const saveBtn = document.getElementById("saveBtn");
+const saveBtn=document.getElementById("saveBtn");
 
 if(saveBtn){
 
-saveBtn.onclick = () => {
+saveBtn.onclick=()=>{
 
-const map = document.querySelector(".map-wrapper");
+const map=document.querySelector(".map-wrapper");
 
 map.classList.add("export-mode");
 
