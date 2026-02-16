@@ -57,24 +57,21 @@ const boxData=[
 
 function smartFitText(input){
 
-  const box = input.parentElement;
+const box=input.parentElement;
 
-  /* 🔥 Bierzemy mniejszy wymiar boxa */
-  const base = Math.min(box.clientWidth, box.clientHeight);
+/* 🔥 liczymy z SZEROKOŚCI zamiast wysokości */
+let size = box.clientWidth * 0.16;
 
-  /* 🔥 PRO SCALE — działa na ultrawide */
-  let size = base * 0.42;
+/* limit żeby nie było gigantycznych liter */
+size = Math.min(size, 26);
 
-  /* 🔥 Minimalny startowy rozmiar */
-  if(size < 14) size = 14;
+input.style.fontSize = size + "px";
 
+/* dopasowanie jeśli tekst za długi */
+while(input.scrollWidth > input.clientWidth && size > 8){
+  size -= 0.5;
   input.style.fontSize = size + "px";
-
-  /* dopasowanie overflow */
-  while(input.scrollWidth > input.clientWidth && size > 10){
-    size -= 0.5;
-    input.style.fontSize = size + "px";
-  }
+}
 }
 
 function refreshAll(){
