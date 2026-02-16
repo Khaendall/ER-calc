@@ -211,7 +211,7 @@ font-weight:bold;
 #importBtn{
 width:100%;
 margin-bottom:8px;
-background:#a00000;
+background:#00c5c8;
 border:none;
 padding:8px;
 border-radius:8px;
@@ -240,6 +240,7 @@ font-size:14px;
 }
 
 .name-panel.collapsed #nameList,
+.name-panel.collapsed #importBtn,
 .name-panel.collapsed #copyAllBtn{
 display:none;
 }
