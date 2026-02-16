@@ -54,7 +54,7 @@ const boxData=[
 function smartFitText(input){
 
 const box=input.parentElement;
-let size=box.clientHeight*0.6;
+let size=box.clientHeight*0.45;
 
 input.style.fontSize=size+"px";
 
@@ -69,7 +69,9 @@ document.querySelectorAll(".map-box input")
 .forEach(i=>smartFitText(i));
 }
 
-boxData.forEach(b=>{
+const nameList = document.getElementById("nameList");
+
+boxData.forEach((b,index)=>{
 
 const div=document.createElement("div");
 div.className=`map-box ${b.type}`;
@@ -78,7 +80,31 @@ div.style.top=b.y+"%";
 
 const input=document.createElement("input");
 
-input.addEventListener("input",()=>smartFitText(input));
+/* ===== INPUT NA LIŚCIE ===== */
+
+let listInput=null;
+
+if(nameList){
+listInput=document.createElement("input");
+listInput.placeholder="Tower "+(index+1);
+nameList.appendChild(listInput);
+}
+
+/* ===== MAP → LIST ===== */
+
+input.addEventListener("input",()=>{
+if(listInput) listInput.value=input.value;
+smartFitText(input);
+});
+
+/* ===== LIST → MAP ===== */
+
+if(listInput){
+listInput.addEventListener("input",()=>{
+input.value=listInput.value;
+smartFitText(input);
+});
+}
 
 div.appendChild(input);
 container.appendChild(div);
