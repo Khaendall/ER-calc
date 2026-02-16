@@ -64,7 +64,7 @@ const box=input.parentElement;
 const base=Math.max(map.clientWidth,map.clientHeight);
 
 /* MAGIC SCALE */
-let size=base*0.015;
+let size=base*0.020;
 
 input.style.fontSize=size+"px";
 
