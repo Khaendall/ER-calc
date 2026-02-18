@@ -95,10 +95,10 @@ bottom:40px;
 #saveBtn{
 position:absolute;
 
-right:2.5%;
-bottom:2.5%;
+right:1.5%;
+bottom:1.5%;
 
-padding:0.8% 1.4%;
+padding:0.8% 0.8%;
 
 background:linear-gradient(135deg,#9333ea,#7e22ce);
 border:none;
